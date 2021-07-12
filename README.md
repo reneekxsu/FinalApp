@@ -97,7 +97,7 @@ App that allows users to rent or rent-out cars for brief periods of time from pe
 
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+<img src="Wireframes.png" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
