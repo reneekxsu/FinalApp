@@ -5,6 +5,14 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <queries>
+
+        <!-- Camera -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+
     <application
         android:name=".ParseApplication"
         android:allowBackup="true"
@@ -13,7 +21,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalApp">
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".RegisterCarActivity"></activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.codepath.fileprovider.FinalApp"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fileprovider" />
+        </provider>
+
+        <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

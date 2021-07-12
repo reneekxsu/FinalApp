@@ -20,6 +20,7 @@ public class ProfileFragment extends Fragment {
 
     public static final String TAG = "ProfileFragment";
     Button btnLogout;
+    Button btnToRegister;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,6 +33,8 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btnLogout = view.findViewById(R.id.btnLogout);
+        btnToRegister = view.findViewById(R.id.btnToRegister);
+
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,6 +44,16 @@ public class ProfileFragment extends Fragment {
                 Intent i = new Intent(getView().getContext(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();
+            }
+        });
+
+        btnToRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "clicked register button");
+                Intent i = new Intent(getView().getContext(), RegisterCarActivity.class);
+                startActivity(i);
+//                getActivity().finish();
             }
         });
     }

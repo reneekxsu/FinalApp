@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterCarActivity">
+
+    <EditText
+        android:id="@+id/etCarModel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="88dp"
+        android:ems="10"
+        android:hint="Car Model"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="66dp"
+        tools:layout_editor_absoluteY="125dp" />
+
+    <EditText
+        android:id="@+id/etDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etCarModel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:ems="10"
+        android:gravity="top"
+        android:hint="Description"
+        android:inputType="textMultiLine|textPersonName"
+        android:minLines="4"
+        tools:layout_editor_absoluteX="68dp"
+        tools:layout_editor_absoluteY="199dp" />
+
+    <EditText
+        android:id="@+id/etRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etDescription"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="99dp"
+        android:ems="10"
+        android:hint="Rate"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="68dp"
+        tools:layout_editor_absoluteY="277dp" />
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivPreview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="REGISTER"
+        tools:layout_editor_absoluteX="92dp"
+        tools:layout_editor_absoluteY="591dp" />
+
+    <ImageView
+        android:id="@+id/ivPreview"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_below="@+id/btnCamera"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/btnCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etRate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        android:text="CAMERA" />
+</RelativeLayout>
