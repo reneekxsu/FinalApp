@@ -34,9 +34,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etPassword"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="323dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
         android:text="LOG IN" />
+
+    <Button
+        android:id="@+id/btnSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="SIGN UP" />
 
 </RelativeLayout>

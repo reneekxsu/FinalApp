@@ -1,14 +1,15 @@
 package com.example.finalapp;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
-import com.parse.ParseUser;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,18 +20,38 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final FragmentManager fragmentManager = getSupportFragmentManager();
 
-        btnLogout = findViewById(R.id.btnLogout);
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "clicked logout button");
-                ParseUser.logOut();
-                ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
-                Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
+        // define your fragments here
+        final Fragment fragment1 = new HomeFragment();
+        final Fragment fragment2 = new ScheduleFragment();
+        final Fragment fragment3 = new ProfileFragment();
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
+        // handle navigation selection
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        Fragment fragment;
+                        switch (item.getItemId()) {
+                            case R.id.action_home:
+                                fragment = fragment1;
+                                break;
+                            case R.id.action_schedule:
+                                fragment = fragment2;
+                                break;
+                            case R.id.action_profile:
+                            default:
+                                fragment = fragment3;
+                                break;
+                        }
+                        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
+                        return true;
+                    }
+                });
+        // Set default selection
+        bottomNavigationView.setSelectedItemId(R.id.action_profile);
     }
 }

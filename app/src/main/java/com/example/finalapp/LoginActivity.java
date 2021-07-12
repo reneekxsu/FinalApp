@@ -18,14 +18,18 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";
 
+    public static LoginActivity instance = null;
+
     private EditText etUsername;
     private EditText etPassword;
     private Button btnLogin;
+    private Button btnSignup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        instance = this;
 
         // check if user is already logged in
         if (ParseUser.getCurrentUser()!=null){
@@ -35,12 +39,25 @@ public class LoginActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        btnSignup = findViewById(R.id.btnSignup);
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = etUsername.getText().toString();
-                String password = etUsername.getText().toString();
+                String password = etPassword.getText().toString();
                 loginUser(username, password);
+            }
+        });
+
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "onClick sign up button");
+                Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
+                // go to signup activity
+                startActivity(i);
+                // finish() is not called such that user can go back to login if sign up not complete
             }
         });
     }
@@ -67,5 +84,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(i);
         // allows back button not to lead us back to login
         finish();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        instance = null;
     }
 }
