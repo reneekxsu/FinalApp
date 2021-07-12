@@ -95,8 +95,7 @@ App that allows users to rent or rent-out cars for brief periods of time from pe
     * Car Detail view
 
 ## Wireframes
-<img src="https://i.imgur.com/4WDd0gW.png
-" width=600>
+<img src="https://i.imgur.com/4WDd0gW.png" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
