@@ -32,10 +32,8 @@ App that allows users to rent or rent-out cars for brief periods of time from pe
 * User can create new account
 * User can view rental schedule
 * User can view available rentals close to them (feed)
-* User can post a photo of their car
+* User can post photos of their car
 * User can post reviews about their experiences
-* User can complete/receive transactions
-* User can change app settings
 * User can see reviews and cars in timeline feed; view "where to" if currently not in plan, otherwise show location suggestions (or random feed if latter not implemented)
 
 **Optional Nice-to-have Stories**
@@ -46,6 +44,8 @@ App that allows users to rent or rent-out cars for brief periods of time from pe
 * Car owner can see location of their car
 * User can map out routes
 * User can rate helpfulness of review (upvote and downvote)
+* User can complete/receive transactions
+* User can change app settings
 
 ### 2. Screen Archetypes
 
@@ -86,7 +86,6 @@ App that allows users to rent or rent-out cars for brief periods of time from pe
 * Settings
     * Profile
 * Detail
-    * Payment
     * Camera
 * Stream
     * Car Detail view
@@ -96,8 +95,8 @@ App that allows users to rent or rent-out cars for brief periods of time from pe
     * Car Detail view
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
-<img src="Wireframes.png" width=600>
+<img src="https://i.imgur.com/4WDd0gW.png
+" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
@@ -114,34 +113,41 @@ App that allows users to rent or rent-out cars for brief periods of time from pe
    | image     | File     | image that user posts |
    | caption   | String   | review content by author |
    | car       | Pointer to Car| car that user is writing about |
-   | createdAt | DateTime | date when post is created (default field) |
-   | updatedAt | DateTime | date when post is last updated (default field) |
+   | createdAt | DateTime | date when review is created (default field) |
+   | updatedAt | DateTime | date when review is last updated (default field) |
    
 #### Car
    | Property  | Type     | Description |
    | ----------| -------- | ------------|
    | objectId  | String   | unique id for the car |
    | images    | Array    | images of the car |
-   | caption   | String   | review content by author |
+   | description   | String   | car description by author|
    | author    | Pointer to User| car owner |
    | rate      | String   | price rate of car rental |
-   | times     | Array    | date when car will be rented |
-   | createdAt | DateTime | date when post is created (default field) |
-   | updatedAt | DateTime | date when post is last updated (default field) |
+   | createdAt | DateTime | date when car is created (default field) |
+   | updatedAt | DateTime | date when car is last updated (default field) |
+   
+#### Car Availability
+   | Property  | Type     | Description |
+   | ----------| -------- | ------------|
+   | objectId  | String   | unique id for car availability |
+   | start     | DateTime | start time of availability |
+   | end       | DateTime | end time of availability |
+   | car       | Pointer to Car | car that is available |
 
 #### User
    | Property  | Type     | Description |
    | ----------| -------- | ------------|
    | objectId  | String   | unique id for the user (default field) |
-   | createdAt | DateTime | date when post is created (default field) |
-   | updatedAt | DateTime | date when post is last updated (default field) |
+   | createdAt | DateTime | date when user is created (default field) |
+   | updatedAt | DateTime | date when user is last updated (default field) |
   
 #### Event
    | Property  | Type     | Description |
    | ----------| -------- | ------------|
    | objectId  | String   | unique id for the event (default field) |
-   | createdAt | DateTime | date when post is created (default field) |
-   | updatedAt | DateTime | date when post is last updated (default field) |
+   | createdAt | DateTime | date when event is created (default field) |
+   | updatedAt | DateTime | date when event is last updated (default field) |
    | time      | DateTime | date that this rental will occur |
    | rentee    | User     | person who is renting the car |
    | car       | Pointer to Car | car that is being rented |
