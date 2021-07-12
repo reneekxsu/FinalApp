@@ -95,7 +95,8 @@ App that allows users to rent or rent-out cars for brief periods of time from pe
     * Car Detail view
 
 ## Wireframes
-<img src="https://i.imgur.com/4WDd0gW.png" width=600>
+<img src="https://i.imgur.com/4WDd0gW.png
+" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
@@ -125,14 +126,6 @@ App that allows users to rent or rent-out cars for brief periods of time from pe
    | rate      | String   | price rate of car rental |
    | createdAt | DateTime | date when car is created (default field) |
    | updatedAt | DateTime | date when car is last updated (default field) |
-   
-#### Car Availability
-   | Property  | Type     | Description |
-   | ----------| -------- | ------------|
-   | objectId  | String   | unique id for car availability |
-   | start     | DateTime | start time of availability |
-   | end       | DateTime | end time of availability |
-   | car       | Pointer to Car | car that is available |
 
 #### User
    | Property  | Type     | Description |
@@ -140,6 +133,8 @@ App that allows users to rent or rent-out cars for brief periods of time from pe
    | objectId  | String   | unique id for the user (default field) |
    | createdAt | DateTime | date when user is created (default field) |
    | updatedAt | DateTime | date when user is last updated (default field) |
+   | location  | GeoPoint | latitude and longitude of address
+   | address   | String   | address of user
   
 #### Event
    | Property  | Type     | Description |
@@ -147,9 +142,11 @@ App that allows users to rent or rent-out cars for brief periods of time from pe
    | objectId  | String   | unique id for the event (default field) |
    | createdAt | DateTime | date when event is created (default field) |
    | updatedAt | DateTime | date when event is last updated (default field) |
-   | time      | DateTime | date that this rental will occur |
+   | start      | DateTime | start date/time that this rental will occur |
+   | end      | DateTime | end date/time that this rental will occur |
    | rentee    | User     | person who is renting the car |
    | car       | Pointer to Car | car that is being rented |
+   | rentType | Number    | type of rental: whether owner or renter is occupying this event
 
 ### Networking
 #### List of network requests by screen
