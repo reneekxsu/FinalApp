@@ -1,63 +1,99 @@
 package com.example.finalapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeFragment extends Fragment {
+    public static final String TAG = "HomeFragment";
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public HomeFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private RecyclerView rvAllCars;
+    protected CarAdapter adapter;
+    protected List<Car> allCars;
+    private ProgressBar pb;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        pb = (ProgressBar) view.findViewById(R.id.pbLoading);
+        pb.setVisibility(ProgressBar.VISIBLE);
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i(TAG, "refreshing");
+                fetchAllCars();
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        rvAllCars = view.findViewById(R.id.rvAllCars);
+        allCars = new ArrayList<>();
+        adapter = new CarAdapter(view.getContext(), allCars);
+        rvAllCars.setAdapter(adapter);
+        rvAllCars.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        Log.i(TAG, "querying all cars");
+        fetchAllCars();
+    }
+
+    private void fetchAllCars() {
+        Log.i(TAG, "fetching all cars");
+        ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
+        query.include(Car.KEY_AUTHOR);
+        query.setLimit(20);
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<Car>() {
+            @Override
+            public void done(List<Car> cars, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Could not get user's cars");
+                } else {
+                    for (Car car : cars){
+                        Log.i(TAG, "Car: " + car.getModel());
+                    }
+                    adapter.clear();
+                    adapter.addAll(cars);
+                    pb.setVisibility(ProgressBar.INVISIBLE);
+                }
+            }
+        });
+        // Now we call setRefreshing(false) to signal refresh has finished
+        if (swipeContainer.isRefreshing()){
+            swipeContainer.setRefreshing(false);
+        }
     }
 }

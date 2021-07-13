@@ -3,6 +3,7 @@ package com.example.finalapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -49,16 +51,25 @@ public class UserCarDetailsActivity extends AppCompatActivity {
         }
         tvDetailRate.setText("$" + car.getRate() + "/hr");
         tvDetailDescription.setText(car.getDescription());
-        ibtnEdit.setBackgroundDrawable(null);
-        ibtnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParcelableCar c = new ParcelableCar(car);
-                Intent i = new Intent(context, EditCarActivity.class);
-                i.putExtra(ParcelableCar.class.getSimpleName(), Parcels.wrap(c));
-                startActivity(i);
-                finish();
-            }
-        });
+        if (!userIsAuthor(car)){
+            ibtnEdit.setVisibility(View.GONE);
+        } else {
+            ibtnEdit.setVisibility(View.VISIBLE);
+            ibtnEdit.setBackgroundDrawable(null);
+            ibtnEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ParcelableCar c = new ParcelableCar(car);
+                    Intent i = new Intent(context, EditCarActivity.class);
+                    i.putExtra(ParcelableCar.class.getSimpleName(), Parcels.wrap(c));
+                    startActivity(i);
+                    finish();
+                }
+            });
+        }
+    }
+
+    boolean userIsAuthor(Car car){
+        return car.getAuthor().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
     }
 }

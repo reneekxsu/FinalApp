@@ -2,10 +2,12 @@ package com.example.finalapp;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -20,12 +22,31 @@ public class UserCarFeedActivity extends AppCompatActivity {
     private RecyclerView rvCars;
     protected CarAdapter adapter;
     protected List<Car> allCars;
+    private SwipeRefreshLayout swipeContainer;
+    private ProgressBar pb;
     public static final String TAG = "UserCarFeedActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_car_feed);
+
+        pb = (ProgressBar) findViewById(R.id.pbUserLoading);
+        pb.setVisibility(ProgressBar.VISIBLE);
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeUserContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i(TAG, "refreshing");
+                fetchOwnCars();
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         rvCars = findViewById(R.id.rvCars);
 
@@ -58,8 +79,13 @@ public class UserCarFeedActivity extends AppCompatActivity {
                     }
                     adapter.clear();
                     adapter.addAll(cars);
+                    pb.setVisibility(ProgressBar.INVISIBLE);
                 }
             }
         });
+        // Now we call setRefreshing(false) to signal refresh has finished
+        if (swipeContainer.isRefreshing()){
+            swipeContainer.setRefreshing(false);
+        }
     }
 }

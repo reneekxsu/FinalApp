@@ -6,10 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".UserCarFeedActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCars"
-        android:layout_width="409dp"
-        android:layout_height="729dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp" />
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pbUserLoading" />
+    </LinearLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeUserContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCars"
+            android:layout_width="409dp"
+            android:layout_height="729dp"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>
