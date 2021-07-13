@@ -21,6 +21,7 @@ public class ProfileFragment extends Fragment {
     public static final String TAG = "ProfileFragment";
     Button btnLogout;
     Button btnToRegister;
+    Button btnViewCars;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +35,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         btnLogout = view.findViewById(R.id.btnLogout);
         btnToRegister = view.findViewById(R.id.btnToRegister);
+        btnViewCars = view.findViewById(R.id.btnViewCars);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,9 +54,18 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 Log.i(TAG, "clicked register button");
                 Intent i = new Intent(getView().getContext(), RegisterCarActivity.class);
-                startActivity(i);
-//                getActivity().finish();
+                getActivity().startActivityForResult(i, 111);
+            }
+        });
+
+        btnViewCars.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "clicked car view button");
+                Intent i = new Intent(getView().getContext(), UserCarFeedActivity.class);
+                getActivity().startActivityForResult(i, 111);
             }
         });
     }
+
 }

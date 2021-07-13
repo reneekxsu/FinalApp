@@ -13,6 +13,7 @@ public class Car extends ParseObject {
     public static final String KEY_AUTHOR = "author";
     public static final String KEY_IMAGE = "image";
     public static final String KEY_RATE = "rate";
+    public static final String KEY_MODEL = "model";
 
     // description getter and setter
     public String getDescription(){
@@ -48,5 +49,14 @@ public class Car extends ParseObject {
 
     public void setRate(String rate){
         put(KEY_RATE,rate);
+    }
+
+    // model getter and setter
+    public String getModel() {
+        return getString(KEY_MODEL);
+    }
+
+    public void setModel(String model) {
+        put(KEY_MODEL, model);
     }
 }

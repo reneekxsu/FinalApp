@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -35,6 +36,7 @@ public class RegisterCarActivity extends AppCompatActivity {
     private Button btnCamera;
     private ImageView ivPreview;
     private Button btnRegister;
+    private TextView tvClose;
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     public String photoFileName = "photo.jpg";
@@ -51,6 +53,7 @@ public class RegisterCarActivity extends AppCompatActivity {
         btnCamera = findViewById(R.id.btnCamera);
         ivPreview = findViewById(R.id.ivPreview);
         btnRegister = findViewById(R.id.btnRegister);
+        tvClose = findViewById(R.id.tvClose);
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,31 +67,47 @@ public class RegisterCarActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String description = etDescription.getText().toString();
                 String rate = etRate.getText().toString();
+                String name = etCarModel.getText().toString();
                 if (description.isEmpty()){
                     Toast.makeText(RegisterCarActivity.this, "Description cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (rate.isEmpty()){
                     Toast.makeText(RegisterCarActivity.this, "Rate cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
+                } else if (name.isEmpty()){
+                    Toast.makeText(RegisterCarActivity.this, "Model name cannot be empty", Toast.LENGTH_SHORT).show();
                 } else {
                     ParseUser currentUser = ParseUser.getCurrentUser();
                     if (photoFile == null || ivPreview.getDrawable() == null){
                         Toast.makeText(RegisterCarActivity.this, "No image", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    saveCar(description, rate, currentUser, photoFile);
+                    saveCar(name, description, rate, currentUser, photoFile);
                 }
+            }
+        });
+
+        tvClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "Close button clicked");
+                Intent i = new Intent(RegisterCarActivity.this, MainActivity.class);
+//                startActivity(i);
+//                Intent i = new Intent();
+                setResult(111, i);
+                finish();
             }
         });
     }
 
-    private void saveCar(String description, String rate, ParseUser currentUser, File photoFile) {
+    private void saveCar(String model, String description, String rate, ParseUser currentUser, File photoFile) {
         Log.i(TAG, "saving car");
         Car car = new Car();
         car.setDescription(description);
         car.setImage(new ParseFile(photoFile));
         car.setAuthor(currentUser);
         car.setRate(rate);
+        car.setModel(model);
         car.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -104,14 +123,6 @@ public class RegisterCarActivity extends AppCompatActivity {
                     etRate.setText("");
                     // set to empty image
                     ivPreview.setImageResource(0);
-//                    Intent i = new Intent(RegisterCarActivity.this, MainActivity.class);
-//                    startActivity(i);
-//                    Intent intent = new Intent();
-//                    ParcelableCar c = new ParcelableCar(car);
-//                    intent.putExtra("post", Parcels.wrap(p));
-//                    // set result code and bundle data for response
-//                    setResult(RESULT_OK,intent);
-//                    finish();
                 }
             }
         });

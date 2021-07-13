@@ -22,7 +22,15 @@
         android:layout_below="@+id/btnLogout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="48dp"
-        android:layout_marginBottom="263dp"
         android:text="Register" />
+
+    <Button
+        android:id="@+id/btnViewCars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnToRegister"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="66dp"
+        android:text="VIEW CARS" />
 
 </RelativeLayout>
