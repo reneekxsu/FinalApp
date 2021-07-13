@@ -1,6 +1,8 @@
 package com.example.finalapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +16,12 @@ import com.bumptech.glide.Glide;
 import com.parse.ParseFile;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
 import java.util.List;
 
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
+    public static final String TAG = "CarAdapter";
 
     private Context context;
     private List<Car> cars;
@@ -56,6 +60,20 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
             tvCarRate = itemView.findViewById(R.id.tvCarRate);
             ivCarImage = itemView.findViewById(R.id.ivCarImage);
             // later add on click listener for detailed view
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION){
+                        Log.i(TAG, "going to details view");
+                        Car car = cars.get(position);
+                        ParcelableCar c = new ParcelableCar(car);
+                        Intent i = new Intent(context, UserCarDetailsActivity.class);
+                        i.putExtra(ParcelableCar.class.getSimpleName(), Parcels.wrap(c));
+                        context.startActivity(i);
+                    }
+                }
+            });
         }
         public void bind(Car car){
             tvCarName.setText(car.getModel());
