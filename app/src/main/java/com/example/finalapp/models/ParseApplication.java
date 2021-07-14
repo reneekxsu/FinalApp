@@ -1,7 +1,8 @@
-package com.example.finalapp;
+package com.example.finalapp.models;
 
 import android.app.Application;
 
+import com.example.finalapp.BuildConfig;
 import com.parse.Parse;
 import com.parse.ParseObject;
 

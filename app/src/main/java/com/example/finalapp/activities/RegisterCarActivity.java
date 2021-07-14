@@ -1,4 +1,4 @@
-package com.example.finalapp;
+package com.example.finalapp.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,126 +19,114 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
-import com.bumptech.glide.Glide;
-import com.parse.GetCallback;
+import com.example.finalapp.MainActivity;
+import com.example.finalapp.R;
+import com.example.finalapp.models.BitmapScaler;
+import com.example.finalapp.models.Car;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
-
-import org.parceler.Parcels;
+import com.parse.SaveCallback;
 
 import java.io.File;
 
-public class EditCarActivity extends AppCompatActivity {
+public class RegisterCarActivity extends AppCompatActivity {
 
-    public static final String TAG = "EditCarActivity";
+    public static final String TAG = "RegisterCarActivity";
 
-    EditText etEditCarModel;
-    EditText etEditDescription;
-    EditText etEditRate;
-    Button btnEditSave;
-    ImageView ivEditPreview;
-    Button btnEditCamera;
-    TextView tvEditClose;
-    Car car;
+    private EditText etCarModel;
+    private EditText etDescription;
+    private EditText etRate;
+    private Button btnCamera;
+    private ImageView ivPreview;
+    private Button btnRegister;
+    private TextView tvClose;
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     public String photoFileName = "photo.jpg";
     File photoFile;
-    ParseFile image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_car);
+        setContentView(R.layout.activity_register_car);
 
-        etEditCarModel = findViewById(R.id.etEditCarModel);
-        etEditDescription = findViewById(R.id.etEditDescription);
-        etEditRate = findViewById(R.id.etEditRate);
-        btnEditSave = findViewById(R.id.btnEditSave);
-        ivEditPreview = findViewById(R.id.ivEditPreview);
-        btnEditCamera = findViewById(R.id.btnEditCamera);
-        tvEditClose = findViewById(R.id.tvEditClose);
+        etCarModel = findViewById(R.id.etCarModel);
+        etDescription = findViewById(R.id.etDescription);
+        etRate = findViewById(R.id.etRate);
+        btnCamera = findViewById(R.id.btnCamera);
+        ivPreview = findViewById(R.id.ivPreview);
+        btnRegister = findViewById(R.id.btnRegister);
+        tvClose = findViewById(R.id.tvClose);
 
-        car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();
-
-        etEditCarModel.setText(car.getModel());
-        etEditDescription.setText(car.getDescription());
-        etEditRate.setText(car.getRate());
-        image = car.getImage();
-        if (image != null) {
-            ivEditPreview.setVisibility(View.VISIBLE);
-            Glide.with(this).load(image.getUrl()).into(ivEditPreview);
-        } else {
-            ivEditPreview.setVisibility(View.GONE);
-        }
-        
-        btnEditCamera.setOnClickListener(new View.OnClickListener() {
+        btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchCamera();
             }
         });
 
-        btnEditSave.setOnClickListener(new View.OnClickListener() {
+        btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String description = etEditDescription.getText().toString();
-                String rate = etEditRate.getText().toString();
-                String name = etEditCarModel.getText().toString();
+                String description = etDescription.getText().toString();
+                String rate = etRate.getText().toString();
+                String name = etCarModel.getText().toString();
                 if (description.isEmpty()){
-                    Toast.makeText(EditCarActivity.this, "Description cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterCarActivity.this, "Description cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (rate.isEmpty()){
-                    Toast.makeText(EditCarActivity.this, "Rate cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterCarActivity.this, "Rate cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (name.isEmpty()){
-                    Toast.makeText(EditCarActivity.this, "Model name cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterCarActivity.this, "Model name cannot be empty", Toast.LENGTH_SHORT).show();
                 } else {
                     ParseUser currentUser = ParseUser.getCurrentUser();
-                    if ((image == null) && (photoFile == null || ivEditPreview.getDrawable() == null)){
-                        Toast.makeText(EditCarActivity.this, "No image", Toast.LENGTH_SHORT).show();
+                    if (photoFile == null || ivPreview.getDrawable() == null){
+                        Toast.makeText(RegisterCarActivity.this, "No image", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    editCar(name, description, rate, currentUser, photoFile);
+                    saveCar(name, description, rate, currentUser, photoFile);
                 }
             }
         });
 
-        tvEditClose.setOnClickListener(new View.OnClickListener() {
+        tvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "Close button clicked");
-                Intent i = new Intent(EditCarActivity.this, UserCarFeedActivity.class);
-                startActivity(i);
+                Intent i = new Intent(RegisterCarActivity.this, MainActivity.class);
+//                startActivity(i);
+//                Intent i = new Intent();
+                setResult(111, i);
                 finish();
             }
         });
-
     }
 
-    private void editCar(String model, String description, String rate, ParseUser currentUser, File photoFile) {
-        ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
-
-        // Retrieve the object by id
-        query.getInBackground(car.getObjectId(), new GetCallback<Car>() {
+    private void saveCar(String model, String description, String rate, ParseUser currentUser, File photoFile) {
+        Log.i(TAG, "saving car");
+        Car car = new Car();
+        car.setDescription(description);
+        car.setImage(new ParseFile(photoFile));
+        car.setAuthor(currentUser);
+        car.setRate(rate);
+        car.setModel(model);
+        car.saveInBackground(new SaveCallback() {
             @Override
-            public void done(Car car, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Could not save edits to car");
+            public void done(ParseException e) {
+                if (e != null){
+                    Log.e(TAG, "Could not save", e);
+                    Toast.makeText(RegisterCarActivity.this, "Could not save", Toast.LENGTH_SHORT).show();
+                    return;
                 } else {
                     Log.i(TAG, "Car was saved to backend");
-                    car.setDescription(description);
-                    if (photoFile != null){
-                        image = new ParseFile(photoFile);
-                    }
-                    car.setImage(image);
-                    car.setAuthor(currentUser);
-                    car.setRate(rate);
-                    car.setModel(model);
-                    car.saveInBackground();
-                    Toast.makeText(EditCarActivity.this, "Edits to car were saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterCarActivity.this, "Car was saved", Toast.LENGTH_SHORT).show();
+                    etDescription.setText("");
+                    etCarModel.setText("");
+                    etRate.setText("");
+                    // set to empty image
+                    ivPreview.setImageResource(0);
                 }
             }
         });
@@ -154,7 +142,7 @@ public class EditCarActivity extends AppCompatActivity {
         // wrap File object into a content provider
         // required for API >= 24
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(EditCarActivity.this, "com.codepath.fileprovider.FinalApp", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(RegisterCarActivity.this, "com.codepath.fileprovider.FinalApp", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
@@ -175,7 +163,7 @@ public class EditCarActivity extends AppCompatActivity {
                 // RESIZE BITMAP
                 Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(takenImage, 100);
                 // Load the taken image into a preview
-                ivEditPreview.setImageBitmap(resizedBitmap);
+                ivPreview.setImageBitmap(resizedBitmap);
             } else { // Result was a failure
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }

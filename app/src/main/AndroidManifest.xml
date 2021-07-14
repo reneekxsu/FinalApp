@@ -14,17 +14,18 @@
     </queries>
 
     <application
-        android:name=".ParseApplication"
+        android:name=".models.ParseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalApp">
-        <activity android:name=".EditCarActivity"></activity>
-        <activity android:name=".UserCarDetailsActivity" />
-        <activity android:name=".UserCarFeedActivity" />
-        <activity android:name=".RegisterCarActivity" />
+        <activity android:name=".activities.ScheduleTimesActivity"></activity>
+        <activity android:name=".activities.EditCarActivity" />
+        <activity android:name=".activities.CarDetailsActivity" />
+        <activity android:name=".activities.UserCarFeedActivity" />
+        <activity android:name=".activities.RegisterCarActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -36,8 +37,8 @@
                 android:resource="@xml/fileprovider" />
         </provider>
 
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activities.SignUpActivity" />
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

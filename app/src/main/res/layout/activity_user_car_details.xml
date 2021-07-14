@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserCarDetailsActivity">
+    tools:context=".activities.CarDetailsActivity">
 
     <TextView
         android:id="@+id/tvCarDetailName"
@@ -61,4 +61,14 @@
         android:layout_toEndOf="@+id/tvCarDetailName"
         android:tint="#5314FF"
         app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <ImageButton
+        android:id="@+id/ibtnEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ibtnEdit"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="19dp"
+        app:srcCompat="@android:drawable/ic_menu_my_calendar" />
 </RelativeLayout>

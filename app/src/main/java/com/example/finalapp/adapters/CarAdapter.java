@@ -1,4 +1,4 @@
-package com.example.finalapp;
+package com.example.finalapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.finalapp.models.ParcelableCar;
+import com.example.finalapp.R;
+import com.example.finalapp.activities.CarDetailsActivity;
+import com.example.finalapp.models.Car;
 import com.parse.ParseFile;
 
 import org.jetbrains.annotations.NotNull;
@@ -68,7 +72,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
                         Log.i(TAG, "going to details view");
                         Car car = cars.get(position);
                         ParcelableCar c = new ParcelableCar(car);
-                        Intent i = new Intent(context, UserCarDetailsActivity.class);
+                        Intent i = new Intent(context, CarDetailsActivity.class);
                         i.putExtra(ParcelableCar.class.getSimpleName(), Parcels.wrap(c));
                         context.startActivity(i);
                     }

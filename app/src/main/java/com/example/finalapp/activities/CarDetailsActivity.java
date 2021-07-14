@@ -1,4 +1,4 @@
-package com.example.finalapp;
+package com.example.finalapp.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,12 +12,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.finalapp.R;
+import com.example.finalapp.models.Car;
+import com.example.finalapp.models.ParcelableCar;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
-public class UserCarDetailsActivity extends AppCompatActivity {
+public class CarDetailsActivity extends AppCompatActivity {
     public static final String TAG = "UserCarDetailsActivity";
 
     Car car;
@@ -27,6 +30,7 @@ public class UserCarDetailsActivity extends AppCompatActivity {
     ImageView ivDetailCar;
     Context context;
     ImageButton ibtnEdit;
+    ImageButton ibtnEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class UserCarDetailsActivity extends AppCompatActivity {
         tvDetailDescription = (TextView) findViewById(R.id.tvDetailDescription);
         ivDetailCar = (ImageView) findViewById(R.id.ivDetailCar);
         ibtnEdit = (ImageButton) findViewById(R.id.ibtnEdit);
+        ibtnEvent = (ImageButton) findViewById(R.id.ibtnEvent);
         context = (Context) this;
 
         tvCarDetailName.setText(car.getModel());
@@ -51,6 +56,7 @@ public class UserCarDetailsActivity extends AppCompatActivity {
         }
         tvDetailRate.setText("$" + car.getRate() + "/hr");
         tvDetailDescription.setText(car.getDescription());
+
         if (!userIsAuthor(car)){
             ibtnEdit.setVisibility(View.GONE);
         } else {
@@ -67,9 +73,29 @@ public class UserCarDetailsActivity extends AppCompatActivity {
                 }
             });
         }
+
+        // car owner will schedule when they are not free, while customer will schedule when they want to rent it
+        ibtnEvent.setBackgroundDrawable(null);
+        ibtnEvent.setVisibility(View.VISIBLE);
+        ibtnEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "car schedule button clicked");
+                Intent i = new Intent(context, ScheduleTimesActivity.class);
+                ParcelableCar c = new ParcelableCar(car);
+                i.putExtra("ParcelableCar", Parcels.wrap(c));
+                startActivity(i);
+            }
+        });
+
     }
 
     boolean userIsAuthor(Car car){
         return car.getAuthor().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
     }
+
+    boolean userIsCustomer(){
+        return !userIsAuthor(car);
+    }
+
 }

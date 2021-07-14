@@ -1,4 +1,4 @@
-package com.example.finalapp;
+package com.example.finalapp.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.finalapp.R;
+import com.example.finalapp.adapters.CarAdapter;
+import com.example.finalapp.models.Car;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;

@@ -1,4 +1,4 @@
-package com.example.finalapp;
+package com.example.finalapp.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.finalapp.R;
+import com.example.finalapp.activities.LoginActivity;
+import com.example.finalapp.activities.RegisterCarActivity;
+import com.example.finalapp.activities.UserCarFeedActivity;
 import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;

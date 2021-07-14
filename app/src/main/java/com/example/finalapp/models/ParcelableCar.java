@@ -1,4 +1,4 @@
-package com.example.finalapp;
+package com.example.finalapp.models;
 
 import org.parceler.Parcel;
 
