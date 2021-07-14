@@ -13,6 +13,14 @@ import androidx.fragment.app.FragmentManager;
 import com.example.finalapp.R;
 import com.example.finalapp.fragments.DatePickerFragment;
 import com.example.finalapp.fragments.TimePickerFragment;
+import com.example.finalapp.models.Car;
+import com.example.finalapp.models.Event;
+import com.example.finalapp.models.ParcelableCar;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import org.parceler.Parcels;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -30,6 +38,7 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
     int TIME_DIALOG = 0;
     int startDay, startMonth, startYear, startHour, startMinute;
     int endDay, endMonth, endYear, endHour, endMinute;
+    Car car;
     TimeZone tz = TimeZone.getDefault();
 
     @Override
@@ -37,6 +46,7 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_times);
 
+        car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra("ParcelableCar"))).getCar();
         btnStartDate = (Button) findViewById(R.id.btnStartDate);
         btnEndDate = (Button) findViewById(R.id.btnEndDate);
         btnStartTime = (Button) findViewById(R.id.btnStartTime);
@@ -86,6 +96,7 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
                 if (isValidDateWindow(start, end)){
                     Log.i(TAG, "valid time window");
                     // make new event
+                    saveEvent(start, end);
                 } else {
                     Log.i(TAG, "not valid time window");
                     Toast.makeText(ScheduleTimesActivity.this, "Not a valid time window", Toast.LENGTH_SHORT).show();
@@ -205,5 +216,41 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
         Log.i(TAG, "difference in hours: " + Long.toString(diffHours));
         return true;
     }
+
+    private void saveEvent(Date start, Date end){
+        Log.i(TAG, "Saving event");
+        Event event = new Event();
+        event.setStart(start);
+        event.setEnd(end);
+        event.setRenter(ParseUser.getCurrentUser());
+        event.setCar(car);
+        int rentType = 0;
+        if (userIsCustomer()){
+            rentType = 1;
+        }
+        event.setRentType(rentType);
+        event.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null){
+                    Log.e(TAG, "Could not save", e);
+                    Toast.makeText(ScheduleTimesActivity.this, "Could not save", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    Log.i(TAG, "Event was saved to backend");
+                    Toast.makeText(ScheduleTimesActivity.this, "Event was saved", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    boolean userIsAuthor(Car car){
+        return car.getAuthor().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+    }
+
+    boolean userIsCustomer(){
+        return !userIsAuthor(car);
+    }
+
 
 }
