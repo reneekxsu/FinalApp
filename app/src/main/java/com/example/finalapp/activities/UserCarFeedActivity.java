@@ -67,8 +67,8 @@ public class UserCarFeedActivity extends AppCompatActivity {
     private void fetchOwnCars() {
         Log.i(TAG, "fetching own cars");
         ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
-        query.include(Car.KEY_AUTHOR);
-        query.whereEqualTo(Car.KEY_AUTHOR, ParseUser.getCurrentUser());
+        query.include(Car.KEY_OWNER);
+        query.whereEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
         query.setLimit(20);
         query.addDescendingOrder("createdAt");
         query.findInBackground(new FindCallback<Car>() {

@@ -138,7 +138,7 @@ public class EditCarActivity extends AppCompatActivity {
                         image = new ParseFile(photoFile);
                     }
                     car.setImage(image);
-                    car.setAuthor(currentUser);
+                    car.setOwner(currentUser);
                     car.setRate(rate);
                     car.setModel(model);
                     car.saveInBackground();

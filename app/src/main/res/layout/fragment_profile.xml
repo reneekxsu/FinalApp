@@ -9,9 +9,9 @@
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/tvProfileUser"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="325dp"
+        android:layout_marginTop="284dp"
         android:text="LOG OUT"
         tools:layout_editor_absoluteY="262dp" />
 
@@ -32,5 +32,15 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="66dp"
         android:text="VIEW CARS" />
+
+    <TextView
+        android:id="@+id/tvProfileUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="22dp"
+        tools:text="reneesu" />
 
 </RelativeLayout>

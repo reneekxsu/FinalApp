@@ -245,7 +245,7 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
     }
 
     boolean userIsAuthor(Car car){
-        return car.getAuthor().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+        return car.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
     }
 
     boolean userIsCustomer(){

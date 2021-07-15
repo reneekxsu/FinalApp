@@ -35,4 +35,18 @@
         android:layout_marginTop="14dp"
         android:scaleType="centerCrop"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvItemCarOwner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="29dp"
+        android:layout_toEndOf="@+id/tvCarName"
+        android:gravity="right"
+        tools:text="renees" />
 </RelativeLayout>

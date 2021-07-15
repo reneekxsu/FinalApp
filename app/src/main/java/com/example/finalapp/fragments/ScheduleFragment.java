@@ -1,65 +1,119 @@
 package com.example.finalapp.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.finalapp.R;
+import com.example.finalapp.adapters.EventAdapter;
+import com.example.finalapp.models.Car;
+import com.example.finalapp.models.Event;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ScheduleFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ScheduleFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    public static final String TAG = "ScheduleFragment";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ScheduleFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ScheduleFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ScheduleFragment newInstance(String param1, String param2) {
-        ScheduleFragment fragment = new ScheduleFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private RecyclerView rvEvents;
+    protected EventAdapter adapter;
+    protected List<Event> allEvents;
+    private ProgressBar pb;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_schedule, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        pb = (ProgressBar) view.findViewById(R.id.pbLoading);
+        pb.setVisibility(ProgressBar.VISIBLE);
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i(TAG, "refreshing");
+                fetchAllEvents();
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        rvEvents = view.findViewById(R.id.rvAllCars);
+        allEvents = new ArrayList<>();
+        adapter = new EventAdapter(view.getContext(), allEvents);
+        rvEvents.setAdapter(adapter);
+        rvEvents.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        Log.i(TAG, "querying all events");
+        fetchAllEvents();
+    }
+
+    private void fetchAllEvents() {
+        Log.i(TAG, "fetching all events");
+        // query events in which user is renter OR owner
+        ParseQuery<Event> queryRenter = ParseQuery.getQuery(Event.class);
+        queryRenter.whereEqualTo(Event.KEY_RENTER, ParseUser.getCurrentUser());
+
+        ParseQuery<Event> queryOwner = ParseQuery.getQuery(Event.class);
+        ParseQuery<Car> innerQuery = ParseQuery.getQuery(Car.class);
+        innerQuery.whereEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
+        queryOwner.whereMatchesQuery(Event.KEY_CAR, innerQuery);
+
+        List<ParseQuery<Event>> queries = new ArrayList<ParseQuery<Event>>();
+        queries.add(queryRenter);
+        queries.add(queryOwner);
+        ParseQuery<Event> query = ParseQuery.or(queries);
+        query.addAscendingOrder(Event.KEY_START);
+        query.setLimit(20);
+        query.include(Event.KEY_CAR);
+        query.include(Event.KEY_RENTER);
+        query.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> events, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Could not get user's events");
+                    Log.e(TAG, e.getCause().toString());
+                } else {
+                    for (Event event : events){
+                        Log.i(TAG, "Event: " + event.getStart().toString());
+                    }
+                    adapter.clear();
+                    adapter.addAll(events);
+                    pb.setVisibility(ProgressBar.INVISIBLE);
+                }
+            }
+        });
+        // Now we call setRefreshing(false) to signal refresh has finished
+        if (swipeContainer.isRefreshing()){
+            swipeContainer.setRefreshing(false);
+        }
     }
 }

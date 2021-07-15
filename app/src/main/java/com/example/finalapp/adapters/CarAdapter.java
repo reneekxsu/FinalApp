@@ -58,11 +58,13 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
         private TextView tvCarName;
         private TextView tvCarRate;
         private ImageView ivCarImage;
+        private TextView tvItemCarOwner;
         public Viewholder(@NonNull @NotNull View itemView) {
             super(itemView);
             tvCarName = itemView.findViewById(R.id.tvCarName);
             tvCarRate = itemView.findViewById(R.id.tvCarRate);
             ivCarImage = itemView.findViewById(R.id.ivCarImage);
+            tvItemCarOwner = itemView.findViewById(R.id.tvItemCarOwner);
             // later add on click listener for detailed view
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -89,6 +91,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
             } else {
                 ivCarImage.setVisibility(View.GONE);
             }
+            tvItemCarOwner.setText(car.getOwner().getUsername());
         }
     }
 

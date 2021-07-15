@@ -10,7 +10,7 @@ public class Car extends ParseObject {
     // keys: description, author, image, rate
 
     public static final String KEY_DESCRIPTION = "description";
-    public static final String KEY_AUTHOR = "author";
+    public static final String KEY_OWNER = "author";
     public static final String KEY_IMAGE = "image";
     public static final String KEY_RATE = "rate";
     public static final String KEY_MODEL = "model";
@@ -24,13 +24,13 @@ public class Car extends ParseObject {
         put(KEY_DESCRIPTION,description);
     }
 
-    // author getter and setter
-    public ParseUser getAuthor(){
-        return getParseUser(KEY_AUTHOR);
+    // car owner getter and setter
+    public ParseUser getOwner(){
+        return getParseUser(KEY_OWNER);
     }
 
-    public void setAuthor(ParseUser author){
-        put(KEY_AUTHOR,author);
+    public void setOwner(ParseUser owner){
+        put(KEY_OWNER,owner);
     }
 
     // image getter and setter

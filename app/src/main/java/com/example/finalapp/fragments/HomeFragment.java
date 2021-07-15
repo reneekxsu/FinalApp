@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment {
     private void fetchAllCars() {
         Log.i(TAG, "fetching all cars");
         ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
-        query.include(Car.KEY_AUTHOR);
+        query.include(Car.KEY_OWNER);
         query.setLimit(20);
         query.addDescendingOrder("createdAt");
         query.findInBackground(new FindCallback<Car>() {

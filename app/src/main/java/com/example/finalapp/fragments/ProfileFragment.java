@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,7 @@ public class ProfileFragment extends Fragment {
     Button btnLogout;
     Button btnToRegister;
     Button btnViewCars;
+    TextView tvProfileUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +42,8 @@ public class ProfileFragment extends Fragment {
         btnLogout = view.findViewById(R.id.btnLogout);
         btnToRegister = view.findViewById(R.id.btnToRegister);
         btnViewCars = view.findViewById(R.id.btnViewCars);
+        tvProfileUser = view.findViewById(R.id.tvProfileUser);
+        tvProfileUser.setText(ParseUser.getCurrentUser().getUsername());
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override

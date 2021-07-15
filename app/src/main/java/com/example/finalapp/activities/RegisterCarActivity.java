@@ -109,7 +109,7 @@ public class RegisterCarActivity extends AppCompatActivity {
         Car car = new Car();
         car.setDescription(description);
         car.setImage(new ParseFile(photoFile));
-        car.setAuthor(currentUser);
+        car.setOwner(currentUser);
         car.setRate(rate);
         car.setModel(model);
         car.saveInBackground(new SaveCallback() {
