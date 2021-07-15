@@ -37,7 +37,6 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
     Button btnStartDate, btnEndDate, btnDone;
     FragmentManager fm = getSupportFragmentManager();
     int DATE_DIALOG = 0;
-    int TIME_DIALOG = 0;
     int startDay, startMonth, startYear, startHour, startMinute;
     int endDay, endMonth, endYear, endHour, endMinute;
     Car car;
@@ -118,28 +117,91 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
         });
     }
 
+    public int isDateBefore(int year1, int month1, int day1, int year2, int month2, int day2){
+        if (year1 == year2){
+            if (month1 == month2){
+                if (day1 == day2){
+                    return 0;
+                } else if (day1 < day2){
+                    return -1;
+                } else {
+                    return 1;
+                }
+            } else if (month1 < month2){
+                return -1;
+            } else {
+                return 1;
+            }
+        } else if (year1 < year2){
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+    public int isYearBefore(int year1, int year2){
+        if (year1 < year2){
+            return -1;
+        } else if (year1 == year2){
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    public int isMonthBefore(int month1, int month2){
+        if (month1 < month2){
+            return -1;
+        } else if (month1 == month2){
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    public int isDayBefore(int day1, int day2){
+        if (day1 < day2){
+            return -1;
+        } else if (day1 == day2){
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+
     public boolean EventConflictExists(List<Event> events, Date start, Date end) {
         for (Event event : events){
             Date eventStart = event.getStart();
             Date eventEnd = event.getEnd();
-            int compEventStartAndDateStart = eventStart.compareTo(start);
-            int compDateStartAndEventEnd = start.compareTo(eventEnd);
-            Log.i(TAG, "compEventStartAndDateStart: " + compEventStartAndDateStart);
-            Log.i(TAG, "compDateStartAndEventEnd: " + compDateStartAndEventEnd);
-            Log.i(TAG, "eventStart: " + formatDate(eventStart));
-            Log.i(TAG, "eventEnd: " + formatDate(eventEnd));
-            Log.i(TAG, "start: " + formatDate(start));
-            Log.i(TAG, "end: " + formatDate(end));
-            if (compEventStartAndDateStart <= 0 && compDateStartAndEventEnd <= 0){
-                // start date of new event lies in interval of another event
-                Toast.makeText(this, "Start interval invalid", Toast.LENGTH_SHORT).show();
+            int eventStartMonth = getMonth(eventStart);
+            int eventStartDate = getDay(eventStart);
+            int eventStartYear = getYear(eventStart);
+            int eventEndMonth = getMonth(eventEnd);
+            int eventEndDate = getDay(eventEnd);
+            int eventEndYear = getYear(eventEnd);
+            int startMonth = getMonth(start);
+            int startDate = getDay(start);
+            int startYear = getYear(start);
+            int endMonth = getMonth(end);
+            int endDate = getDay(end);
+            int endYear = getYear(end);
+
+            // check if start is in between eventStart and eventEnd
+            if (isDateBefore(eventStartYear, eventStartMonth, eventStartDate, startYear, startMonth, startDate) <= 0
+                    && isDateBefore(startYear, startMonth, startDate, eventEndYear, eventEndMonth, eventEndDate) <= 0){
+                Log.i(TAG, "eventStart: " + formatAnotherDate(eventStartYear, eventStartMonth, eventStartDate));
+                Log.i(TAG, "eventEnd: " + formatAnotherDate(eventEndYear, eventEndMonth, eventEndDate));
+                Log.i(TAG, "start: " + formatAnotherDate(startYear, startMonth, startDate));
                 return true;
             }
-            int compEventStartAndDateEnd = eventStart.compareTo(end);
-            int compDateEndAndEventEnd = end.compareTo(eventEnd);
-            if (compEventStartAndDateEnd <= 0 && compDateEndAndEventEnd <= 0){
-                // start date of new event lies in interval of another event
-                Toast.makeText(this, "End interval invalid", Toast.LENGTH_SHORT).show();
+
+            // check if end is in between eventStart and eventEnd
+            if (isDateBefore(eventStartYear, eventStartMonth, eventStartDate, endYear, endMonth, endDate) <= 0
+                    && isDateBefore(endYear, endMonth, endDate, eventEndYear, eventEndMonth, eventEndDate) <= 0){
+                Log.i(TAG, "eventStart: " + formatAnotherDate(eventStartYear, eventStartMonth, eventStartDate));
+                Log.i(TAG, "eventEnd: " + formatAnotherDate(eventEndYear, eventEndMonth, eventEndDate));
+                Log.i(TAG, "end: " + formatAnotherDate(endYear, endMonth, endDate));
                 return true;
             }
         }
@@ -162,7 +224,7 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
             String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
             TextView tvStartDate = (TextView) findViewById(R.id.tvStartDate);
             tvStartDate.setText(currentDateString);
-            updateStartDateTime(day, month, year, 0, 0, true);
+            updateStartDateTime(day, month, year, 0, 0);
         }
         else if (DATE_DIALOG == 2){
             // set end date
@@ -173,7 +235,7 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
             String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
             TextView tvEndDate = (TextView) findViewById(R.id.tvEndDate);
             tvEndDate.setText(currentDateString);
-            updateEndDateTime(day, month, year, 0, 0, true);
+            updateEndDateTime(day, month, year, 0, 0);
         }
     }
 
@@ -184,26 +246,20 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
         return calendar.getTime();
     }
 
-    public void updateStartDateTime(int day, int month, int year, int hour, int minute, boolean date){
-        if (date){
-            startDay = day;
-            startMonth = month;
-            startYear = year;
-        } else {
-            startHour = hour;
-            startMinute = minute;
-        }
+    public void updateStartDateTime(int day, int month, int year, int hour, int minute){
+        startDay = day;
+        startMonth = month;
+        startYear = year;
+        startHour = hour;
+        startMinute = minute;
     }
 
-    public void updateEndDateTime(int day, int month, int year, int hour, int minute, boolean date){
-        if (date){
-            endDay = day;
-            endMonth = month;
-            endYear = year;
-        } else {
-            endHour = hour;
-            endMinute = minute;
-        }
+    public void updateEndDateTime(int day, int month, int year, int hour, int minute){
+        endDay = day;
+        endMonth = month;
+        endYear = year;
+        endHour = hour;
+        endMinute = minute;
     }
 
     public static Calendar toCalendar(Date date){
@@ -267,4 +323,30 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
         int year = c.get(Calendar.YEAR);
         return "" + month + "/" + day + "/" + year;
     }
+
+    public int getMonth(Date date){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        int month = c.get(Calendar.MONTH);
+        return month;
+    }
+
+    public int getDay(Date date){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        return day;
+    }
+
+    public int getYear(Date date){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        int year = c.get(Calendar.YEAR);
+        return year;
+    }
+
+    public String formatAnotherDate(int year, int month, int day){
+        return month + "/" + day + "/" + year;
+    }
+
 }
