@@ -15,6 +15,8 @@ import com.example.finalapp.models.Event;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> {
@@ -63,10 +65,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
         }
 
         public void bind(Event event) {
-            tvStart.setText(event.getStart().toString());
-            tvEnd.setText(" to" + event.getEnd().toString());
+            tvStart.setText(formatDate(event.getStart()));
+            tvEnd.setText(" to " + formatDate(event.getEnd()));
             tvEventCarName.setText(event.getCar().getModel());
-            tvRenter.setText("Renter: " + event.getRenter().getUsername());
+            if (event.getRentType() == (Integer) 1){
+                // user is renter, not owner
+                tvRenter.setVisibility(View.VISIBLE);
+                tvRenter.setText("Renter: " + event.getRenter().getUsername());
+            } else {
+                tvRenter.setVisibility(View.GONE);
+            }
             String name = "";
             try {
                 name = event.getCar().getOwner().fetchIfNeeded().getUsername();
@@ -86,6 +94,23 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
         events.addAll(list);
         Log.i(TAG, "Events in adapter: " + events);
         notifyDataSetChanged();
+    }
+
+    // ideal date format:  1/16/2021 2:00pm
+    public String formatDate(Date date){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int year = c.get(Calendar.YEAR);
+        int hour = c.get(Calendar.HOUR);
+        int minute = c.get(Calendar.MINUTE);
+        int ampm = c.get(Calendar.AM_PM);
+        String timeSign = "AM";
+        if (ampm == 1){
+            timeSign = "PM";
+        }
+        return "" + month + "/" + day + "/" + year + " " + hour + ":" + minute + " " + timeSign;
     }
 
 }

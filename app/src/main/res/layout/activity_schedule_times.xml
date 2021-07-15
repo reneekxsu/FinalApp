@@ -28,9 +28,9 @@
         android:id="@+id/tvEndDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnStartTime"
+        android:layout_below="@+id/btnStartDate"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:text="End Date"
         android:textSize="30sp" />
 
@@ -40,51 +40,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvEndDate"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
         android:text="End Date" />
-
-    <TextView
-        android:id="@+id/tvStartTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnStartDate"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="Start Time"
-        android:textSize="30sp" />
-
-    <TextView
-        android:id="@+id/tvEndTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnEndDate"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="End Time"
-        android:textSize="30sp" />
-
-    <Button
-        android:id="@+id/btnStartTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvStartTime"
-        android:layout_centerHorizontal="true"
-        android:text="Start Time" />
-
-    <Button
-        android:id="@+id/btnEndTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEndTime"
-        android:layout_centerHorizontal="true"
-        android:text="End Time" />
 
     <Button
         android:id="@+id/btnDone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnEndTime"
+        android:layout_below="@+id/btnEndDate"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:text="DONE" />
 
 </RelativeLayout>

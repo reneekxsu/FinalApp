@@ -42,16 +42,16 @@ public class ScheduleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_schedule, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        pb = (ProgressBar) view.findViewById(R.id.pbLoading);
+        pb = (ProgressBar) view.findViewById(R.id.pbScheduleLoading);
         pb.setVisibility(ProgressBar.VISIBLE);
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.scheduleSwipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -66,7 +66,7 @@ public class ScheduleFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        rvEvents = view.findViewById(R.id.rvAllCars);
+        rvEvents = view.findViewById(R.id.rvAllEvents);
         allEvents = new ArrayList<>();
         adapter = new EventAdapter(view.getContext(), allEvents);
         rvEvents.setAdapter(adapter);
@@ -103,7 +103,7 @@ public class ScheduleFragment extends Fragment {
                     Log.e(TAG, e.getCause().toString());
                 } else {
                     for (Event event : events){
-                        Log.i(TAG, "Event: " + event.getStart().toString());
+                        Log.i(TAG, "Event showing in schedule for car: " + event.getCar().getModel());
                     }
                     adapter.clear();
                     adapter.addAll(events);
