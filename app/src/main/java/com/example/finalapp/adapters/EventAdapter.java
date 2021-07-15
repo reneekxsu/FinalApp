@@ -1,6 +1,7 @@
 package com.example.finalapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalapp.R;
+import com.example.finalapp.activities.EventDetailsActivity;
 import com.example.finalapp.models.Event;
+import com.example.finalapp.models.ParcelableEvent;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -61,7 +65,21 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
             tvEventCarName = itemView.findViewById(R.id.tvEventCarName);
             tvRenter = itemView.findViewById(R.id.tvRenter);
             tvCarOwner = itemView.findViewById(R.id.tvCarOwner);
-            // onclicklistener for later
+            // onclicklistener
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION){
+                        Log.i(TAG, "going to details view");
+                        Event event = events.get(position);
+                        ParcelableEvent e = new ParcelableEvent(event);
+                        Intent i = new Intent(context, EventDetailsActivity.class);
+                        i.putExtra(ParcelableEvent.class.getSimpleName(), Parcels.wrap(e));
+                        context.startActivity(i);
+                    }
+                }
+            });
         }
 
         public void bind(Event event) {
@@ -103,14 +121,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
         int year = c.get(Calendar.YEAR);
-        int hour = c.get(Calendar.HOUR);
-        int minute = c.get(Calendar.MINUTE);
-        int ampm = c.get(Calendar.AM_PM);
-        String timeSign = "AM";
-        if (ampm == 1){
-            timeSign = "PM";
-        }
-        return "" + month + "/" + day + "/" + year + " " + hour + ":" + minute + " " + timeSign;
+        return "" + month + "/" + day + "/" + year;
     }
-
 }

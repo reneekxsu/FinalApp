@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
+import com.example.finalapp.MainActivity;
 import com.example.finalapp.models.ParcelableCar;
 import com.example.finalapp.R;
 import com.example.finalapp.models.BitmapScaler;
@@ -114,7 +115,8 @@ public class EditCarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "Close button clicked");
-                Intent i = new Intent(EditCarActivity.this, UserCarFeedActivity.class);
+//                Intent i = new Intent(EditCarActivity.this, UserCarFeedActivity.class);
+                Intent i = new Intent(EditCarActivity.this, MainActivity.class);
                 startActivity(i);
                 finish();
             }

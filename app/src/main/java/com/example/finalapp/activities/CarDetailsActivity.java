@@ -54,7 +54,7 @@ public class CarDetailsActivity extends AppCompatActivity {
         } else {
             ivDetailCar.setVisibility(View.GONE);
         }
-        tvDetailRate.setText("$" + car.getRate() + "/hr");
+        tvDetailRate.setText("$" + car.getRate() + "/day");
         tvDetailDescription.setText(car.getDescription());
 
         if (!userIsAuthor(car)){

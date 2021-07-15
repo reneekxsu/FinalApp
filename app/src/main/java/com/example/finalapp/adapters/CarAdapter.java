@@ -83,7 +83,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
         }
         public void bind(Car car){
             tvCarName.setText(car.getModel());
-            tvCarRate.setText("$" + car.getRate() + "/hr");
+            tvCarRate.setText("$" + car.getRate() + "/day");
             ParseFile image = car.getImage();
             if (image != null) {
                 ivCarImage.setVisibility(View.VISIBLE);

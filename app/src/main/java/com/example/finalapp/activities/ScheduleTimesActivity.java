@@ -29,7 +29,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 public class ScheduleTimesActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener{
     public static final String TAG = "ScheduleTimesActivity";
@@ -125,12 +124,14 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
             Date eventEnd = event.getEnd();
             int compEventStartAndDateStart = eventStart.compareTo(start);
             int compDateStartAndEventEnd = start.compareTo(eventEnd);
+            Log.i(TAG, "compEventStartAndDateStart: " + compEventStartAndDateStart);
+            Log.i(TAG, "compDateStartAndEventEnd: " + compDateStartAndEventEnd);
+            Log.i(TAG, "eventStart: " + formatDate(eventStart));
+            Log.i(TAG, "eventEnd: " + formatDate(eventEnd));
+            Log.i(TAG, "start: " + formatDate(start));
+            Log.i(TAG, "end: " + formatDate(end));
             if (compEventStartAndDateStart <= 0 && compDateStartAndEventEnd <= 0){
                 // start date of new event lies in interval of another event
-                Log.i(TAG, "eventStart: " + formatDate(eventStart));
-                Log.i(TAG, "eventEnd: " + formatDate(eventEnd));
-                Log.i(TAG, "start: " + formatDate(start));
-                Log.i(TAG, "end: " + formatDate(end));
                 Toast.makeText(this, "Start interval invalid", Toast.LENGTH_SHORT).show();
                 return true;
             }
@@ -138,10 +139,6 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
             int compDateEndAndEventEnd = end.compareTo(eventEnd);
             if (compEventStartAndDateEnd <= 0 && compDateEndAndEventEnd <= 0){
                 // start date of new event lies in interval of another event
-                Log.i(TAG, "eventStart: " + formatDate(eventStart));
-                Log.i(TAG, "eventEnd: " + formatDate(eventEnd));
-                Log.i(TAG, "start: " + formatDate(start));
-                Log.i(TAG, "end: " + formatDate(end));
                 Toast.makeText(this, "End interval invalid", Toast.LENGTH_SHORT).show();
                 return true;
             }
@@ -218,20 +215,13 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
     public boolean isValidDateWindow(Date start, Date end){
         // ensures startDateTime < endDateTime
         int comp = start.compareTo(end);
-        if (comp >= 0){
-            // dates cannot be the same (or else zero time)
+        if (comp > 0){
+            // allow one day rentals
             return false;
         } else {
             // comp < 0 means start <  end
-            return checkHourDiff(start, end);
+            return true;
         }
-    }
-
-    public boolean checkHourDiff(Date start, Date end){
-        long diffMillis = end.getTime() - start.getTime();
-        long diffHours = TimeUnit.MILLISECONDS.toHours(diffMillis);
-        Log.i(TAG, "difference in hours: " + diffHours);
-        return true;
     }
 
     private void saveEvent(Date start, Date end){
