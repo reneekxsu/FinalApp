@@ -81,7 +81,7 @@ public class CarDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "car schedule button clicked");
-                Intent i = new Intent(context, ScheduleTimesActivity.class);
+                Intent i = new Intent(context, ScheduleDatesActivity.class);
                 ParcelableCar c = new ParcelableCar(car);
                 i.putExtra("ParcelableCar", Parcels.wrap(c));
                 startActivity(i);

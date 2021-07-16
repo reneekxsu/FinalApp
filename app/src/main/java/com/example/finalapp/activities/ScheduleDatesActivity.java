@@ -8,13 +8,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
+import androidx.core.util.Pair;
 
 import com.example.finalapp.R;
-import com.example.finalapp.fragments.DatePickerFragment;
 import com.example.finalapp.models.Car;
 import com.example.finalapp.models.Event;
 import com.example.finalapp.models.ParcelableCar;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -23,57 +25,65 @@ import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
-public class ScheduleTimesActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener{
-    public static final String TAG = "ScheduleTimesActivity";
+public class ScheduleDatesActivity extends AppCompatActivity {
+
+    public static final String TAG = "ScheduleDatesActivity";
+
     List<Event> carEvents = new ArrayList<>();
-
-    Button btnStartDate, btnEndDate, btnDone;
-    FragmentManager fm = getSupportFragmentManager();
-    int DATE_DIALOG = 0;
-    int startDay, startMonth, startYear, startHour, startMinute;
-    int endDay, endMonth, endYear, endHour, endMinute;
+    Button btnPickDate;
+    TextView tvShowSelectedDate;
+    Button btnDonePickDates;
+    Date start;
+    Date end;
     Car car;
-    TimeZone tz = TimeZone.getDefault();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule_times);
+        setContentView(R.layout.activity_schedule_dates);
 
         car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra("ParcelableCar"))).getCar();
-        btnStartDate = (Button) findViewById(R.id.btnStartDate);
-        btnEndDate = (Button) findViewById(R.id.btnEndDate);
-        btnDone = (Button) findViewById(R.id.btnDone);
+        btnPickDate = findViewById(R.id.pick_date_button);
+        tvShowSelectedDate = findViewById(R.id.show_selected_date);
+        btnDonePickDates = findViewById(R.id.btnDonePickDates);
 
-        // SELECT A START DATE
-        btnStartDate.setOnClickListener(new View.OnClickListener() {
+        MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
+
+//        MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
+        builder.setCalendarConstraints(mondayDisableConstraints().build());
+        builder.setTitleText("Select a Date");
+//
+        final MaterialDatePicker picker = builder.build();
+//
+        btnPickDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DATE_DIALOG = 1;
-                openDateDialog();
-            }
-        });
-        // SELECT A STOP DATE
-        btnEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DATE_DIALOG = 2;
-                openDateDialog();
+                picker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
             }
         });
 
-        btnDone.setOnClickListener(new View.OnClickListener() {
+        picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
+            @Override public void onPositiveButtonClick(Pair<Long,Long> selection) {
+                tvShowSelectedDate.setText("Selected Date is : " + picker.getHeaderText());
+                Long startDate = selection.first;
+                Long endDate = selection.second;
+                Calendar c = Calendar.getInstance();
+                c.setTimeInMillis(startDate);
+                start = c.getTime();
+                c.setTimeInMillis(endDate);
+                end = c.getTime();
+                Log.i("MainActivity", start.toString());
+            }
+        });
+
+        btnDonePickDates.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date start = getDateTimeFromPickers(startDay, startMonth, startYear, startHour, startMinute);
-                Date end = getDateTimeFromPickers(endDay, endMonth, endYear, endHour, endMinute);
                 Log.i(TAG, "start date is: " + start.toString());
                 Log.i(TAG, "end date is: " + end.toString());
                 if (isValidDateWindow(start, end)){
@@ -81,10 +91,18 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
                     getCarEvents();
                 } else {
                     Log.i(TAG, "not valid time window");
-                    Toast.makeText(ScheduleTimesActivity.this, "Not a valid time window", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ScheduleDatesActivity.this, "Not a valid time window", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+    /*
+     * Limit selectable range to days other than Mondays of the month
+     */
+    private CalendarConstraints.Builder mondayDisableConstraints() {
+        CalendarConstraints.Builder constraintsBuilderRange = new CalendarConstraints.Builder();
+        constraintsBuilderRange.setValidator(new MondaysOutValidator(2021, Calendar.JULY, Calendar.MONDAY));
+        return constraintsBuilderRange;
     }
 
     public void getCarEvents(){
@@ -104,10 +122,8 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
                         Log.i(TAG, "Events associated with this car: " + event.getCar().getModel());
                     }
                     carEvents.addAll(events);
-                    Date start = getDateTimeFromPickers(startDay, startMonth, startYear, startHour, startMinute);
-                    Date end = getDateTimeFromPickers(endDay, endMonth, endYear, endHour, endMinute);
                     if (EventConflictExists(events, start, end)){
-                        Toast.makeText(ScheduleTimesActivity.this, "Event conflicts with another", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ScheduleDatesActivity.this, "Event conflicts with another", Toast.LENGTH_SHORT).show();
                     } else {
                         saveEvent(start, end);
                     }
@@ -178,60 +194,6 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
         return false;
     }
 
-    public void openDateDialog(){
-        DatePickerFragment datepickDialog = new DatePickerFragment();
-        datepickDialog.show(fm, "Start Date");
-    }
-
-    @Override
-    public void onDateSet(int year, int month, int day) {
-        if (DATE_DIALOG == 1){
-            // set start date
-            Calendar c = Calendar.getInstance();
-            c.set(Calendar.YEAR, year);
-            c.set(Calendar.MONTH, month);
-            c.set(Calendar.DAY_OF_MONTH, day);
-            String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-            TextView tvStartDate = (TextView) findViewById(R.id.tvStartDate);
-            tvStartDate.setText(currentDateString);
-            updateStartDateTime(day, month, year, 0, 0);
-        }
-        else if (DATE_DIALOG == 2){
-            // set end date
-            Calendar c = Calendar.getInstance();
-            c.set(Calendar.YEAR, year);
-            c.set(Calendar.MONTH, month);
-            c.set(Calendar.DAY_OF_MONTH, day);
-            String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-            TextView tvEndDate = (TextView) findViewById(R.id.tvEndDate);
-            tvEndDate.setText(currentDateString);
-            updateEndDateTime(day, month, year, 0, 0);
-        }
-    }
-
-    public Date getDateTimeFromPickers(int day, int month, int year, int hour, int minute){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day, hour, minute, 0);
-        calendar.setTimeZone(tz);
-        return calendar.getTime();
-    }
-
-    public void updateStartDateTime(int day, int month, int year, int hour, int minute){
-        startDay = day;
-        startMonth = month;
-        startYear = year;
-        startHour = hour;
-        startMinute = minute;
-    }
-
-    public void updateEndDateTime(int day, int month, int year, int hour, int minute){
-        endDay = day;
-        endMonth = month;
-        endYear = year;
-        endHour = hour;
-        endMinute = minute;
-    }
-
     public static Calendar toCalendar(Date date){
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -267,11 +229,11 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
             public void done(ParseException e) {
                 if (e != null){
                     Log.e(TAG, "Could not save", e);
-                    Toast.makeText(ScheduleTimesActivity.this, "Could not save", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ScheduleDatesActivity.this, "Could not save", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     Log.i(TAG, "Event was saved to backend");
-                    Toast.makeText(ScheduleTimesActivity.this, "Event was saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ScheduleDatesActivity.this, "Event was saved", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -309,5 +271,4 @@ public class ScheduleTimesActivity extends AppCompatActivity implements DatePick
     public String formatDate(int year, int month, int day){
         return month + "/" + day + "/" + year;
     }
-
 }
