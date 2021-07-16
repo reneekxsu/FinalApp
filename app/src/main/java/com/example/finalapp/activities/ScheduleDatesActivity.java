@@ -51,6 +51,7 @@ public class ScheduleDatesActivity extends AppCompatActivity {
         btnPickDate = findViewById(R.id.pick_date_button);
         tvShowSelectedDate = findViewById(R.id.show_selected_date);
         btnDonePickDates = findViewById(R.id.btnDonePickDates);
+        btnDonePickDates.setEnabled(false);
 
         MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
 
@@ -78,6 +79,7 @@ public class ScheduleDatesActivity extends AppCompatActivity {
                 c.setTimeInMillis(endDate);
                 end = c.getTime();
                 Log.i("MainActivity", start.toString());
+                btnDonePickDates.setEnabled(true);
             }
         });
 
