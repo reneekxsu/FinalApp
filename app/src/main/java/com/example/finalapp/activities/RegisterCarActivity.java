@@ -34,12 +34,27 @@ public class RegisterCarActivity extends AppCompatActivity {
 
     public static final String TAG = "RegisterCarActivity";
 
+    private EditText etName;
+    private EditText etCarMake;
     private EditText etCarModel;
+    private EditText etYear;
+    private EditText etPrice;
+    private EditText etPassengers;
+    private EditText etSizeType;
     private EditText etDescription;
-    private EditText etRate;
+    private EditText etAddress;
+    private TextView tvName;
+    private TextView tvCarMake;
+    private TextView tvCarModel;
+    private TextView tvYear;
+    private TextView tvPrice;
+    private TextView tvPassengers;
+    private TextView tvSizeType;
+    private TextView tvDescription;
+    private TextView tvAddress;
     private Button btnCamera;
-    private ImageView ivPreview;
     private Button btnRegister;
+    private ImageView ivPreview;
     private TextView tvClose;
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
@@ -51,12 +66,27 @@ public class RegisterCarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_car);
 
+        etName = findViewById(R.id.etName);
+        etCarMake = findViewById(R.id.etCarMake);
         etCarModel = findViewById(R.id.etCarModel);
+        etYear = findViewById(R.id.etYear);
+        etPrice = findViewById(R.id.etPrice);
+        etPassengers = findViewById(R.id.etPassengers);
+        etSizeType = findViewById(R.id.etSizeType);
         etDescription = findViewById(R.id.etDescription);
-        etRate = findViewById(R.id.etRate);
+        etAddress = findViewById(R.id.etAddress);
+        tvName = findViewById(R.id.tvName);
+        tvCarMake = findViewById(R.id.tvCarMake);
+        tvCarModel = findViewById(R.id.tvCarModel);
+        tvYear = findViewById(R.id.tvYear);
+        tvPrice = findViewById(R.id.tvPrice);
+        tvPassengers = findViewById(R.id.tvPassengers);
+        tvSizeType = findViewById(R.id.tvSizeType);
+        tvDescription = findViewById(R.id.tvDescription);
+        tvAddress = findViewById(R.id.tvAddress);
         btnCamera = findViewById(R.id.btnCamera);
-        ivPreview = findViewById(R.id.ivPreview);
         btnRegister = findViewById(R.id.btnRegister);
+        ivPreview = findViewById(R.id.ivPreview);
         tvClose = findViewById(R.id.tvClose);
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
@@ -69,24 +99,26 @@ public class RegisterCarActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String name = etName.getText().toString();
+                String make = etCarMake.getText().toString();
+                String model = etCarModel.getText().toString();
+                String year = etYear.getText().toString();
+                String price = etPrice.getText().toString();
+                String passengerCount = etPassengers.getText().toString();
+                String sizeType = etSizeType.getText().toString();
                 String description = etDescription.getText().toString();
-                String rate = etRate.getText().toString();
-                String name = etCarModel.getText().toString();
-                if (description.isEmpty()){
-                    Toast.makeText(RegisterCarActivity.this, "Description cannot be empty", Toast.LENGTH_SHORT).show();
+                String address = etAddress.getText().toString();
+
+                if (isEntryEmpty(name, make, model, year, price, passengerCount, sizeType, description, address)){
+                    Toast.makeText(RegisterCarActivity.this, "All fields must be filled", Toast.LENGTH_SHORT).show();
                     return;
-                } else if (rate.isEmpty()){
-                    Toast.makeText(RegisterCarActivity.this, "Rate cannot be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (name.isEmpty()){
-                    Toast.makeText(RegisterCarActivity.this, "Model name cannot be empty", Toast.LENGTH_SHORT).show();
                 } else {
                     ParseUser currentUser = ParseUser.getCurrentUser();
                     if (photoFile == null || ivPreview.getDrawable() == null){
                         Toast.makeText(RegisterCarActivity.this, "No image", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    saveCar(name, description, rate, currentUser, photoFile);
+                    saveCar(name, description, price, currentUser, photoFile);
                 }
             }
         });
@@ -124,7 +156,7 @@ public class RegisterCarActivity extends AppCompatActivity {
                     Toast.makeText(RegisterCarActivity.this, "Car was saved", Toast.LENGTH_SHORT).show();
                     etDescription.setText("");
                     etCarModel.setText("");
-                    etRate.setText("");
+                    etPrice.setText("");
                     // set to empty image
                     ivPreview.setImageResource(0);
                 }
@@ -183,5 +215,11 @@ public class RegisterCarActivity extends AppCompatActivity {
 
         // Return the file target for the photo based on filename
         return new File(mediaStorageDir.getPath() + File.separator + fileName);
+    }
+
+    boolean isEntryEmpty(String name, String make, String model, String year, String price, String passengerCount,
+                         String sizeType, String description, String address){
+        return (name.isEmpty() || make.isEmpty() || model.isEmpty() || year.isEmpty() || price.isEmpty() || passengerCount.isEmpty()
+                || sizeType.isEmpty() || description.isEmpty() || address.isEmpty());
     }
 }

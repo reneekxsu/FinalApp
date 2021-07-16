@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.finalapp.MainActivity;
 import com.example.finalapp.R;
 import com.example.finalapp.adapters.CarAdapter;
 import com.example.finalapp.models.Car;
@@ -68,6 +69,22 @@ public class HomeFragment extends Fragment {
         adapter = new CarAdapter(view.getContext(), allCars);
         rvAllCars.setAdapter(adapter);
         rvAllCars.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        rvAllCars.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    ((MainActivity)getActivity()).setNavigationVisibility(false);
+                } else if (dy < 0 ) {
+                    ((MainActivity)getActivity()).setNavigationVisibility(true);
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
 
         Log.i(TAG, "querying all cars");
         fetchAllCars();
@@ -84,8 +101,9 @@ public class HomeFragment extends Fragment {
             public void done(List<Car> cars, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Could not get user's cars");
+                    Log.i(TAG, "error message: " + e.getCause().getMessage());
                 } else {
-                    for (Car car : cars){
+                    for (Car car : cars) {
                         Log.i(TAG, "Car: " + car.getModel());
                     }
                     adapter.clear();
@@ -95,7 +113,7 @@ public class HomeFragment extends Fragment {
             }
         });
         // Now we call setRefreshing(false) to signal refresh has finished
-        if (swipeContainer.isRefreshing()){
+        if (swipeContainer.isRefreshing()) {
             swipeContainer.setRefreshing(false);
         }
     }

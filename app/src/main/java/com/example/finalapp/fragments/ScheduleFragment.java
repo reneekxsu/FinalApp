@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.finalapp.MainActivity;
 import com.example.finalapp.R;
 import com.example.finalapp.adapters.EventAdapter;
 import com.example.finalapp.models.Car;
@@ -71,6 +72,22 @@ public class ScheduleFragment extends Fragment {
         adapter = new EventAdapter(view.getContext(), allEvents);
         rvEvents.setAdapter(adapter);
         rvEvents.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        rvEvents.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    ((MainActivity)getActivity()).setNavigationVisibility(false);
+                } else if (dy < 0 ) {
+                    ((MainActivity)getActivity()).setNavigationVisibility(true);
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
 
         Log.i(TAG, "querying all events");
         fetchAllEvents();

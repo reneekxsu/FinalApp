@@ -22,7 +22,7 @@
         android:layout_below="@+id/btnLogout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="48dp"
-        android:text="Register" />
+        android:text="Add Car" />
 
     <Button
         android:id="@+id/btnViewCars"

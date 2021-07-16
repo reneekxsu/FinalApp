@@ -15,6 +15,7 @@ import com.example.finalapp.models.Car;
 import com.example.finalapp.models.Event;
 import com.example.finalapp.models.ParcelableCar;
 import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.parse.FindCallback;
@@ -55,12 +56,9 @@ public class ScheduleDatesActivity extends AppCompatActivity {
 
         MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
 
-//        MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
-        builder.setCalendarConstraints(mondayDisableConstraints().build());
+        builder.setCalendarConstraints(calConstraints().build());
         builder.setTitleText("Select a Date");
-//
         final MaterialDatePicker picker = builder.build();
-//
         btnPickDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,9 +99,11 @@ public class ScheduleDatesActivity extends AppCompatActivity {
     /*
      * Limit selectable range to days other than Mondays of the month
      */
-    private CalendarConstraints.Builder mondayDisableConstraints() {
+    private CalendarConstraints.Builder calConstraints() {
         CalendarConstraints.Builder constraintsBuilderRange = new CalendarConstraints.Builder();
-        constraintsBuilderRange.setValidator(new MondaysOutValidator(2021, Calendar.JULY, Calendar.MONDAY));
+//        constraintsBuilderRange.setValidator(new MondaysOutValidator(2021, Calendar.JULY, Calendar.MONDAY));
+        CalendarConstraints.DateValidator validator= DateValidatorPointForward.from(Calendar.getInstance().getTimeInMillis());
+        constraintsBuilderRange.setValidator(validator);
         return constraintsBuilderRange;
     }
 
@@ -113,6 +113,7 @@ public class ScheduleDatesActivity extends AppCompatActivity {
         query.whereEqualTo(Event.KEY_CAR, car);
         query.addAscendingOrder(Event.KEY_START);
         query.include(Event.KEY_CAR);
+        Log.i(TAG, "fetching car events");
         query.findInBackground(new FindCallback<Event>() {
             @Override
             public void done(List<Event> events, ParseException e) {
@@ -125,6 +126,7 @@ public class ScheduleDatesActivity extends AppCompatActivity {
                     }
                     carEvents.addAll(events);
                     if (EventConflictExists(events, start, end)){
+                        Log.i(TAG, "event conflicts exist");
                         Toast.makeText(ScheduleDatesActivity.this, "Event conflicts with another", Toast.LENGTH_SHORT).show();
                     } else {
                         saveEvent(start, end);
