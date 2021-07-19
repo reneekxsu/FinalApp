@@ -21,7 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
-import com.example.wheeldeal.MainActivity;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.BitmapScaler;
 import com.example.wheeldeal.models.Car;
@@ -197,10 +196,10 @@ public class RegisterCarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "Close button clicked");
-                Intent i = new Intent(RegisterCarActivity.this, MainActivity.class);
+                Intent i = new Intent(RegisterCarActivity.this, UserCarFeedActivity.class);
 //                startActivity(i);
 //                Intent i = new Intent();
-                setResult(111, i);
+                setResult(20, i);
                 finish();
             }
         });

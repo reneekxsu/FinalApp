@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.activities.LoginActivity;
-import com.example.wheeldeal.activities.RegisterCarActivity;
 import com.example.wheeldeal.activities.UserCarFeedActivity;
 import com.parse.ParseUser;
 
@@ -25,7 +24,6 @@ public class ProfileFragment extends Fragment {
 
     public static final String TAG = "ProfileFragment";
     Button btnLogout;
-    Button btnToRegister;
     Button btnViewCars;
     TextView tvProfileUser;
 
@@ -40,7 +38,6 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btnLogout = view.findViewById(R.id.btnLogout);
-        btnToRegister = view.findViewById(R.id.btnToRegister);
         btnViewCars = view.findViewById(R.id.btnViewCars);
         tvProfileUser = view.findViewById(R.id.tvProfileUser);
         tvProfileUser.setText(ParseUser.getCurrentUser().getUsername());
@@ -57,21 +54,13 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        btnToRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "clicked register button");
-                Intent i = new Intent(getView().getContext(), RegisterCarActivity.class);
-                getActivity().startActivityForResult(i, 111);
-            }
-        });
-
         btnViewCars.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "clicked car view button");
                 Intent i = new Intent(getView().getContext(), UserCarFeedActivity.class);
-                getActivity().startActivityForResult(i, 111);
+                startActivity(i);
+//                getActivity().startActivityForResult(i, 111);
             }
         });
     }

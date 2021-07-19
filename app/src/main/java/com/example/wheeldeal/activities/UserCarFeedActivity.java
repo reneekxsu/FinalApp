@@ -1,7 +1,9 @@
 package com.example.wheeldeal.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -27,6 +30,7 @@ public class UserCarFeedActivity extends AppCompatActivity {
     protected List<Car> allCars;
     private SwipeRefreshLayout swipeContainer;
     private ProgressBar pb;
+    private FloatingActionButton fabAddCar;
     public static final String TAG = "UserCarFeedActivity";
 
     @Override
@@ -60,6 +64,17 @@ public class UserCarFeedActivity extends AppCompatActivity {
         rvCars.setAdapter(adapter);
         // set layout manager on RV
         rvCars.setLayoutManager(new LinearLayoutManager(this));
+
+        fabAddCar = findViewById(R.id.fabAddCar);
+        fabAddCar.hide();
+        fabAddCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("FeedActivity", "clicked post button");
+                Intent i = new Intent(UserCarFeedActivity.this, RegisterCarActivity.class);
+                startActivityForResult(i, 20);
+            }
+        });
         // query cars
         fetchOwnCars();
     }
@@ -83,6 +98,7 @@ public class UserCarFeedActivity extends AppCompatActivity {
                     adapter.clear();
                     adapter.addAll(cars);
                     pb.setVisibility(ProgressBar.INVISIBLE);
+                    fabAddCar.show();
                 }
             }
         });

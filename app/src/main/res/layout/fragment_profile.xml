@@ -9,28 +9,19 @@
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvProfileUser"
+        android:layout_below="@+id/btnViewCars"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="284dp"
+        android:layout_marginTop="20dp"
         android:text="LOG OUT"
         tools:layout_editor_absoluteY="262dp" />
-
-    <Button
-        android:id="@+id/btnToRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnLogout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
-        android:text="Add Car" />
 
     <Button
         android:id="@+id/btnViewCars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnToRegister"
+        android:layout_below="@+id/tvProfileUser"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="66dp"
+        android:layout_marginTop="100dp"
         android:text="VIEW MY CARS" />
 
     <TextView
