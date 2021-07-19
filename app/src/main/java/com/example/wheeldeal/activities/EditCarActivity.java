@@ -56,15 +56,15 @@ public class EditCarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_car);
+        setContentView(R.layout.activity_register_car);
 
-        etEditCarModel = findViewById(R.id.etEditCarModel);
-        etEditDescription = findViewById(R.id.etEditDescription);
-        etEditRate = findViewById(R.id.etEditRate);
-        btnEditSave = findViewById(R.id.btnEditSave);
-        ivEditPreview = findViewById(R.id.ivEditPreview);
-        btnEditCamera = findViewById(R.id.btnEditCamera);
-        tvEditClose = findViewById(R.id.tvEditClose);
+        etEditCarModel = findViewById(R.id.etName);
+        etEditDescription = findViewById(R.id.etDescription);
+        etEditRate = findViewById(R.id.etPrice);
+        btnEditSave = findViewById(R.id.btnRegister);
+        ivEditPreview = findViewById(R.id.ivPreview);
+        btnEditCamera = findViewById(R.id.btnCamera);
+        tvEditClose = findViewById(R.id.tvClose);
 
         car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();
 
@@ -85,6 +85,8 @@ public class EditCarActivity extends AppCompatActivity {
                 launchCamera();
             }
         });
+
+        btnEditSave.setText("Save");
 
         btnEditSave.setOnClickListener(new View.OnClickListener() {
             @Override
