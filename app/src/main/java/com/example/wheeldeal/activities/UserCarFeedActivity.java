@@ -11,14 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.wheeldeal.QueryClient;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +30,7 @@ public class UserCarFeedActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeContainer;
     private ProgressBar pb;
     private FloatingActionButton fabAddCar;
+    private QueryClient queryClient;
     public static final String TAG = "UserCarFeedActivity";
 
     @Override
@@ -38,9 +38,11 @@ public class UserCarFeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_car_feed);
 
-        pb = (ProgressBar) findViewById(R.id.pbUserLoading);
+        queryClient = new QueryClient();
+
+        pb = findViewById(R.id.pbUserLoading);
         pb.setVisibility(ProgressBar.VISIBLE);
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeUserContainer);
+        swipeContainer = findViewById(R.id.swipeUserContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -80,13 +82,7 @@ public class UserCarFeedActivity extends AppCompatActivity {
     }
 
     private void fetchOwnCars() {
-        Log.i(TAG, "fetching own cars");
-        ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
-        query.include(Car.KEY_OWNER);
-        query.whereEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
-        query.setLimit(20);
-        query.addDescendingOrder("createdAt");
-        query.findInBackground(new FindCallback<Car>() {
+        queryClient.fetchCars(new FindCallback<Car>() {
             @Override
             public void done(List<Car> cars, ParseException e) {
                 if (e != null) {
@@ -101,7 +97,8 @@ public class UserCarFeedActivity extends AppCompatActivity {
                     fabAddCar.show();
                 }
             }
-        });
+        }, false);
+
         // Now we call setRefreshing(false) to signal refresh has finished
         if (swipeContainer.isRefreshing()){
             swipeContainer.setRefreshing(false);

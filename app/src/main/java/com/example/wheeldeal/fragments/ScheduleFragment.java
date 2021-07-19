@@ -15,14 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.wheeldeal.MainActivity;
+import com.example.wheeldeal.QueryClient;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.adapters.EventAdapter;
-import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.Event;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -38,6 +36,7 @@ public class ScheduleFragment extends Fragment {
     protected List<Event> allEvents;
     private ProgressBar pb;
     private SwipeRefreshLayout swipeContainer;
+    private QueryClient queryClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,9 +49,11 @@ public class ScheduleFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        pb = (ProgressBar) view.findViewById(R.id.pbScheduleLoading);
+        queryClient = new QueryClient();
+
+        pb = view.findViewById(R.id.pbScheduleLoading);
         pb.setVisibility(ProgressBar.VISIBLE);
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.scheduleSwipeContainer);
+        swipeContainer = view.findViewById(R.id.scheduleSwipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -94,25 +95,7 @@ public class ScheduleFragment extends Fragment {
     }
 
     private void fetchAllEvents() {
-        Log.i(TAG, "fetching all events");
-        // query events in which user is renter OR owner
-        ParseQuery<Event> queryRenter = ParseQuery.getQuery(Event.class);
-        queryRenter.whereEqualTo(Event.KEY_RENTER, ParseUser.getCurrentUser());
-
-        ParseQuery<Event> queryOwner = ParseQuery.getQuery(Event.class);
-        ParseQuery<Car> innerQuery = ParseQuery.getQuery(Car.class);
-        innerQuery.whereEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
-        queryOwner.whereMatchesQuery(Event.KEY_CAR, innerQuery);
-
-        List<ParseQuery<Event>> queries = new ArrayList<ParseQuery<Event>>();
-        queries.add(queryRenter);
-        queries.add(queryOwner);
-        ParseQuery<Event> query = ParseQuery.or(queries);
-        query.addAscendingOrder(Event.KEY_START);
-        query.setLimit(20);
-        query.include(Event.KEY_CAR);
-        query.include(Event.KEY_RENTER);
-        query.findInBackground(new FindCallback<Event>() {
+        queryClient.fetchAllEvents(new FindCallback<Event>() {
             @Override
             public void done(List<Event> events, ParseException e) {
                 if (e != null) {

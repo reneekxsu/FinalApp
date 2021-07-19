@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.wheeldeal.MainActivity;
+import com.example.wheeldeal.QueryClient;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,6 +35,7 @@ public class HomeFragment extends Fragment {
     protected List<Car> allCars;
     private ProgressBar pb;
     private SwipeRefreshLayout swipeContainer;
+    private QueryClient queryClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +47,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        queryClient = new QueryClient();
 
         pb = (ProgressBar) view.findViewById(R.id.pbLoading);
         pb.setVisibility(ProgressBar.VISIBLE);
@@ -91,12 +94,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchAllCars() {
-        Log.i(TAG, "fetching all cars");
-        ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
-        query.include(Car.KEY_OWNER);
-        query.setLimit(20);
-        query.addDescendingOrder("createdAt");
-        query.findInBackground(new FindCallback<Car>() {
+        queryClient.fetchCars(new FindCallback<Car>() {
             @Override
             public void done(List<Car> cars, ParseException e) {
                 if (e != null) {
@@ -111,7 +109,7 @@ public class HomeFragment extends Fragment {
                     pb.setVisibility(ProgressBar.INVISIBLE);
                 }
             }
-        });
+        }, true);
         // Now we call setRefreshing(false) to signal refresh has finished
         if (swipeContainer.isRefreshing()) {
             swipeContainer.setRefreshing(false);
