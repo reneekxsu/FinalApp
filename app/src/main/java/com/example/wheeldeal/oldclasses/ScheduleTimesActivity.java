@@ -1,4 +1,4 @@
-package com.example.wheeldeal.oldactivities;
+package com.example.wheeldeal.oldclasses;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.wheeldeal.R;
-import com.example.wheeldeal.fragments.DatePickerFragment;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.Event;
 import com.example.wheeldeal.models.ParcelableCar;

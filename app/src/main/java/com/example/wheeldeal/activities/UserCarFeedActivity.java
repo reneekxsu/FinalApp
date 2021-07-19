@@ -71,7 +71,7 @@ public class UserCarFeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i("FeedActivity", "clicked post button");
-                Intent i = new Intent(UserCarFeedActivity.this, RegisterCarActivity.class);
+                Intent i = new Intent(UserCarFeedActivity.this, AddOwnCarActivity.class);
                 startActivityForResult(i, 20);
             }
         });

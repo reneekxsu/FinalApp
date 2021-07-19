@@ -31,7 +31,7 @@ import com.parse.SaveCallback;
 
 import java.io.File;
 
-public class RegisterCarActivity extends AppCompatActivity {
+public class AddOwnCarActivity extends AppCompatActivity {
 
     public static final String TAG = "RegisterCarActivity";
 
@@ -151,12 +151,12 @@ public class RegisterCarActivity extends AppCompatActivity {
                 address = etAddress.getText().toString();
 
                 if (isEntryEmpty(name, make, model, year, price, passengerCount, sizeType, description, address)){
-                    Toast.makeText(RegisterCarActivity.this, "All fields must be filled", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddOwnCarActivity.this, "All fields must be filled", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     ParseUser currentUser = ParseUser.getCurrentUser();
                     if (photoFile == null || ivPreview.getDrawable() == null){
-                        Toast.makeText(RegisterCarActivity.this, "No image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddOwnCarActivity.this, "No image", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     saveCar(name, description, price, currentUser, photoFile);
@@ -168,7 +168,7 @@ public class RegisterCarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "Close button clicked");
-                Intent i = new Intent(RegisterCarActivity.this, UserCarFeedActivity.class);
+                Intent i = new Intent(AddOwnCarActivity.this, UserCarFeedActivity.class);
 //                startActivity(i);
 //                Intent i = new Intent();
                 setResult(20, i);
@@ -190,11 +190,11 @@ public class RegisterCarActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e != null){
                     Log.e(TAG, "Could not save", e);
-                    Toast.makeText(RegisterCarActivity.this, "Could not save", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddOwnCarActivity.this, "Could not save", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     Log.i(TAG, "Car was saved to backend");
-                    Toast.makeText(RegisterCarActivity.this, "Car was saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddOwnCarActivity.this, "Car was saved", Toast.LENGTH_SHORT).show();
                     etDescription.setText("");
                     etCarModel.setText("");
                     etPrice.setText("");
@@ -215,7 +215,7 @@ public class RegisterCarActivity extends AppCompatActivity {
         // wrap File object into a content provider
         // required for API >= 24
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(RegisterCarActivity.this, "com.codepath.fileprovider.FinalApp", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(AddOwnCarActivity.this, "com.codepath.fileprovider.FinalApp", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
