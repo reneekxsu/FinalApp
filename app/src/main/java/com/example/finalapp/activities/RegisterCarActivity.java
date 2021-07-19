@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -56,6 +58,16 @@ public class RegisterCarActivity extends AppCompatActivity {
     private Button btnRegister;
     private ImageView ivPreview;
     private TextView tvClose;
+    String name, make, model, year, price, passengerCount, sizeType, description, address;
+    boolean nameFilled = false;
+    boolean makeFilled = false;
+    boolean modelFilled = false;
+    boolean yearFilled = false;
+    boolean priceFilled = false;
+    boolean passengerCountFilled = false;
+    boolean sizeTypeFilled = false;
+    boolean descriptionFilled= false;
+    boolean addressFilled = false;
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     public String photoFileName = "photo.jpg";
@@ -89,6 +101,60 @@ public class RegisterCarActivity extends AppCompatActivity {
         ivPreview = findViewById(R.id.ivPreview);
         tvClose = findViewById(R.id.tvClose);
 
+        etName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0){
+                    nameFilled = true;
+                    if (!btnRegister.isEnabled() && areAllFieldsFilled(nameFilled, makeFilled, modelFilled, yearFilled, priceFilled,
+                            passengerCountFilled, sizeTypeFilled, descriptionFilled, addressFilled)){
+                        btnRegister.setEnabled(true);
+                    }
+                } else {
+                    nameFilled = false;
+                    btnRegister.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        etCarMake.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0){
+                    makeFilled = true;
+                    if (!btnRegister.isEnabled() && areAllFieldsFilled(nameFilled, makeFilled, modelFilled, yearFilled, priceFilled,
+                            passengerCountFilled, sizeTypeFilled, descriptionFilled, addressFilled)){
+                        btnRegister.setEnabled(true);
+                    }
+                } else {
+                    makeFilled = false;
+                    btnRegister.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,18 +162,22 @@ public class RegisterCarActivity extends AppCompatActivity {
             }
         });
 
+        btnRegister.setEnabled(false);
+
+//        btnRegister.setEnabled(true);
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = etName.getText().toString();
-                String make = etCarMake.getText().toString();
-                String model = etCarModel.getText().toString();
-                String year = etYear.getText().toString();
-                String price = etPrice.getText().toString();
-                String passengerCount = etPassengers.getText().toString();
-                String sizeType = etSizeType.getText().toString();
-                String description = etDescription.getText().toString();
-                String address = etAddress.getText().toString();
+                name = etName.getText().toString();
+                make = etCarMake.getText().toString();
+                model = etCarModel.getText().toString();
+                year = etYear.getText().toString();
+                price = etPrice.getText().toString();
+                passengerCount = etPassengers.getText().toString();
+                sizeType = etSizeType.getText().toString();
+                description = etDescription.getText().toString();
+                address = etAddress.getText().toString();
 
                 if (isEntryEmpty(name, make, model, year, price, passengerCount, sizeType, description, address)){
                     Toast.makeText(RegisterCarActivity.this, "All fields must be filled", Toast.LENGTH_SHORT).show();
@@ -221,5 +291,11 @@ public class RegisterCarActivity extends AppCompatActivity {
                          String sizeType, String description, String address){
         return (name.isEmpty() || make.isEmpty() || model.isEmpty() || year.isEmpty() || price.isEmpty() || passengerCount.isEmpty()
                 || sizeType.isEmpty() || description.isEmpty() || address.isEmpty());
+    }
+
+    boolean areAllFieldsFilled(boolean name, boolean make, boolean model, boolean year, boolean price, boolean passengerCount,
+                               boolean sizeType, boolean description, boolean address){
+        return (name && make && model && year && price && passengerCount &&
+                sizeType && description && address);
     }
 }
