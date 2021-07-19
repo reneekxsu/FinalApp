@@ -1,4 +1,4 @@
-package com.example.wheeldeal.activities;
+package com.example.wheeldeal.oldactivities;
 
 import android.os.Bundle;
 import android.util.Log;

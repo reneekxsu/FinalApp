@@ -38,13 +38,13 @@ public class CarDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_car_details);
 
         car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();
-        tvCarDetailName = (TextView) findViewById(R.id.tvCarDetailName);
-        tvDetailRate = (TextView) findViewById(R.id.tvDetailRate);
-        tvDetailDescription = (TextView) findViewById(R.id.tvDetailDescription);
-        ivDetailCar = (ImageView) findViewById(R.id.ivDetailCar);
-        ibtnEdit = (ImageButton) findViewById(R.id.ibtnEdit);
-        ibtnEvent = (ImageButton) findViewById(R.id.ibtnEvent);
-        context = (Context) this;
+        tvCarDetailName = findViewById(R.id.tvCarDetailName);
+        tvDetailRate = findViewById(R.id.tvDetailRate);
+        tvDetailDescription = findViewById(R.id.tvDetailDescription);
+        ivDetailCar = findViewById(R.id.ivDetailCar);
+        ibtnEdit = findViewById(R.id.ibtnEdit);
+        ibtnEvent = findViewById(R.id.ibtnEvent);
+        context = this;
 
         tvCarDetailName.setText(car.getModel());
         ParseFile image = car.getImage();

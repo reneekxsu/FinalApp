@@ -23,7 +23,7 @@
         android:theme="@style/Theme.WheelDeal">
         <activity android:name="com.example.wheeldeal.activities.ScheduleDatesActivity"></activity>
         <activity android:name="com.example.wheeldeal.activities.EventDetailsActivity" />
-        <activity android:name="com.example.wheeldeal.activities.ScheduleTimesActivity" />
+        <activity android:name="com.example.wheeldeal.oldactivities.ScheduleTimesActivity" />
         <activity android:name="com.example.wheeldeal.activities.EditCarActivity" />
         <activity android:name="com.example.wheeldeal.activities.CarDetailsActivity" />
         <activity android:name="com.example.wheeldeal.activities.UserCarFeedActivity" />

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.wheeldeal.DateClient;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.activities.EventDetailsActivity;
 import com.example.wheeldeal.models.Event;
@@ -19,18 +20,18 @@ import com.example.wheeldeal.models.ParcelableEvent;
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> {
     private Context context;
     private List<Event> events;
+    private DateClient dateClient;
     public static final String TAG = "EventAdapter";
 
     public EventAdapter(Context context, List<Event> events){
         this.context = context;
         this.events = events;
+        dateClient = new DateClient();
     }
 
     @NonNull
@@ -83,8 +84,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
         }
 
         public void bind(Event event) {
-            tvStart.setText(formatDate(event.getStart()));
-            tvEnd.setText(" to " + formatDate(event.getEnd()));
+            tvStart.setText(dateClient.formatDate(event.getStart()));
+            tvEnd.setText(" to " + dateClient.formatDate(event.getEnd()));
             tvEventCarName.setText(event.getCar().getModel());
             if (event.getRentType() == (Integer) 1){
                 // user is renter, not owner
@@ -114,13 +115,4 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
         notifyDataSetChanged();
     }
 
-    // ideal date format:  1/16/2021 2:00pm
-    public String formatDate(Date date){
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        int year = c.get(Calendar.YEAR);
-        return "" + month + "/" + day + "/" + year;
-    }
 }

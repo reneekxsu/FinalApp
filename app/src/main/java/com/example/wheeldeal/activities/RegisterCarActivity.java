@@ -35,26 +35,9 @@ public class RegisterCarActivity extends AppCompatActivity {
 
     public static final String TAG = "RegisterCarActivity";
 
-    private EditText etName;
-    private EditText etCarMake;
-    private EditText etCarModel;
-    private EditText etYear;
-    private EditText etPrice;
-    private EditText etPassengers;
-    private EditText etSizeType;
-    private EditText etDescription;
-    private EditText etAddress;
-    private TextView tvName;
-    private TextView tvCarMake;
-    private TextView tvCarModel;
-    private TextView tvYear;
-    private TextView tvPrice;
-    private TextView tvPassengers;
-    private TextView tvSizeType;
-    private TextView tvDescription;
-    private TextView tvAddress;
-    private Button btnCamera;
-    private Button btnRegister;
+    private EditText etName, etCarMake, etCarModel, etYear, etPrice, etPassengers, etSizeType;
+    private EditText etDescription, etAddress;
+    private Button btnCamera, btnRegister;
     private ImageView ivPreview;
     private TextView tvClose;
     String name, make, model, year, price, passengerCount, sizeType, description, address;
@@ -86,15 +69,6 @@ public class RegisterCarActivity extends AppCompatActivity {
         etSizeType = findViewById(R.id.etSizeType);
         etDescription = findViewById(R.id.etDescription);
         etAddress = findViewById(R.id.etAddress);
-        tvName = findViewById(R.id.tvName);
-        tvCarMake = findViewById(R.id.tvCarMake);
-        tvCarModel = findViewById(R.id.tvCarModel);
-        tvYear = findViewById(R.id.tvYear);
-        tvPrice = findViewById(R.id.tvPrice);
-        tvPassengers = findViewById(R.id.tvPassengers);
-        tvSizeType = findViewById(R.id.tvSizeType);
-        tvDescription = findViewById(R.id.tvDescription);
-        tvAddress = findViewById(R.id.tvAddress);
         btnCamera = findViewById(R.id.btnCamera);
         btnRegister = findViewById(R.id.btnRegister);
         ivPreview = findViewById(R.id.ivPreview);
@@ -110,8 +84,7 @@ public class RegisterCarActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0){
                     nameFilled = true;
-                    if (!btnRegister.isEnabled() && areAllFieldsFilled(nameFilled, makeFilled, modelFilled, yearFilled, priceFilled,
-                            passengerCountFilled, sizeTypeFilled, descriptionFilled, addressFilled)){
+                    if (!btnRegister.isEnabled() && areAllFieldsFilled()){
                         btnRegister.setEnabled(true);
                     }
                 } else {
@@ -136,8 +109,7 @@ public class RegisterCarActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0){
                     makeFilled = true;
-                    if (!btnRegister.isEnabled() && areAllFieldsFilled(nameFilled, makeFilled, modelFilled, yearFilled, priceFilled,
-                            passengerCountFilled, sizeTypeFilled, descriptionFilled, addressFilled)){
+                    if (!btnRegister.isEnabled() && areAllFieldsFilled()){
                         btnRegister.setEnabled(true);
                     }
                 } else {
@@ -292,9 +264,8 @@ public class RegisterCarActivity extends AppCompatActivity {
                 || sizeType.isEmpty() || description.isEmpty() || address.isEmpty());
     }
 
-    boolean areAllFieldsFilled(boolean name, boolean make, boolean model, boolean year, boolean price, boolean passengerCount,
-                               boolean sizeType, boolean description, boolean address){
-        return (name && make && model && year && price && passengerCount &&
-                sizeType && description && address);
+    boolean areAllFieldsFilled(){
+        return (nameFilled && makeFilled && modelFilled && yearFilled && priceFilled &&
+                passengerCountFilled && sizeTypeFilled && descriptionFilled && addressFilled);
     }
 }

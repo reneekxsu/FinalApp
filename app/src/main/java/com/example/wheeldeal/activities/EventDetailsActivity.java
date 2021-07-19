@@ -7,14 +7,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.wheeldeal.DateClient;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Event;
 import com.example.wheeldeal.models.ParcelableEvent;
 
 import org.parceler.Parcels;
-
-import java.util.Calendar;
-import java.util.Date;
 
 public class EventDetailsActivity extends AppCompatActivity {
     public static final String TAG = "EventDetailsActivity";
@@ -24,6 +22,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     private TextView tvEventDetailCarName;
     private TextView tvEventDetailRenter;
     private TextView tvEventDetailCarOwner;
+    private DateClient dateClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +30,15 @@ public class EventDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_details);
 
         event = ((ParcelableEvent) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableEvent.class.getSimpleName()))).getEvent();
-        tvEventDetailStart = (TextView) findViewById(R.id.tvEventDetailStart);
-        tvEventDetailEnd = (TextView) findViewById(R.id.tvEventDetailEnd);
-        tvEventDetailCarName = (TextView) findViewById(R.id.tvEventDetailCarName);
-        tvEventDetailRenter = (TextView) findViewById(R.id.tvEventDetailRenter);
-        tvEventDetailCarOwner = (TextView) findViewById(R.id.tvEventDetailCarOwner);
+        tvEventDetailStart = findViewById(R.id.tvEventDetailStart);
+        tvEventDetailEnd = findViewById(R.id.tvEventDetailEnd);
+        tvEventDetailCarName = findViewById(R.id.tvEventDetailCarName);
+        tvEventDetailRenter = findViewById(R.id.tvEventDetailRenter);
+        tvEventDetailCarOwner = findViewById(R.id.tvEventDetailCarOwner);
+        dateClient = new DateClient();
 
-        tvEventDetailStart.setText(formatDate(event.getStart()));
-        tvEventDetailEnd.setText(" to " + formatDate(event.getEnd()));
+        tvEventDetailStart.setText(dateClient.formatDate(event.getStart()));
+        tvEventDetailEnd.setText(" to " + dateClient.formatDate(event.getEnd()));
         tvEventDetailCarName.setText(event.getCar().getModel());
         if (event.getRentType() == (Integer) 1){
             // user is renter, not owner
@@ -55,14 +55,5 @@ public class EventDetailsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         tvEventDetailCarOwner.setText("Owner: " + name);
-    }
-
-    public String formatDate(Date date){
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        int year = c.get(Calendar.YEAR);
-        return "" + month + "/" + day + "/" + year;
     }
 }

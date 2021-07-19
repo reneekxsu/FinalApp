@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 
+import com.example.wheeldeal.DateClient;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.Event;
@@ -42,6 +43,7 @@ public class ScheduleDatesActivity extends AppCompatActivity {
     Date start;
     Date end;
     Car car;
+    DateClient dateClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class ScheduleDatesActivity extends AppCompatActivity {
         tvShowSelectedDate = findViewById(R.id.show_selected_date);
         btnDonePickDates = findViewById(R.id.btnDonePickDates);
         btnDonePickDates.setEnabled(false);
+        dateClient = new DateClient();
 
         MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
 
@@ -180,18 +183,18 @@ public class ScheduleDatesActivity extends AppCompatActivity {
             // check if start is in between eventStart and eventEnd
             if (isDateBefore(eventStartYear, eventStartMonth, eventStartDate, startYear, startMonth, startDate) <= 0
                     && isDateBefore(startYear, startMonth, startDate, eventEndYear, eventEndMonth, eventEndDate) <= 0){
-                Log.i(TAG, "eventStart: " + formatDate(eventStartYear, eventStartMonth, eventStartDate));
-                Log.i(TAG, "eventEnd: " + formatDate(eventEndYear, eventEndMonth, eventEndDate));
-                Log.i(TAG, "start: " + formatDate(startYear, startMonth, startDate));
+                Log.i(TAG, "eventStart: " + dateClient.formatDate(eventStartYear, eventStartMonth, eventStartDate));
+                Log.i(TAG, "eventEnd: " + dateClient.formatDate(eventEndYear, eventEndMonth, eventEndDate));
+                Log.i(TAG, "start: " + dateClient.formatDate(startYear, startMonth, startDate));
                 return true;
             }
 
             // check if end is in between eventStart and eventEnd
             if (isDateBefore(eventStartYear, eventStartMonth, eventStartDate, endYear, endMonth, endDate) <= 0
                     && isDateBefore(endYear, endMonth, endDate, eventEndYear, eventEndMonth, eventEndDate) <= 0){
-                Log.i(TAG, "eventStart: " + formatDate(eventStartYear, eventStartMonth, eventStartDate));
-                Log.i(TAG, "eventEnd: " + formatDate(eventEndYear, eventEndMonth, eventEndDate));
-                Log.i(TAG, "end: " + formatDate(endYear, endMonth, endDate));
+                Log.i(TAG, "eventStart: " + dateClient.formatDate(eventStartYear, eventStartMonth, eventStartDate));
+                Log.i(TAG, "eventEnd: " + dateClient.formatDate(eventEndYear, eventEndMonth, eventEndDate));
+                Log.i(TAG, "end: " + dateClient.formatDate(endYear, endMonth, endDate));
                 return true;
             }
         }
@@ -270,9 +273,5 @@ public class ScheduleDatesActivity extends AppCompatActivity {
         c.setTime(date);
         int year = c.get(Calendar.YEAR);
         return year;
-    }
-
-    public String formatDate(int year, int month, int day){
-        return month + "/" + day + "/" + year;
     }
 }
