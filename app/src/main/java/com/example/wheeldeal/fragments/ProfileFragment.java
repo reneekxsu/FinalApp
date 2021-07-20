@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,9 +29,6 @@ import org.jetbrains.annotations.NotNull;
 public class ProfileFragment extends Fragment {
 
     public static final String TAG = "ProfileFragment2";
-    Button btnLogout;
-    Button btnViewCars;
-    TextView tvProfileUser;
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
@@ -53,14 +48,14 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Set a Toolbar to replace the ActionBar.
-        toolbar = (Toolbar) rootview.findViewById(R.id.toolbar);
+        toolbar = rootview.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         // This will display an Up icon (<-), we will replace it with hamburger later
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Find our drawer view
-        mDrawer = (DrawerLayout) rootview.findViewById(R.id.drawer_layout);
+        mDrawer = rootview.findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
 
         // Setup toggle to display hamburger icon with nice animation
@@ -70,7 +65,7 @@ public class ProfileFragment extends Fragment {
         // Tie DrawerLayout events to the ActionBarToggle
         mDrawer.addDrawerListener(drawerToggle);
         // Find our drawer view
-        nvDrawer = (NavigationView) rootview.findViewById(R.id.nvView);
+        nvDrawer = rootview.findViewById(R.id.nvView);
         // Setup drawer view
         setupDrawerContent(nvDrawer);
         nvDrawer.post(new Runnable() {
@@ -117,7 +112,6 @@ public class ProfileFragment extends Fragment {
                 fragmentClass = ThirdFragment.class;
                 Log.i(TAG, "clicked logout button");
                 ParseUser.logOut();
-                ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
                 Intent i = new Intent(getView().getContext(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();

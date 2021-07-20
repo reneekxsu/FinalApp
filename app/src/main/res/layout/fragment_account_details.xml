@@ -18,7 +18,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="#fece2f"
+            android:background="#A7E37D"
             android:padding="20dp">
 
             <ImageView
@@ -61,8 +61,9 @@
                 android:layout_height="70dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="#fece2f"
-                app:cardElevation="10dp">
+                app:cardBackgroundColor="#44AC2C"
+                app:cardElevation="10dp"
+                app:cardCornerRadius="15dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -73,7 +74,8 @@
                         android:id="@+id/cars_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
                         android:includeFontPadding="false"
                         android:text="5"
                         android:textSize="20sp"></TextView>
@@ -98,8 +100,9 @@
                 android:layout_height="70dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="#fece2f"
-                app:cardElevation="10dp">
+                app:cardBackgroundColor="#44AC2C"
+                app:cardElevation="10dp"
+                app:cardCornerRadius="15dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -110,7 +113,8 @@
                         android:id="@+id/booking_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
                         android:includeFontPadding="false"
                         android:text="20"
                         android:textSize="20sp"></TextView>
@@ -135,8 +139,9 @@
                 android:layout_height="70dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="#fece2f"
-                app:cardElevation="10dp">
+                app:cardBackgroundColor="#44AC2C"
+                app:cardElevation="10dp"
+                app:cardCornerRadius="15dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -147,7 +152,9 @@
                         android:id="@+id/rental_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="false"
+                        android:layout_marginTop="10dp"
                         android:includeFontPadding="false"
                         android:text="12"
                         android:textSize="20sp"></TextView>
@@ -222,7 +229,7 @@
                 android:id="@+id/btnUpdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#fece2f"
+                android:backgroundTint="#44AC2C"
                 android:text="Update"></Button>
         </LinearLayout>
 <!--        <View-->
