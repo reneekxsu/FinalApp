@@ -1,5 +1,6 @@
 package com.example.wheeldeal.fragments;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +22,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.wheeldeal.R;
+import com.example.wheeldeal.activities.LoginActivity;
 import com.google.android.material.navigation.NavigationView;
+import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -75,7 +78,7 @@ public class ProfileFragment extends Fragment {
             public void run() {
                 nvDrawer.setCheckedItem(R.id.nav_first_fragment);
                 ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(nvDrawer.getMenu().getItem(0).getTitle());
-                getChildFragmentManager().beginTransaction().replace(R.id.flContent, new FirstFragment()).commit();
+                getChildFragmentManager().beginTransaction().replace(R.id.flContent, new AccountDetailsFragment()).commit();
                 selectDrawerItem(nvDrawer.getMenu().getItem(0));
                 nvDrawer.getMenu().getItem(0).setTitle(nvDrawer.getMenu().getItem(0).getTitle());
             }
@@ -105,16 +108,22 @@ public class ProfileFragment extends Fragment {
         Class fragmentClass;
         switch(menuItem.getItemId()) {
             case R.id.nav_first_fragment:
-                fragmentClass = FirstFragment.class;
+                fragmentClass = AccountDetailsFragment.class;
                 break;
             case R.id.nav_second_fragment:
                 fragmentClass = ViewMyCarsFragment.class;
                 break;
             case R.id.nav_third_fragment:
                 fragmentClass = ThirdFragment.class;
+                Log.i(TAG, "clicked logout button");
+                ParseUser.logOut();
+                ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
+                Intent i = new Intent(getView().getContext(), LoginActivity.class);
+                startActivity(i);
+                getActivity().finish();
                 break;
             default:
-                fragmentClass = FirstFragment.class;
+                fragmentClass = AccountDetailsFragment.class;
         }
 
         try {

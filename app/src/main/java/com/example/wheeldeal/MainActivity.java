@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         final Fragment fragment2 = new ScheduleFragment();
         final Fragment fragment3 = new ProfileFragment();
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         // handle navigation selection
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
                                 fragment = fragment2;
                                 break;
                             case R.id.action_profile:
+                                fragment = fragment3;
+                                break;
                             default:
                                 fragment = fragment3;
                                 break;
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         // Set default selection
-        bottomNavigationView.setSelectedItemId(R.id.action_profile);
+//        bottomNavigationView.setSelectedItemId(R.id.action_profile);
     }
 
     @Override
