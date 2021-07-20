@@ -12,9 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.wheeldeal.R;
 import com.example.wheeldeal.fragments.HomeFragment;
-import com.example.wheeldeal.fragments.ProfileFragment;
+import com.example.wheeldeal.fragments.ProfileFragment2;
 import com.example.wheeldeal.fragments.ScheduleFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         // define your fragments here
         final Fragment fragment1 = new HomeFragment();
         final Fragment fragment2 = new ScheduleFragment();
-        final Fragment fragment3 = new ProfileFragment();
+        final Fragment fragment3 = new ProfileFragment2();
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 

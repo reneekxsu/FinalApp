@@ -44,7 +44,6 @@ public class QueryClient {
             query.whereEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
         }
         setCarQuery(query, callback);
-
     }
 
     public void setCarQuery(ParseQuery<Car> query, FindCallback<Car> callback){

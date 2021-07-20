@@ -50,9 +50,9 @@ public class HomeFragment extends Fragment {
 
         queryClient = new QueryClient();
 
-        pb = (ProgressBar) view.findViewById(R.id.pbLoading);
+        pb = view.findViewById(R.id.pbLoading);
         pb.setVisibility(ProgressBar.VISIBLE);
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
