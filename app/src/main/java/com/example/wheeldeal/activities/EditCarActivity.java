@@ -39,7 +39,10 @@ public class EditCarActivity extends AppCompatActivity {
 
     public static final String TAG = "EditCarActivity";
 
-    EditText etEditCarModel;
+    EditText etEditName;
+    EditText etEditCarMake;
+    EditText etEditCarModel, etEditYear,etEditPassengers;
+    EditText etEditSizeType, etEditAddress;
     EditText etEditDescription;
     EditText etEditRate;
     Button btnEditSave;
@@ -55,15 +58,22 @@ public class EditCarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "entered EditCarActivity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_car);
 
-        etEditCarModel = findViewById(R.id.etName);
-        etEditDescription = findViewById(R.id.etDescription);
-        etEditRate = findViewById(R.id.etPrice);
-        btnEditSave = findViewById(R.id.btnRegister);
-        ivEditPreview = findViewById(R.id.ivPreview);
+        etEditName = findViewById(R.id.etCarName);
+        etEditCarMake = findViewById(R.id.etCarMake);
+        etEditCarModel = findViewById(R.id.etCarModel);
+        etEditYear = findViewById(R.id.etCarYear);
+        etEditRate = findViewById(R.id.etCarPrice);
+        etEditPassengers = findViewById(R.id.etCarPassengers);
+        etEditSizeType = findViewById(R.id.etSizeType);
+        etEditDescription = findViewById(R.id.etCarDescription);
+        etEditAddress = findViewById(R.id.etCarAddress);
         btnEditCamera = findViewById(R.id.btnCamera);
+        btnEditSave = findViewById(R.id.btnUpdateCar);
+        ivEditPreview = findViewById(R.id.ivPreview);
         tvEditClose = findViewById(R.id.tvClose);
 
         car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();

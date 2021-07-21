@@ -58,17 +58,17 @@ public class AddOwnCarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_car);
 
-        etName = findViewById(R.id.etName);
+        etName = findViewById(R.id.etCarName);
         etCarMake = findViewById(R.id.etCarMake);
         etCarModel = findViewById(R.id.etCarModel);
-        etYear = findViewById(R.id.etYear);
-        etPrice = findViewById(R.id.etPrice);
-        etPassengers = findViewById(R.id.etPassengers);
+        etYear = findViewById(R.id.etCarYear);
+        etPrice = findViewById(R.id.etCarPrice);
+        etPassengers = findViewById(R.id.etCarPassengers);
         etSizeType = findViewById(R.id.etSizeType);
-        etDescription = findViewById(R.id.etDescription);
-        etAddress = findViewById(R.id.etAddress);
+        etDescription = findViewById(R.id.etCarDescription);
+        etAddress = findViewById(R.id.etCarAddress);
         btnCamera = findViewById(R.id.btnCamera);
-        btnRegister = findViewById(R.id.btnRegister);
+        btnRegister = findViewById(R.id.btnUpdateCar);
         ivPreview = findViewById(R.id.ivPreview);
         tvClose = findViewById(R.id.tvClose);
 
