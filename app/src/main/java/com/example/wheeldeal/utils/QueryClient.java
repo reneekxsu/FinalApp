@@ -1,4 +1,4 @@
-package com.example.wheeldeal;
+package com.example.wheeldeal.utils;
 
 import android.util.Log;
 
@@ -11,6 +11,10 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Overview:
+ *
+ */
 public class QueryClient {
     public static final String TAG = "QueryClient";
     public QueryClient(){};

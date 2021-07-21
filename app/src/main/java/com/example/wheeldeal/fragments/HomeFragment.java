@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.wheeldeal.QueryClient;
+import com.example.wheeldeal.utils.QueryClient;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;

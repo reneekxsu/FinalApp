@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.wheeldeal.DateClient;
+import com.example.wheeldeal.utils.DateClient;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Event;
 import com.example.wheeldeal.models.ParcelableEvent;

@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 
-import com.example.wheeldeal.DateClient;
+import com.example.wheeldeal.utils.DateClient;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.Event;
