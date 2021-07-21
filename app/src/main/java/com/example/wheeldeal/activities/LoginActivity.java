@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // check if user is already logged in
         if (ParseUser.getCurrentUser()!=null){
-            goMainActivity();
+            goMainActivity(true);
         }
 
         etUsername = findViewById(R.id.etUsername);
@@ -74,15 +74,16 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this,"Wrong username or password", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    goMainActivity();
+                    goMainActivity(true);
                     Toast.makeText(LoginActivity.this,"Login success", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    private void goMainActivity() {
+    private void goMainActivity(boolean fromLogin) {
         Intent i = new Intent(this, MainActivity.class);
+        i.putExtra("flag", fromLogin);
         startActivity(i);
         // allows back button not to lead us back to login
         finish();

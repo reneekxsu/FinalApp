@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:drawable="@drawable/ed_logo"
+        android:gravity="bottom"/>
+    <item android:drawable="@drawable/outline_airport_shuttle_24"
+        android:left="26dp" android:right="26dp"
+        android:gravity="top"
+        android:top="-2dp"/>
+</layer-list>
