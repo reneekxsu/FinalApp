@@ -13,16 +13,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.wheeldeal.models.ParcelableCar;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.activities.CarDetailsActivity;
 import com.example.wheeldeal.models.Car;
+import com.example.wheeldeal.models.ParcelableCar;
 import com.parse.ParseFile;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
     public static final String TAG = "CarAdapter";
@@ -87,7 +91,15 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
             ParseFile image = car.getImage();
             if (image != null) {
                 ivCarImage.setVisibility(View.VISIBLE);
-                Glide.with(context).load(image.getUrl()).into(ivCarImage);
+                MultiTransformation multiLeft = new MultiTransformation(
+                        new CenterCrop(),
+                        new RoundedCornersTransformation(25, 10));
+
+                Glide.with(context)
+                        .load(image.getUrl())
+                        .transform(multiLeft)
+                        .into(ivCarImage);
+//                Glide.with(context).load(image.getUrl()).into(ivCarImage);
             } else {
                 ivCarImage.setVisibility(View.GONE);
             }

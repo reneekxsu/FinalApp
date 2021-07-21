@@ -14,6 +14,12 @@ public class Car extends ParseObject {
     public static final String KEY_IMAGE = "image";
     public static final String KEY_RATE = "rate";
     public static final String KEY_MODEL = "model";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_MAKE = "make";
+    public static final String KEY_YEAR = "year";
+    public static final String KEY_PASSENGERS = "passengers";
+    public static final String KEY_SIZE = "size";
+    public static final String KEY_ADDRESS = "address";
 
     // description getter and setter
     public String getDescription(){
@@ -58,5 +64,59 @@ public class Car extends ParseObject {
 
     public void setModel(String model) {
         put(KEY_MODEL, model);
+    }
+
+    // name getter and setter
+    public String getName() {
+        return getString(KEY_NAME);
+    }
+
+    public void setName(String name) {
+        put(KEY_NAME, name);
+    }
+
+    // make getter and setter
+    public String getMake() {
+        return getString(KEY_MAKE);
+    }
+
+    public void setMake(String make) {
+        put(KEY_MAKE, make);
+    }
+
+    // year getter and setter
+    public String getYear() {
+        return getString(KEY_YEAR);
+    }
+
+    public void setYear(String year) {
+        put(KEY_YEAR, year);
+    }
+
+    // passengers getter and setter
+    public String getPassengers() {
+        return getString(KEY_PASSENGERS);
+    }
+
+    public void setPassengers(String passengers) {
+        put(KEY_PASSENGERS, passengers);
+    }
+
+    // size getter and setter
+    public String getSizeType() {
+        return getString(KEY_SIZE);
+    }
+
+    public void setSizeType(String size) {
+        put(KEY_SIZE, size);
+    }
+
+    // address getter and setter
+    public String getAddress() {
+        return getString(KEY_ADDRESS);
+    }
+
+    public void setAddress(String address) {
+        put(KEY_ADDRESS, address);
     }
 }

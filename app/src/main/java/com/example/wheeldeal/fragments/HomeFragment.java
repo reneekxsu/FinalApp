@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.wheeldeal.MainActivity;
 import com.example.wheeldeal.QueryClient;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.adapters.CarAdapter;
@@ -78,22 +77,22 @@ public class HomeFragment extends Fragment {
         adapter = new CarAdapter(view.getContext(), allCars);
         rvAllCars.setAdapter(adapter);
         rvAllCars.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        rvAllCars.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0) {
-                    ((MainActivity)getActivity()).setNavigationVisibility(false);
-                } else if (dy < 0 ) {
-                    ((MainActivity)getActivity()).setNavigationVisibility(true);
-                }
-            }
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-        });
+//        rvAllCars.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                if (dy > 0) {
+//                    ((MainActivity)getActivity()).setNavigationVisibility(false);
+//                } else if (dy < 0 ) {
+//                    ((MainActivity)getActivity()).setNavigationVisibility(true);
+//                }
+//            }
+//
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//
+//                super.onScrollStateChanged(recyclerView, newState);
+//            }
+//        });
 
         Log.i(TAG, "querying all cars");
         fetchAllCars();

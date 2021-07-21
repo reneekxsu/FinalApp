@@ -7,8 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -74,55 +72,55 @@ public class AddOwnCarActivity extends AppCompatActivity {
         ivPreview = findViewById(R.id.ivPreview);
         tvClose = findViewById(R.id.tvClose);
 
-        etName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() != 0){
-                    nameFilled = true;
-                    if (!btnRegister.isEnabled() && areAllFieldsFilled()){
-                        btnRegister.setEnabled(true);
-                    }
-                } else {
-                    nameFilled = false;
-                    btnRegister.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        etCarMake.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() != 0){
-                    makeFilled = true;
-                    if (!btnRegister.isEnabled() && areAllFieldsFilled()){
-                        btnRegister.setEnabled(true);
-                    }
-                } else {
-                    makeFilled = false;
-                    btnRegister.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+//        etName.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (s.length() != 0){
+//                    nameFilled = true;
+//                    if (!btnRegister.isEnabled() && areAllFieldsFilled()){
+//                        btnRegister.setEnabled(true);
+//                    }
+//                } else {
+//                    nameFilled = false;
+//                    btnRegister.setEnabled(false);
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
+//
+//        etCarMake.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (s.length() != 0){
+//                    makeFilled = true;
+//                    if (!btnRegister.isEnabled() && areAllFieldsFilled()){
+//                        btnRegister.setEnabled(true);
+//                    }
+//                } else {
+//                    makeFilled = false;
+//                    btnRegister.setEnabled(false);
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
 
 
 
@@ -133,7 +131,7 @@ public class AddOwnCarActivity extends AppCompatActivity {
             }
         });
 
-        btnRegister.setEnabled(false);
+//        btnRegister.setEnabled(false);
 
 //        btnRegister.setEnabled(true);
 
@@ -159,7 +157,8 @@ public class AddOwnCarActivity extends AppCompatActivity {
                         Toast.makeText(AddOwnCarActivity.this, "No image", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    saveCar(name, description, price, currentUser, photoFile);
+                    saveCar(description, currentUser, photoFile, price, model, name, make, year, passengerCount,
+                            sizeType, address);
                 }
             }
         });
@@ -177,14 +176,21 @@ public class AddOwnCarActivity extends AppCompatActivity {
         });
     }
 
-    private void saveCar(String model, String description, String rate, ParseUser currentUser, File photoFile) {
+    private void saveCar(String description, ParseUser currentUser, File photoFile, String rate, String model,
+                         String name, String make, String year, String passengers, String size, String address) {
         Log.i(TAG, "saving car");
         Car car = new Car();
         car.setDescription(description);
-        car.setImage(new ParseFile(photoFile));
         car.setOwner(currentUser);
+        car.setImage(new ParseFile(photoFile));
         car.setRate(rate);
         car.setModel(model);
+        car.setName(name);
+        car.setMake(make);
+        car.setYear(year);
+        car.setPassengers(passengers);
+        car.setSizeType(size);
+        car.setAddress(address);
         car.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
