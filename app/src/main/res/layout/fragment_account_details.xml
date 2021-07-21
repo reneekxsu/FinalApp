@@ -170,12 +170,6 @@
                 android:layout_marginBottom="10dp"
                 android:hint="Username"
                 app:startIconDrawable="@drawable/ic_baseline_person_24">
-
-<!--                <androidx.appcompat.widget.AppCompatEditText-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:drawablePadding="10dp"-->
-<!--                    tools:text="Renee Su"></androidx.appcompat.widget.AppCompatEditText>-->
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etProfileName"
                     android:layout_width="match_parent"
