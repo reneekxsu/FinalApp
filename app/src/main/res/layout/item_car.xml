@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:paddingLeft="2dp"
+    android:paddingTop="1dp"
+    android:paddingRight="2dp"
+    android:paddingBottom="1dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv"
@@ -12,9 +15,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="#C9DABB"
+        app:cardBackgroundColor="#B0E4B1"
         app:cardCornerRadius="15dp"
-        app:cardElevation="10dp">
+        app:cardElevation="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,24 +25,24 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/tvCarName"
+                android:id="@+id/tvCarListingName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvItemCarOwner"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/ivCarImage"
-                tools:text="Toyota Camry 2002" />
+                tools:text="Amazing car" />
 
             <TextView
                 android:id="@+id/tvCarRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvCarName"
+                android:layout_below="@+id/tvModel"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/ivCarImage"
-                tools:text="$20" />
+                tools:text="$20/day" />
 
             <ImageView
                 android:id="@+id/ivCarImage"
@@ -61,6 +64,34 @@
                 android:layout_toEndOf="@+id/ivCarImage"
                 android:gravity="right"
                 tools:text="renees" />
+
+            <TextView
+                android:id="@+id/tvModel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvCarListingName"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/ivCarImage"
+                tools:text="Model" />
+
+            <TextView
+                android:id="@+id/tvMake"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvCarListingName"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/tvModel"
+                tools:text=" Make" />
+
+            <TextView
+                android:id="@+id/tvCarYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvCarListingName"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/tvMake"
+                tools:text=" Year" />
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

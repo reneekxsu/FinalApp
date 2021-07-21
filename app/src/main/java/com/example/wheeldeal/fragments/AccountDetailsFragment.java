@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ public class AccountDetailsFragment extends Fragment {
     String username;
     String address;
     TextInputEditText etName, etEmail, etAddress;
+    TextView tvName;
     Button btnUpdate;
     public static final String TAG = "AccountDetailsFragment";
 
@@ -47,6 +49,7 @@ public class AccountDetailsFragment extends Fragment {
         etEmail = view.findViewById(R.id.etProfileEmail);
         etAddress = view.findViewById(R.id.etProfileAddress);
         btnUpdate = view.findViewById(R.id.btnUpdate);
+        tvName = view.findViewById(R.id.full_name);
         fetchUserDetails();
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +70,7 @@ public class AccountDetailsFragment extends Fragment {
     }
 
     public void fetchUserDetails(){
+        tvName.setText("Hey, " + currentUser.getUsername() + "!");
         // Specify which class to query
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         // Specify the object id

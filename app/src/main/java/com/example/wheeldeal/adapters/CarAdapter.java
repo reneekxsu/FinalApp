@@ -63,12 +63,16 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
         private TextView tvCarRate;
         private ImageView ivCarImage;
         private TextView tvItemCarOwner;
+        private TextView tvCarModel, tvCarMake, tvCarYear;
         public Viewholder(@NonNull @NotNull View itemView) {
             super(itemView);
-            tvCarName = itemView.findViewById(R.id.tvCarName);
+            tvCarName = itemView.findViewById(R.id.tvCarListingName);
             tvCarRate = itemView.findViewById(R.id.tvCarRate);
             ivCarImage = itemView.findViewById(R.id.ivCarImage);
             tvItemCarOwner = itemView.findViewById(R.id.tvItemCarOwner);
+            tvCarModel = itemView.findViewById(R.id.tvModel);
+            tvCarMake = itemView.findViewById(R.id.tvMake);
+            tvCarYear = itemView.findViewById(R.id.tvCarYear);
             // later add on click listener for detailed view
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -86,7 +90,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
             });
         }
         public void bind(Car car){
-            tvCarName.setText(car.getModel());
             tvCarRate.setText("$" + car.getRate() + "/day");
             ParseFile image = car.getImage();
             if (image != null) {
@@ -103,7 +106,17 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
             } else {
                 ivCarImage.setVisibility(View.GONE);
             }
-            tvItemCarOwner.setText(car.getOwner().getUsername());
+            String name = car.getName();
+            if (name != null && !name.equals("")){
+                tvCarName.setVisibility(View.VISIBLE);
+                tvCarName.setText(car.getName());
+            } else {
+                tvCarName.setVisibility(View.GONE);
+            }
+            tvItemCarOwner.setText("Owner: " + car.getOwner().getUsername());
+            tvCarModel.setText(car.getModel());
+            tvCarMake.setText(" " + car.getMake());
+            tvCarYear.setText(" " + car.getYear());
         }
     }
 
