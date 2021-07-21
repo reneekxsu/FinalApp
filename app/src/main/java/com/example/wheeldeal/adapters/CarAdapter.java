@@ -62,17 +62,16 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
         private TextView tvCarName;
         private TextView tvCarRate;
         private ImageView ivCarImage;
-        private TextView tvItemCarOwner;
-        private TextView tvCarModel, tvCarMake, tvCarYear;
+        private TextView tvCarModel, tvCarMake, tvCarYear, tvNumSeats, tvAddress;
         public Viewholder(@NonNull @NotNull View itemView) {
             super(itemView);
             tvCarName = itemView.findViewById(R.id.tvCarListingName);
             tvCarRate = itemView.findViewById(R.id.tvCarRate);
             ivCarImage = itemView.findViewById(R.id.ivCarImage);
-            tvItemCarOwner = itemView.findViewById(R.id.tvItemCarOwner);
             tvCarModel = itemView.findViewById(R.id.tvModel);
             tvCarMake = itemView.findViewById(R.id.tvMake);
             tvCarYear = itemView.findViewById(R.id.tvCarYear);
+            tvNumSeats = itemView.findViewById(R.id.tvNumSeats);
             // later add on click listener for detailed view
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -102,7 +101,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
                         .load(image.getUrl())
                         .transform(multiLeft)
                         .into(ivCarImage);
-//                Glide.with(context).load(image.getUrl()).into(ivCarImage);
             } else {
                 ivCarImage.setVisibility(View.GONE);
             }
@@ -113,10 +111,10 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
             } else {
                 tvCarName.setVisibility(View.GONE);
             }
-            tvItemCarOwner.setText("Owner: " + car.getOwner().getUsername());
             tvCarModel.setText(car.getModel());
             tvCarMake.setText(" " + car.getMake());
             tvCarYear.setText(" " + car.getYear());
+            tvNumSeats.setText("Seats " + car.getPassengers() + " passengers");
         }
     }
 

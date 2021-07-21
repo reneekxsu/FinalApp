@@ -59,6 +59,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
         private TextView tvEventCarName;
         private TextView tvRenter;
         private TextView tvCarOwner;
+        private TextView tvAddress;
         public Viewholder(@NonNull @NotNull View itemView) {
             super(itemView);
             tvStart = itemView.findViewById(R.id.tvStart);
@@ -66,6 +67,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
             tvEventCarName = itemView.findViewById(R.id.tvEventCarName);
             tvRenter = itemView.findViewById(R.id.tvRenter);
             tvCarOwner = itemView.findViewById(R.id.tvCarOwner);
+            tvAddress = itemView.findViewById(R.id.tvPickUpAddress);
             // onclicklistener
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -91,17 +93,21 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
                 // user is renter, not owner
                 tvRenter.setVisibility(View.VISIBLE);
                 tvRenter.setText("Renter: " + event.getRenter().getUsername());
+                tvCarOwner.setVisibility(View.GONE);
             } else {
+                // user is owner of their own car event
                 tvRenter.setVisibility(View.GONE);
+                tvCarOwner.setVisibility(View.VISIBLE);
+                String name = "";
+                try {
+                    name = event.getCar().getOwner().fetchIfNeeded().getUsername();
+                } catch (com.parse.ParseException e){
+                    Log.v(TAG, e.toString());
+                    e.printStackTrace();
+                }
+                tvCarOwner.setText("Owner: " + name);
             }
-            String name = "";
-            try {
-                name = event.getCar().getOwner().fetchIfNeeded().getUsername();
-            } catch (com.parse.ParseException e){
-                Log.v(TAG, e.toString());
-                e.printStackTrace();
-            }
-            tvCarOwner.setText("Owner: " + name);
+            tvAddress.setText("Pick up at: " + event.getCar().getAddress());
         }
     }
     public void clear(){
