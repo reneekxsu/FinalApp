@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.wheeldeal.R;
-import com.example.wheeldeal.activities.MapDemoActivity;
+import com.example.wheeldeal.activities.CarMapActivity;
 import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.ParcelableCar;
@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment {
                     Log.i(TAG, "Car on textview click: " + car.getModel());
                     parcelableCars.add(new ParcelableCar(car));
                 }
-                Intent i = new Intent(view.getContext(), MapDemoActivity.class);
+                Intent i = new Intent(view.getContext(), CarMapActivity.class);
                 i.putExtra("ParcelableCars", Parcels.wrap(parcelableCars));
                 startActivity(i);
             }

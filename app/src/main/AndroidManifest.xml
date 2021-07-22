@@ -31,7 +31,7 @@
         <activity android:name=".activities.CarDetailsActivity" />
         <activity android:name=".activities.UserCarFeedActivity" />
         <activity android:name=".activities.AddOwnCarActivity" />
-        <activity android:name=".activities.MapDemoActivity">
+        <activity android:name=".activities.CarMapActivity">
         </activity>
 
         <provider

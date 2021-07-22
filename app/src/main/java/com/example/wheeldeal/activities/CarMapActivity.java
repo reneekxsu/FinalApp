@@ -51,7 +51,7 @@ import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class MapDemoActivity extends AppCompatActivity {
+public class CarMapActivity extends AppCompatActivity {
 
     private SupportMapFragment mapFragment;
     private GoogleMap map;
@@ -75,7 +75,7 @@ public class MapDemoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.map_demo_activity);
+        setContentView(R.layout.activity_car_map);
 
         allCars = new ArrayList<>();
 
@@ -133,8 +133,9 @@ public class MapDemoActivity extends AppCompatActivity {
                 }
             });
             Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
-            MapDemoActivityPermissionsDispatcher.getMyLocationWithPermissionCheck(this);
-            MapDemoActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
+
+            CarMapActivityPermissionsDispatcher.getMyLocationWithPermissionCheck(this);
+            CarMapActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
         } else {
             Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
         }
@@ -143,7 +144,7 @@ public class MapDemoActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        MapDemoActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+        CarMapActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
     @SuppressWarnings({"MissingPermission"})
@@ -219,14 +220,14 @@ public class MapDemoActivity extends AppCompatActivity {
 
         displayLocation();
 
-        MapDemoActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
+        CarMapActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
     }
 
     private void displayLocation() {
         if (mCurrentLocation != null) {
             Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
             LatLng latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
             map.animateCamera(cameraUpdate);
             MarkerOptions options = new MarkerOptions().position(latLng).title("I am here");
             map.addMarker(options);
