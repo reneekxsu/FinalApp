@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // check if user is already logged in
         if (ParseUser.getCurrentUser()!=null){
-            goMainActivity(true);
+            goMainActivity(false);
         }
 
         etUsername = findViewById(R.id.etUsername);

@@ -15,12 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.wheeldeal.MainActivity;
-import com.example.wheeldeal.utils.QueryClient;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.activities.AddOwnCarActivity;
 import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;
+import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -79,22 +78,22 @@ public class ViewMyCarsFragment extends Fragment {
         rvCars.setAdapter(adapter);
         // set layout manager on RV
         rvCars.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        rvCars.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0) {
-                    ((MainActivity)getActivity()).setNavigationVisibility(false);
-                } else if (dy < 0 ) {
-                    ((MainActivity)getActivity()).setNavigationVisibility(true);
-                }
-            }
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-        });
+//        rvCars.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                if (dy > 0) {
+//                    ((MainActivity)getActivity()).setNavigationVisibility(false);
+//                } else if (dy < 0 ) {
+//                    ((MainActivity)getActivity()).setNavigationVisibility(true);
+//                }
+//            }
+//
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//
+//                super.onScrollStateChanged(recyclerView, newState);
+//            }
+//        });
 
         fabAddCar = view.findViewById(R.id.fabAddCar);
         fabAddCar.hide();

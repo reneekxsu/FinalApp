@@ -1,11 +1,13 @@
 package com.example.wheeldeal.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,10 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.wheeldeal.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -31,6 +35,11 @@ public class AccountDetailsFragment extends Fragment {
     TextInputEditText etName, etEmail, etAddress;
     TextView tvName;
     Button btnUpdate;
+    Button btnAddProfileImage;
+    Button btnSaveProfileImage;
+    ParseFile image;
+    ImageView ivProfileImage;
+    Context context;
     public static final String TAG = "AccountDetailsFragment";
 
 
@@ -50,6 +59,10 @@ public class AccountDetailsFragment extends Fragment {
         etAddress = view.findViewById(R.id.etProfileAddress);
         btnUpdate = view.findViewById(R.id.btnUpdate);
         tvName = view.findViewById(R.id.full_name);
+        btnAddProfileImage = view.findViewById(R.id.btnAddProfileImage);
+        btnSaveProfileImage = view.findViewById(R.id.btnSaveProfileImage);
+        ivProfileImage = view.findViewById(R.id.ivProfileImage);
+
         fetchUserDetails();
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,9 +101,29 @@ public class AccountDetailsFragment extends Fragment {
                     etName.setText(username);
                     etEmail.setText(email);
                     etAddress.setText(address);
+                    if (getActivity() != null) {
+                        loadImage();
+                    }
                 }
             }
         });
     }
 
+    public void loadImage(){
+        if (image != null && ivProfileImage != null) {
+            ivProfileImage.setVisibility(View.VISIBLE);
+            Glide.with(this).load(image.getUrl()).circleCrop().into(ivProfileImage);
+        } else if (image == null && ivProfileImage != null) {
+            ivProfileImage.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onAttach(@NonNull @NotNull Context context) {
+        Log.i(TAG, "attached");
+        super.onAttach(context);
+        this.context = context;
+        image = ParseUser.getCurrentUser().getParseFile("profileImage");
+        loadImage();
+    }
 }

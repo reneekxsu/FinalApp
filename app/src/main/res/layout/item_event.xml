@@ -29,6 +29,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
+                android:textStyle="bold"
                 tools:text="1/14/2021 1:00pm" />
 
             <TextView
@@ -39,23 +40,24 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/tvStart"
+                android:textStyle="bold"
                 tools:text=" to 1/16/2021 2:00pm" />
 
             <TextView
-                android:id="@+id/tvEventCarName"
+                android:id="@+id/tvEventCarModel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvStart"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                tools:text="Tesla Model S" />
+                tools:text="Tesla" />
 
             <TextView
                 android:id="@+id/tvRenter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvEventCarName"
+                android:layout_below="@+id/tvEventCarModel"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
@@ -80,6 +82,26 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 tools:text="Pick Up Address: 4030 Manzana Lane" />
+
+            <TextView
+                android:id="@+id/tvEventCarMake"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvStart"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/tvEventCarModel"
+                tools:text=" Model S" />
+
+            <TextView
+                android:id="@+id/tvEventCarYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvStart"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/tvEventCarMake"
+                tools:text=" 2020" />
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 

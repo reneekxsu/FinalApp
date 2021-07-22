@@ -17,7 +17,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             android:background="#A7E37D"
             android:padding="20dp">
 
@@ -25,12 +25,49 @@
                 android:id="@+id/full_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@+id/ivProfileImage"
                 android:includeFontPadding="false"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 tools:text="Renee Su" />
+
+            <ImageView
+                android:id="@+id/ivProfileImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="20dp"
+                tools:src="@tools:sample/avatars" />
+
+            <Button
+                android:id="@+id/btnAddProfileImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/full_name"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="51dp"
+                android:layout_toEndOf="@+id/ivProfileImage"
+                android:text="Edit Image"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnSaveProfileImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/full_name"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="6dp"
+                android:layout_toEndOf="@+id/btnAddProfileImage"
+                android:text="Save"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
