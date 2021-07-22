@@ -45,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:hint="Username"
-            app:startIconDrawable="@drawable/ic_baseline_person_24">
+            app:startIconDrawable="@drawable/ic_baseline_person_24"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etSignUpUsername"
@@ -60,7 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:hint="Password"
-            app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
+            app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etSignUpPassword"

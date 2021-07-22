@@ -1,11 +1,13 @@
 package com.example.wheeldeal.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,14 +18,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.wheeldeal.utils.QueryClient;
 import com.example.wheeldeal.R;
+import com.example.wheeldeal.activities.MapDemoActivity;
 import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;
+import com.example.wheeldeal.models.ParcelableCar;
+import com.example.wheeldeal.utils.QueryClient;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +43,7 @@ public class HomeFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
     private QueryClient queryClient;
     private Toolbar toolbar;
+    private TextView tvGoToMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +58,22 @@ public class HomeFragment extends Fragment {
 
         toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        tvGoToMap = view.findViewById(R.id.tvGoToMap);
+        tvGoToMap.setVisibility(View.GONE);
+        tvGoToMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<ParcelableCar> parcelableCars = new ArrayList<ParcelableCar>();
+                for (Car car : allCars){
+                    Log.i(TAG, "Car on textview click: " + car.getModel());
+                    parcelableCars.add(new ParcelableCar(car));
+                }
+                Intent i = new Intent(view.getContext(), MapDemoActivity.class);
+                i.putExtra("ParcelableCars", Parcels.wrap(parcelableCars));
+                startActivity(i);
+            }
+        });
 
         queryClient = new QueryClient();
 
@@ -77,22 +99,6 @@ public class HomeFragment extends Fragment {
         adapter = new CarAdapter(view.getContext(), allCars);
         rvAllCars.setAdapter(adapter);
         rvAllCars.setLayoutManager(new LinearLayoutManager(view.getContext()));
-//        rvAllCars.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                if (dy > 0) {
-//                    ((MainActivity)getActivity()).setNavigationVisibility(false);
-//                } else if (dy < 0 ) {
-//                    ((MainActivity)getActivity()).setNavigationVisibility(true);
-//                }
-//            }
-//
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//
-//                super.onScrollStateChanged(recyclerView, newState);
-//            }
-//        });
 
         Log.i(TAG, "querying all cars");
         fetchAllCars();
@@ -112,6 +118,7 @@ public class HomeFragment extends Fragment {
                     adapter.clear();
                     adapter.addAll(cars);
                     pb.setVisibility(ProgressBar.INVISIBLE);
+                    tvGoToMap.setVisibility(View.VISIBLE);
                 }
             }
         }, true);

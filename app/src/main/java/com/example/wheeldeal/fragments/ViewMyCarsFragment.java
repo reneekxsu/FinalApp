@@ -78,22 +78,6 @@ public class ViewMyCarsFragment extends Fragment {
         rvCars.setAdapter(adapter);
         // set layout manager on RV
         rvCars.setLayoutManager(new LinearLayoutManager(view.getContext()));
-//        rvCars.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                if (dy > 0) {
-//                    ((MainActivity)getActivity()).setNavigationVisibility(false);
-//                } else if (dy < 0 ) {
-//                    ((MainActivity)getActivity()).setNavigationVisibility(true);
-//                }
-//            }
-//
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//
-//                super.onScrollStateChanged(recyclerView, newState);
-//            }
-//        });
 
         fabAddCar = view.findViewById(R.id.fabAddCar);
         fabAddCar.hide();

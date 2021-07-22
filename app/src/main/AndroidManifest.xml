@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.wheeldeal">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -14,20 +16,23 @@
     </queries>
 
     <application
-        android:name="com.example.wheeldeal.models.ParseApplication"
+        android:name=".models.ParseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WheelDeal">
-        <activity android:name="com.example.wheeldeal.activities.ScheduleDatesActivity"></activity>
-        <activity android:name="com.example.wheeldeal.activities.EventDetailsActivity" />
-        <activity android:name="com.example.wheeldeal.oldclasses.ScheduleTimesActivity" />
-        <activity android:name="com.example.wheeldeal.activities.EditCarActivity" />
-        <activity android:name="com.example.wheeldeal.activities.CarDetailsActivity" />
-        <activity android:name="com.example.wheeldeal.activities.UserCarFeedActivity" />
-        <activity android:name="com.example.wheeldeal.activities.AddOwnCarActivity" />
+        <activity android:name=".activities.GoogleMapsActivity" />
+        <activity android:name=".activities.ScheduleDatesActivity" />
+        <activity android:name=".activities.EventDetailsActivity" />
+        <activity android:name=".oldclasses.ScheduleTimesActivity" />
+        <activity android:name=".activities.EditCarActivity" />
+        <activity android:name=".activities.CarDetailsActivity" />
+        <activity android:name=".activities.UserCarFeedActivity" />
+        <activity android:name=".activities.AddOwnCarActivity" />
+        <activity android:name=".activities.MapDemoActivity">
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -39,15 +44,23 @@
                 android:resource="@xml/fileprovider" />
         </provider>
 
-        <activity android:name="com.example.wheeldeal.activities.SignUpActivity" />
-        <activity android:name="com.example.wheeldeal.activities.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".activities.SignUpActivity" />
+        <activity android:name=".activities.LoginActivity">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
-        <activity android:name="com.example.wheeldeal.MainActivity" />
+        <activity android:name=".MainActivity" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_api_key" />
     </application>
 
 </manifest>

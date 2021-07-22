@@ -50,6 +50,13 @@ public class QueryClient {
         setCarQuery(query, callback);
     }
 
+    public void fetchCarsWithAddress(FindCallback<Car> callback, String address){
+        Log.i(TAG, "fetching all cars");
+        ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
+        query.whereEqualTo(Car.KEY_ADDRESS, address);
+        setCarQuery(query, callback);
+    }
+
     public void setCarQuery(ParseQuery<Car> query, FindCallback<Car> callback){
         query.include(Car.KEY_OWNER);
         query.setLimit(20);
