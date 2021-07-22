@@ -123,33 +123,33 @@ public class CarMapActivity extends AppCompatActivity {
                 @Override
                 public void onInfoWindowClick(Marker marker) {
                     Log.i(TAG, "window clicked: " + marker.getTitle());
-                    queryClient.fetchCarsWithAddress(new FindCallback<Car>() {
-                        @Override
-                        public void done(List<Car> cars, ParseException e) {
-                            if (cars.size() == 1){
-                                Log.i(TAG, "one car at this address");
-                                ParcelableCar pc = new ParcelableCar(cars.get(0));
-                                Intent i = new Intent(CarMapActivity.this, CarDetailsActivity.class);
-                                i.putExtra(ParcelableCar.class.getSimpleName(), Parcels.wrap(pc));
-                                startActivity(i);
-                            } else {
-                                Log.i(TAG, "multiple cars at this address");
-                                ArrayList<ParcelableCar> parcelableCars = new ArrayList<ParcelableCar>();
-                                for (Car car : cars){
-                                    Log.i(TAG, "Car on textview click: " + car.getModel());
-                                    parcelableCars.add(new ParcelableCar(car));
+                    if (!marker.getTitle().equals("I am here")) {
+                        queryClient.fetchCarsWithAddress(new FindCallback<Car>() {
+                            @Override
+                            public void done(List<Car> cars, ParseException e) {
+                                if (cars.size() == 1) {
+                                    Log.i(TAG, "one car at this address");
+                                    ParcelableCar pc = new ParcelableCar(cars.get(0));
+                                    Intent i = new Intent(CarMapActivity.this, CarDetailsActivity.class);
+                                    i.putExtra(ParcelableCar.class.getSimpleName(), Parcels.wrap(pc));
+                                    startActivity(i);
+                                } else {
+                                    Log.i(TAG, "multiple cars at this address");
+                                    ArrayList<ParcelableCar> parcelableCars = new ArrayList<ParcelableCar>();
+                                    for (Car car : cars) {
+                                        Log.i(TAG, "Car on textview click: " + car.getModel());
+                                        parcelableCars.add(new ParcelableCar(car));
+                                    }
+                                    Intent i = new Intent(CarMapActivity.this, SameAddressCarsActivity.class);
+                                    i.putExtra("ParcelableCars", Parcels.wrap(parcelableCars));
+                                    startActivity(i);
                                 }
-//                                Intent i = new Intent(CarMapActivity.this, MainActivity.class);
-                                Intent i = new Intent(CarMapActivity.this, SameAddressCarsActivity.class);
-                                i.putExtra("ParcelableCars", Parcels.wrap(parcelableCars));
-                                startActivity(i);
-                                finish();
+                                for (Car car : cars) {
+                                    Log.i(TAG, "car with address: " + car.getMake() + " at " + car.getAddress());
+                                }
                             }
-                            for (Car car : cars){
-                                Log.i(TAG, "car with address: " + car.getMake() + " at " + car.getAddress());
-                            }
-                        }
-                    }, marker.getTitle());
+                        }, marker.getTitle());
+                    }
                 }
             });
             Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
