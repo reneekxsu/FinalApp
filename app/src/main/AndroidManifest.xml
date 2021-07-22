@@ -27,6 +27,7 @@
         <activity android:name=".activities.ScheduleDatesActivity" />
         <activity android:name=".activities.EventDetailsActivity" />
         <activity android:name=".oldclasses.ScheduleTimesActivity" />
+        <activity android:name=".activities.SameAddressCarsActivity" />
         <activity android:name=".activities.EditCarActivity" />
         <activity android:name=".activities.CarDetailsActivity" />
         <activity android:name=".activities.UserCarFeedActivity" />
