@@ -14,11 +14,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
+import com.example.wheeldeal.models.DateRangeHolder;
+import com.example.wheeldeal.models.Event;
 import com.example.wheeldeal.models.ParcelableCar;
+import com.example.wheeldeal.utils.QueryClient;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CarDetailsActivity extends AppCompatActivity {
     public static final String TAG = "UserCarDetailsActivity";
@@ -31,6 +39,8 @@ public class CarDetailsActivity extends AppCompatActivity {
     Context context;
     ImageButton ibtnEdit;
     ImageButton ibtnEvent;
+    QueryClient queryClient;
+    ArrayList<DateRangeHolder> rangeHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +55,11 @@ public class CarDetailsActivity extends AppCompatActivity {
         ibtnEdit = findViewById(R.id.ibtnEdit);
         ibtnEvent = findViewById(R.id.ibtnEvent);
         context = this;
+        queryClient = new QueryClient();
+        rangeHolder = new ArrayList<>();
+
+        ibtnEdit.setVisibility(View.GONE);
+        fetchAllCarEvents(car);
 
         tvCarDetailName.setText(car.getModel());
         ParseFile image = car.getImage();
@@ -84,6 +99,7 @@ public class CarDetailsActivity extends AppCompatActivity {
                 Intent i = new Intent(context, ScheduleDatesActivity.class);
                 ParcelableCar c = new ParcelableCar(car);
                 i.putExtra("ParcelableCar", Parcels.wrap(c));
+                i.putExtra("CarEvents", Parcels.wrap(rangeHolder));
                 startActivity(i);
             }
         });
@@ -96,6 +112,20 @@ public class CarDetailsActivity extends AppCompatActivity {
 
     boolean userIsCustomer(){
         return !userIsAuthor(car);
+    }
+
+    private void fetchAllCarEvents(Car car){
+        queryClient.fetchAllCarEvents(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> events, ParseException e) {
+                Log.i(TAG, "event query for this car complete");
+                for (Event event : events){
+                    Log.i(TAG, "event start: " + event.getStart().toString());
+                    rangeHolder.add(new DateRangeHolder(event.getStart(), event.getEnd()));
+                }
+                ibtnEvent.setVisibility(View.VISIBLE);
+            }
+        }, car);
     }
 
 }

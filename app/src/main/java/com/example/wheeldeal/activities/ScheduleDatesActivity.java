@@ -10,12 +10,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 
-import com.example.wheeldeal.utils.DateClient;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
+import com.example.wheeldeal.models.DateRangeHolder;
 import com.example.wheeldeal.models.Event;
 import com.example.wheeldeal.models.ParcelableCar;
+import com.example.wheeldeal.utils.DateClient;
 import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.CompositeDateValidator;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
@@ -44,6 +46,7 @@ public class ScheduleDatesActivity extends AppCompatActivity {
     Date end;
     Car car;
     DateClient dateClient;
+    ArrayList<DateRangeHolder> rangeHolders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,12 @@ public class ScheduleDatesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_schedule_dates);
 
         car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra("ParcelableCar"))).getCar();
+        rangeHolders = (ArrayList<DateRangeHolder>) Parcels.unwrap(getIntent().getParcelableExtra("CarEvents"));
+
+        for (DateRangeHolder range : rangeHolders){
+            Log.i(TAG, "range: " + range.getStart().toString() + " to " + range.getEnd().toString());
+        }
+
         btnPickDate = findViewById(R.id.pick_date_button);
         tvShowSelectedDate = findViewById(R.id.show_selected_date);
         btnDonePickDates = findViewById(R.id.btnDonePickDates);
@@ -104,9 +113,14 @@ public class ScheduleDatesActivity extends AppCompatActivity {
      */
     private CalendarConstraints.Builder calConstraints() {
         CalendarConstraints.Builder constraintsBuilderRange = new CalendarConstraints.Builder();
+        EventRangesOutValidator m = new EventRangesOutValidator(2021, Calendar.JULY, Calendar.MONDAY, rangeHolders);
 //        constraintsBuilderRange.setValidator(new MondaysOutValidator(2021, Calendar.JULY, Calendar.MONDAY));
-        CalendarConstraints.DateValidator validator= DateValidatorPointForward.from(Calendar.getInstance().getTimeInMillis());
-        constraintsBuilderRange.setValidator(validator);
+        CalendarConstraints.DateValidator validator = DateValidatorPointForward.from(Calendar.getInstance().getTimeInMillis());
+        ArrayList<CalendarConstraints.DateValidator> listValidators = new ArrayList<CalendarConstraints.DateValidator>();
+        listValidators.add(validator);
+        listValidators.add(m);
+        CalendarConstraints.DateValidator validators = CompositeDateValidator.allOf(listValidators);
+        constraintsBuilderRange.setValidator(validators);
         return constraintsBuilderRange;
     }
 
@@ -125,7 +139,7 @@ public class ScheduleDatesActivity extends AppCompatActivity {
                     Log.e(TAG, e.getCause().toString());
                 } else {
                     for (Event event : events){
-                        Log.i(TAG, "Events associated with this car: " + event.getCar().getModel());
+                        Log.i(TAG, "Events associated with this car: " + event.getStart().toString());
                     }
                     carEvents.addAll(events);
                     if (EventConflictExists(events, start, end)){

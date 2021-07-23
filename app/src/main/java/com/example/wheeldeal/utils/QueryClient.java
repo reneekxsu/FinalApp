@@ -63,4 +63,16 @@ public class QueryClient {
         query.addDescendingOrder("createdAt");
         query.findInBackground(callback);
     }
+
+    public void fetchAllCarEvents(FindCallback<Event> callback, Car car){
+        Log.i(TAG, "fetching all events for this car");
+        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+        query.whereEqualTo(Event.KEY_CAR, car);
+        query.addAscendingOrder(Event.KEY_START);
+        query.setLimit(20);
+        query.include(Event.KEY_CAR);
+        query.include(Event.KEY_RENTER);
+        query.findInBackground(callback);
+    }
+
 }

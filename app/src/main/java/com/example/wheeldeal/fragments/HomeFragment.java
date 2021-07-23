@@ -22,6 +22,7 @@ import com.example.wheeldeal.R;
 import com.example.wheeldeal.activities.CarMapActivity;
 import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;
+import com.example.wheeldeal.models.DateRangeHolder;
 import com.example.wheeldeal.models.ParcelableCar;
 import com.example.wheeldeal.utils.QueryClient;
 import com.parse.FindCallback;
@@ -39,6 +40,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvAllCars;
     protected CarAdapter adapter;
     protected List<Car> allCars;
+    protected ArrayList<ArrayList<DateRangeHolder>> allEventDates;
     private ProgressBar pb;
     private SwipeRefreshLayout swipeContainer;
     private QueryClient queryClient;
