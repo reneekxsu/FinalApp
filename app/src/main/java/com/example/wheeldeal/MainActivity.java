@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -74,22 +73,12 @@ public class MainActivity extends AppCompatActivity {
             bottomNavigationView.setSelectedItemId(R.id.action_home);
         }
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         Log.i(TAG, "onActivityResult");
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 111){
             bottomNavigationView.setSelectedItemId(R.id.action_profile);
-        }
-    }
-
-    public void setNavigationVisibility(boolean visible) {
-        if (bottomNavigationView.isShown() && !visible) {
-            bottomNavigationView.setVisibility(View.GONE);
-        }
-        else if (!bottomNavigationView.isShown() && visible){
-            bottomNavigationView.setVisibility(View.VISIBLE);
         }
     }
 }
