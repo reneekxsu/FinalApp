@@ -38,8 +38,8 @@
 
     <ImageView
         android:id="@+id/ivDetailCar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_below="@+id/tvDetailDescription"
         android:layout_alignParentStart="true"
         android:layout_marginStart="30dp"
@@ -55,12 +55,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="177dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="19dp"
-        android:layout_toEndOf="@+id/tvCarDetailName"
-        android:tint="#5314FF"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        app:tint="?attr/colorPrimary" />
 
     <ImageButton
         android:id="@+id/ibtnEvent"
@@ -68,9 +66,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ibtnEdit"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="177dp"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="19dp"
-        android:layout_toEndOf="@+id/tvCarDetailName"
-        app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+        app:srcCompat="@android:drawable/ic_menu_my_calendar"
+        app:tint="?attr/colorPrimary" />
 </RelativeLayout>

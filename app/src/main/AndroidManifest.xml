@@ -23,7 +23,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WheelDeal">
-        <activity android:name=".activities.GoogleMapsActivity" />
+        <activity android:name=".oldclasses.GoogleMapsActivity" />
         <activity android:name=".activities.ScheduleDatesActivity" />
         <activity android:name=".activities.EventDetailsActivity" />
         <activity android:name=".oldclasses.ScheduleTimesActivity" />

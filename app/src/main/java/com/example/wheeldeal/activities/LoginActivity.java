@@ -22,10 +22,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public static LoginActivity instance = null;
 
-    private EditText etUsername;
-    private EditText etPassword;
-    private Button btnLogin;
-    private Button btnSignup;
+    private EditText etUsername, etPassword;
+    private Button btnLogin, btnSignup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
         if (ParseUser.getCurrentUser()!=null){
             goMainActivity(false);
         }
-
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);

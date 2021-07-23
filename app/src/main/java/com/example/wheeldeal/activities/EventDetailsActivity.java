@@ -26,13 +26,9 @@ import java.util.ArrayList;
 public class EventDetailsActivity extends AppCompatActivity {
     public static final String TAG = "EventDetailsActivity";
     Event event;
-    private TextView tvEventDetailStart;
-    private TextView tvEventDetailEnd;
-    private TextView tvEventDetailCarName;
-    private TextView tvEventDetailRenter;
-    private TextView tvEventDetailCarOwner;
+    private TextView tvEventDetailStart, tvEventDetailEnd, tvEventDetailCarName,
+            tvEventDetailRenter, tvEventDetailCarOwner, tvGetDirections;
     private DateClient dateClient;
-    private TextView tvGetDirections;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

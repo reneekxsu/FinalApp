@@ -109,7 +109,7 @@ public class ProfileFragment extends Fragment {
                 fragmentClass = ViewMyCarsFragment.class;
                 break;
             case R.id.nav_third_fragment:
-                fragmentClass = ThirdFragment.class;
+                fragmentClass = LogoutDummyFragment.class;
                 Log.i(TAG, "clicked logout button");
                 ParseUser.logOut();
                 Intent i = new Intent(getView().getContext(), LoginActivity.class);

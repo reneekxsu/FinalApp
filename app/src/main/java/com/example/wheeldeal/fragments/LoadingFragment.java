@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class LoadingFragment extends Fragment {
 
-    private TextView tvWelcome, tvYourName;
+    private TextView tvYourName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,7 +33,6 @@ public class LoadingFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tvYourName = view.findViewById(R.id.tvYourName);
-        tvWelcome = view.findViewById(R.id.tvWelcome);
         tvYourName.setText(ParseUser.getCurrentUser().getUsername() + "!");
         ImageView exchangeDealLogoImageView = (ImageView) getActivity().findViewById(R.id.logo);
         Drawable drawable = exchangeDealLogoImageView.getDrawable();

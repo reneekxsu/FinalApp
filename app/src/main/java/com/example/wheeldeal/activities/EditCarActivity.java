@@ -39,15 +39,10 @@ public class EditCarActivity extends AppCompatActivity {
 
     public static final String TAG = "EditCarActivity";
 
-    EditText etEditName;
-    EditText etEditCarMake;
-    EditText etEditCarModel, etEditYear,etEditPassengers;
-    EditText etEditSizeType, etEditAddress;
-    EditText etEditDescription;
-    EditText etEditRate;
-    Button btnEditSave;
+    EditText etEditName, etEditCarMake, etEditCarModel, etEditYear,etEditPassengers, etEditSizeType,
+            etEditAddress, etEditDescription, etEditRate;
+    Button btnEditSave, btnEditCamera;
     ImageView ivEditPreview;
-    Button btnEditCamera;
     TextView tvEditClose;
     Car car;
 

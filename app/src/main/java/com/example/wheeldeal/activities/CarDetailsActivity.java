@@ -32,13 +32,10 @@ public class CarDetailsActivity extends AppCompatActivity {
     public static final String TAG = "UserCarDetailsActivity";
 
     Car car;
-    TextView tvCarDetailName;
-    TextView tvDetailRate;
-    TextView tvDetailDescription;
+    TextView tvCarDetailName, tvDetailRate, tvDetailDescription;
     ImageView ivDetailCar;
     Context context;
-    ImageButton ibtnEdit;
-    ImageButton ibtnEvent;
+    ImageButton ibtnEdit, ibtnEvent;
     QueryClient queryClient;
     ArrayList<DateRangeHolder> rangeHolder;
 

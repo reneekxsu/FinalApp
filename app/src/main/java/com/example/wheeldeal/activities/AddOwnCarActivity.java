@@ -33,8 +33,8 @@ public class AddOwnCarActivity extends AppCompatActivity {
 
     public static final String TAG = "RegisterCarActivity";
 
-    private EditText etName, etCarMake, etCarModel, etYear, etPrice, etPassengers, etSizeType;
-    private EditText etDescription, etAddress;
+    private EditText etName, etCarMake, etCarModel, etYear, etPrice, etPassengers, etSizeType,
+            etDescription, etAddress;
     private Button btnCamera, btnRegister;
     private ImageView ivPreview;
     private TextView tvClose;

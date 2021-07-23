@@ -39,11 +39,9 @@ public class ScheduleDatesActivity extends AppCompatActivity {
     public static final String TAG = "ScheduleDatesActivity";
 
     List<Event> carEvents = new ArrayList<>();
-    Button btnPickDate;
+    Button btnPickDate, btnDonePickDates;
     TextView tvShowSelectedDate;
-    Button btnDonePickDates;
-    Date start;
-    Date end;
+    Date start, end;
     Car car;
     DateClient dateClient;
     ArrayList<DateRangeHolder> rangeHolders;
@@ -80,7 +78,7 @@ public class ScheduleDatesActivity extends AppCompatActivity {
 
         picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
             @Override public void onPositiveButtonClick(Pair<Long,Long> selection) {
-                tvShowSelectedDate.setText("Selected Date is : " + picker.getHeaderText());
+                tvShowSelectedDate.setText("Selected Date Range: " + picker.getHeaderText());
                 Long startDate = selection.first;
                 Long endDate = selection.second;
                 Calendar c = Calendar.getInstance();
@@ -115,12 +113,10 @@ public class ScheduleDatesActivity extends AppCompatActivity {
         CalendarConstraints.Builder constraintsBuilderRange = new CalendarConstraints.Builder();
         EventRangesOutValidator m = new EventRangesOutValidator(2021, Calendar.JULY, Calendar.MONDAY, rangeHolders);
         CalendarConstraints.DateValidator validator = DateValidatorPointForward.now();
-//        CalendarConstraints.DateValidator validator = DateValidatorPointForward.from(Calendar.getInstance().getTimeInMillis());
         ArrayList<CalendarConstraints.DateValidator> listValidators = new ArrayList<CalendarConstraints.DateValidator>();
         listValidators.add(validator);
         listValidators.add(m);
         CalendarConstraints.DateValidator validators = CompositeDateValidator.allOf(listValidators);
-//        constraintsBuilderRange.setValidator(m);
         constraintsBuilderRange.setValidator(validators);
         return constraintsBuilderRange;
     }

@@ -29,14 +29,10 @@ import org.jetbrains.annotations.NotNull;
 public class AccountDetailsFragment extends Fragment {
 
     ParseUser currentUser;
-    String email;
-    String username;
-    String address;
+    String email, username, address;
     TextInputEditText etName, etEmail, etAddress;
     TextView tvName;
-    Button btnUpdate;
-    Button btnAddProfileImage;
-    Button btnSaveProfileImage;
+    Button btnUpdate, btnAddProfileImage, btnSaveProfileImage;
     ParseFile image;
     ImageView ivProfileImage;
     Context context;
