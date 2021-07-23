@@ -88,7 +88,7 @@ public class ScheduleDatesActivity extends AppCompatActivity {
                 start = c.getTime();
                 c.setTimeInMillis(endDate);
                 end = c.getTime();
-                Log.i("MainActivity", start.toString());
+                Log.i("ScheduleDatesActivity", start.toString());
                 btnDonePickDates.setEnabled(true);
             }
         });
@@ -114,12 +114,13 @@ public class ScheduleDatesActivity extends AppCompatActivity {
     private CalendarConstraints.Builder calConstraints() {
         CalendarConstraints.Builder constraintsBuilderRange = new CalendarConstraints.Builder();
         EventRangesOutValidator m = new EventRangesOutValidator(2021, Calendar.JULY, Calendar.MONDAY, rangeHolders);
-//        constraintsBuilderRange.setValidator(new MondaysOutValidator(2021, Calendar.JULY, Calendar.MONDAY));
-        CalendarConstraints.DateValidator validator = DateValidatorPointForward.from(Calendar.getInstance().getTimeInMillis());
+        CalendarConstraints.DateValidator validator = DateValidatorPointForward.now();
+//        CalendarConstraints.DateValidator validator = DateValidatorPointForward.from(Calendar.getInstance().getTimeInMillis());
         ArrayList<CalendarConstraints.DateValidator> listValidators = new ArrayList<CalendarConstraints.DateValidator>();
         listValidators.add(validator);
         listValidators.add(m);
         CalendarConstraints.DateValidator validators = CompositeDateValidator.allOf(listValidators);
+//        constraintsBuilderRange.setValidator(m);
         constraintsBuilderRange.setValidator(validators);
         return constraintsBuilderRange;
     }

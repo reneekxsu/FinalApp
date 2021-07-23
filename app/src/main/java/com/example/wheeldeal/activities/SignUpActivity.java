@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wheeldeal.R;
+import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -21,6 +22,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText etSignUpUsername;
     EditText etSignUpPassword;
     Button btnFinishSignUp;
+    TextInputLayout tilSignUpUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
         etSignUpUsername = findViewById(R.id.etSignUpUsername);
         etSignUpPassword = findViewById(R.id.etSignUpPassword);
         btnFinishSignUp = findViewById(R.id.btnFinishSignUp);
+        tilSignUpUsername = findViewById(R.id.tilSignUpUsername);
         btnFinishSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
                     // Sign up didn't succeed. Look at the ParseException
                     // to figure out what went wrong
                     Log.e(TAG, "Signup issue", e);
+                    tilSignUpUsername.setError("This username is already taken, please choose a different one.");
                     Toast.makeText(SignUpActivity.this,"Signup failed", Toast.LENGTH_SHORT).show();
                     return;
                 }

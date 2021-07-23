@@ -64,6 +64,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                     }
                     sDestAdd  = adresses.get(0);
                 } catch (IOException e) {
+                    Log.e(TAG, "geocoder not working for google maps directions");
                     e.printStackTrace();
                 }
 

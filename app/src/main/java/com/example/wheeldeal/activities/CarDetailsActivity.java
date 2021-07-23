@@ -99,6 +99,9 @@ public class CarDetailsActivity extends AppCompatActivity {
                 Intent i = new Intent(context, ScheduleDatesActivity.class);
                 ParcelableCar c = new ParcelableCar(car);
                 i.putExtra("ParcelableCar", Parcels.wrap(c));
+                if (rangeHolder.size() == 0){
+                    Log.i(TAG, "no event ranges for this car");
+                }
                 i.putExtra("CarEvents", Parcels.wrap(rangeHolder));
                 startActivity(i);
             }

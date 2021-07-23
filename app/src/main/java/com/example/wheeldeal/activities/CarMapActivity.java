@@ -18,6 +18,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
+import com.example.wheeldeal.models.MarkerCarCountHolder;
 import com.example.wheeldeal.models.ParcelableCar;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.gms.common.ConnectionResult;
@@ -46,6 +47,7 @@ import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import permissions.dispatcher.NeedsPermission;
@@ -61,6 +63,7 @@ public class CarMapActivity extends AppCompatActivity {
     private long UPDATE_INTERVAL = 60000;  /* 60 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
     public static final String TAG = "MapDemoActivity";
+    Hashtable<LatLng, MarkerCarCountHolder> markerLookup = new Hashtable<LatLng, MarkerCarCountHolder>();
 
     private final static String KEY_LOCATION = "location";
 
@@ -119,6 +122,11 @@ public class CarMapActivity extends AppCompatActivity {
         map = googleMap;
         if (map != null) {
             // Map is ready
+//            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//                public boolean onMarkerClick(Marker marker) {
+//                    // Handle marker click here
+//                }
+//            });
             map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                 @Override
                 public void onInfoWindowClick(Marker marker) {
@@ -148,7 +156,7 @@ public class CarMapActivity extends AppCompatActivity {
                                     Log.i(TAG, "car with address: " + car.getMake() + " at " + car.getAddress());
                                 }
                             }
-                        }, marker.getTitle());
+                        }, marker.getSnippet());
                     }
                 }
             });
@@ -253,6 +261,7 @@ public class CarMapActivity extends AppCompatActivity {
             map.addMarker(options);
             Geocoder g = new Geocoder(this);
             for (Car car : allCars){
+                Log.i(TAG, "car in allCars: " + car.getMake());
                 double lat;
                 double lng;
                 try {
@@ -266,10 +275,23 @@ public class CarMapActivity extends AppCompatActivity {
                     lat = addresses.get(0).getLatitude();
                     lng = addresses.get(0).getLongitude();
                     LatLng carLatLng = new LatLng(lat, lng);
-                    MarkerOptions marker = new MarkerOptions().position(carLatLng).title(car.getAddress());
-                    map.addMarker(marker);
+                    MarkerCarCountHolder lookup = markerLookup.get(carLatLng);
+                    if (lookup == null){
+                        MarkerOptions markerOption = new MarkerOptions().position(carLatLng).title(car.getAddress()).snippet(car.getAddress());
+                        Marker marker = map.addMarker(markerOption);
+                        markerLookup.put(carLatLng, new MarkerCarCountHolder(marker, 1));
+                    } else {
+                        int count = lookup.getCount();
+                        Log.i(TAG, "count before " + count);
+                        lookup.incrementCount();
+                        count = lookup.getCount();
+                        Log.i(TAG, "count incremented to " + count);
+                        lookup.getMarker().setTitle(count + " cars found");
+                    }
+
 
                 } catch (IOException e) {
+                    Log.e(TAG, "geocoder failed");
                     e.printStackTrace();
                 }
             }
