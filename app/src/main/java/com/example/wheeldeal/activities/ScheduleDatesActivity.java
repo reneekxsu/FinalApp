@@ -21,9 +21,7 @@ import com.google.android.material.datepicker.CompositeDateValidator;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
-import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -98,7 +96,12 @@ public class ScheduleDatesActivity extends AppCompatActivity {
                 Log.i(TAG, "end date is: " + end.toString());
                 if (isValidDateWindow(start, end)){
                     Log.i(TAG, "valid time window");
-                    getCarEvents();
+                    if (EventConflictExists(start, end)){
+                        Log.i(TAG, "event conflicts exist");
+                        Toast.makeText(ScheduleDatesActivity.this, "Event conflicts with another", Toast.LENGTH_SHORT).show();
+                    } else {
+                        saveEvent(start, end);
+                    }
                 } else {
                     Log.i(TAG, "not valid time window");
                     Toast.makeText(ScheduleDatesActivity.this, "Not a valid time window", Toast.LENGTH_SHORT).show();
@@ -119,36 +122,6 @@ public class ScheduleDatesActivity extends AppCompatActivity {
         CalendarConstraints.DateValidator validators = CompositeDateValidator.allOf(listValidators);
         constraintsBuilderRange.setValidator(validators);
         return constraintsBuilderRange;
-    }
-
-    public void getCarEvents(){
-        // check for all events that has this car
-        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-        query.whereEqualTo(Event.KEY_CAR, car);
-        query.addAscendingOrder(Event.KEY_START);
-        query.include(Event.KEY_CAR);
-        Log.i(TAG, "fetching car events");
-        query.findInBackground(new FindCallback<Event>() {
-            @Override
-            public void done(List<Event> events, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Could not get events associated with this car");
-                    Log.e(TAG, e.getCause().toString());
-                } else {
-                    for (Event event : events){
-                        Log.i(TAG, "Events associated with this car: " + event.getStart().toString());
-                    }
-                    carEvents.addAll(events);
-                    if (EventConflictExists(events, start, end)){
-                        Log.i(TAG, "event conflicts exist");
-                        Toast.makeText(ScheduleDatesActivity.this, "Event conflicts with another", Toast.LENGTH_SHORT).show();
-                    } else {
-                        saveEvent(start, end);
-                    }
-
-                }
-            }
-        });
     }
 
     public int isDateBefore(int year1, int month1, int day1, int year2, int month2, int day2){
@@ -174,10 +147,10 @@ public class ScheduleDatesActivity extends AppCompatActivity {
     }
 
 
-    public boolean EventConflictExists(List<Event> events, Date start, Date end) {
-        for (Event event : events){
-            Date eventStart = event.getStart();
-            Date eventEnd = event.getEnd();
+    public boolean EventConflictExists(Date start, Date end) {
+        for (DateRangeHolder ranges : rangeHolders){
+            Date eventStart = ranges.getStart();
+            Date eventEnd = ranges.getEnd();
             int eventStartMonth = getMonth(eventStart);
             int eventStartDate = getDay(eventStart);
             int eventStartYear = getYear(eventStart);

@@ -30,7 +30,7 @@ import com.parse.ParseUser;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    // global variable declarations
+    // Global variable declarations
     public static final String TAG = "LoginActivity";
     public static LoginActivity instance = null;
     private EditText etUsername, etPassword;
@@ -46,16 +46,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // set activity instance
+        // Set activity instance
         instance = this;
 
-        // check if user is already logged in
+        // Check if user is already logged in
         if (ParseUser.getCurrentUser()!=null){
-            // since user is already logged in, set fromLogin to false, and go to MainActivity
+            // Since user is already logged in, set fromLogin to false, and go to MainActivity
             goMainActivity(false);
         }
 
-        // initialize layout/view variables
+        // Initialize layout/view variables
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         tilPassword = findViewById(R.id.tilLoginPassword);
         tilUsername = findViewById(R.id.tilLoginUsername);
 
+        // Set button listeners
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,25 +80,39 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
+     * @brief Process login information by extracting EditText username and password strings
+     */
+    public void processLoginInfo(){
+        String username = etUsername.getText().toString();
+        String password = etPassword.getText().toString();
+        loginUser(username, password);
+    }
+
+    /**
      * @brief Logs in the ParseUser using the provided username and password strings. On success,
-     *        we want to star the MainActivity, and on failure, we notify the user that the
+     *        we want to start the MainActivity, and on failure, we notify the user that the
      *        login information is incorrect.
      * @param username Username that has been entered at time of button click
      * @param password Password that has been entered at time of button click
      */
     private void loginUser(String username, String password) {
         Log.i(TAG, "Trying to login user " + username);
+        // Try to log in the user using provided credentials
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e != null){
+                    // Login failed
                     Log.e(TAG, "login issue", e);
                     tilShowError();
-                    Toast.makeText(LoginActivity.this,"Wrong username or password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,"Wrong username or password",
+                            Toast.LENGTH_SHORT).show();
                     return;
                 } else {
+                    // Login was successful
                     goMainActivity(true);
-                    Toast.makeText(LoginActivity.this,"Login success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,"Login success",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -113,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent i = new Intent(this, MainActivity.class);
         i.putExtra("flag", fromLogin);
         startActivity(i);
-        // allows back button not to lead us back to login
+        // Allows back button not to lead us back to login
         finish();
     }
 
@@ -128,23 +143,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * @brief Process login information by extracting EditText username and password strings
-     */
-    public void processLoginInfo(){
-        String username = etUsername.getText().toString();
-        String password = etPassword.getText().toString();
-        loginUser(username, password);
-    }
-
-    /**
      * @brief Takes user to SignUpActivity
      */
     public void goToSignUp(){
         Log.i(TAG, "onClick sign up button");
         Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
-        // go to signup activity
+        // Go to signup activity
         startActivity(i);
-        // finish is not called such that user can go back to login if sign up not complete
+        // Finish is not called such that user can go back to login if sign up not complete
     }
 
     /**

@@ -23,6 +23,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WheelDeal">
+        <activity android:name=".activities.CarculatorActivity"></activity>
         <activity android:name=".oldclasses.GoogleMapsActivity" />
         <activity android:name=".activities.ScheduleDatesActivity" />
         <activity android:name=".activities.EventDetailsActivity" />
@@ -32,8 +33,7 @@
         <activity android:name=".activities.CarDetailsActivity" />
         <activity android:name=".activities.UserCarFeedActivity" />
         <activity android:name=".activities.AddOwnCarActivity" />
-        <activity android:name=".activities.CarMapActivity">
-        </activity>
+        <activity android:name=".activities.CarMapActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -47,12 +47,11 @@
 
         <activity android:name=".activities.SignUpActivity" />
         <activity android:name=".activities.LoginActivity">
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-
-                 <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
 
