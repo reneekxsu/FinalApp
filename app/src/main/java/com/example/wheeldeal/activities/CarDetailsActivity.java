@@ -32,7 +32,7 @@ public class CarDetailsActivity extends AppCompatActivity {
     public static final String TAG = "UserCarDetailsActivity";
 
     Car car;
-    TextView tvCarDetailName, tvDetailRate, tvDetailDescription;
+    TextView tvCarDetailName, tvDetailRate, tvDetailDescription, tvCarculator;
     ImageView ivDetailCar;
     Context context;
     ImageButton ibtnEdit, ibtnEvent;
@@ -42,20 +42,21 @@ public class CarDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_car_details);
+        setContentView(R.layout.activity_car_details);
 
         car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();
         tvCarDetailName = findViewById(R.id.tvCarDetailName);
         tvDetailRate = findViewById(R.id.tvDetailRate);
         tvDetailDescription = findViewById(R.id.tvDetailDescription);
         ivDetailCar = findViewById(R.id.ivDetailCar);
+        tvCarculator = findViewById(R.id.tvCarculator);
         ibtnEdit = findViewById(R.id.ibtnEdit);
         ibtnEvent = findViewById(R.id.ibtnEvent);
         context = this;
         queryClient = new QueryClient();
         rangeHolder = new ArrayList<>();
 
-        ibtnEdit.setVisibility(View.GONE);
+//        ibtnEdit.setVisibility(View.GONE);
         fetchAllCarEvents(car);
 
         tvCarDetailName.setText(car.getModel());
@@ -71,6 +72,7 @@ public class CarDetailsActivity extends AppCompatActivity {
 
         if (!userIsAuthor(car)){
             ibtnEdit.setVisibility(View.GONE);
+            tvCarculator.setVisibility(View.GONE);
         } else {
             ibtnEdit.setVisibility(View.VISIBLE);
             ibtnEdit.setBackgroundDrawable(null);
@@ -79,6 +81,17 @@ public class CarDetailsActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     ParcelableCar c = new ParcelableCar(car);
                     Intent i = new Intent(context, EditCarActivity.class);
+                    i.putExtra(ParcelableCar.class.getSimpleName(), Parcels.wrap(c));
+                    startActivity(i);
+                    finish();
+                }
+            });
+            tvCarculator.setVisibility(View.VISIBLE);
+            tvCarculator.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ParcelableCar c = new ParcelableCar(car);
+                    Intent i = new Intent(context, CarculatorActivity.class);
                     i.putExtra(ParcelableCar.class.getSimpleName(), Parcels.wrap(c));
                     startActivity(i);
                     finish();

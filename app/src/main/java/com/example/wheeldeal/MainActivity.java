@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.wheeldeal.fragments.HomeFragment;
 import com.example.wheeldeal.fragments.LoadingFragment;
 import com.example.wheeldeal.fragments.ProfileFragment;
-import com.example.wheeldeal.fragments.ScheduleFragment;
+import com.example.wheeldeal.fragments.ScheduleViewpagerFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Define fragments
         final Fragment homeFragment = new HomeFragment();
-        final Fragment scheduleFragment = new ScheduleFragment();
+//        final Fragment scheduleFragment = new ScheduleFragment();
+        final Fragment scheduleFragment = new ScheduleViewpagerFragment();
         final Fragment profileFragment = new ProfileFragment();
         final Fragment loadingFragment = new LoadingFragment();
 

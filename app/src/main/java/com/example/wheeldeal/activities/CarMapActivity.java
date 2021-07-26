@@ -141,6 +141,7 @@ public class CarMapActivity extends AppCompatActivity {
                                     Intent i = new Intent(CarMapActivity.this, CarDetailsActivity.class);
                                     i.putExtra(ParcelableCar.class.getSimpleName(), Parcels.wrap(pc));
                                     startActivity(i);
+                                    finish();
                                 } else {
                                     Log.i(TAG, "multiple cars at this address");
                                     ArrayList<ParcelableCar> parcelableCars = new ArrayList<ParcelableCar>();
@@ -151,6 +152,7 @@ public class CarMapActivity extends AppCompatActivity {
                                     Intent i = new Intent(CarMapActivity.this, SameAddressCarsActivity.class);
                                     i.putExtra("ParcelableCars", Parcels.wrap(parcelableCars));
                                     startActivity(i);
+                                    finish();
                                 }
                                 for (Car car : cars) {
                                     Log.i(TAG, "car with address: " + car.getMake() + " at " + car.getAddress());
@@ -277,7 +279,7 @@ public class CarMapActivity extends AppCompatActivity {
                     LatLng carLatLng = new LatLng(lat, lng);
                     MarkerCarCountHolder lookup = markerLookup.get(carLatLng);
                     if (lookup == null){
-                        MarkerOptions markerOption = new MarkerOptions().position(carLatLng).title(car.getAddress()).snippet(car.getAddress());
+                        MarkerOptions markerOption = new MarkerOptions().position(carLatLng).title("1 car found").snippet(car.getAddress());
                         Marker marker = map.addMarker(markerOption);
                         markerLookup.put(carLatLng, new MarkerCarCountHolder(marker, 1));
                     } else {

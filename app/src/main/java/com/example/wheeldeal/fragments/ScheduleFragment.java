@@ -32,6 +32,8 @@ public class ScheduleFragment extends Fragment {
 
     public static final String TAG = "ScheduleFragment";
 
+    public static final String ARG_PAGE = "ARG_PAGE";
+    private int mPage;
     private RecyclerView rvEvents;
     protected EventAdapter adapter;
     protected List<Event> allEvents;
@@ -39,6 +41,21 @@ public class ScheduleFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
     private QueryClient queryClient;
     private Toolbar toolbar;
+
+    // newInstance constructor for creating fragment withs arguments
+    public static ScheduleFragment newInstance(int page) {
+        Bundle args = new Bundle();
+        args.putInt(ARG_PAGE, page);
+        ScheduleFragment fragment = new ScheduleFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPage = getArguments().getInt(ARG_PAGE);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,7 +81,14 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onRefresh() {
                 Log.i(TAG, "refreshing");
-                fetchAllEvents();
+//                fetchAllEvents();
+                if (mPage == 0){
+                    Log.i(TAG, "fetching future events");
+                    fetchAllFutureEvents();
+                } else {
+                    Log.i(TAG, "fetching past events");
+                    fetchAllPastEvents();
+                }
             }
         });
 
@@ -81,11 +105,62 @@ public class ScheduleFragment extends Fragment {
         rvEvents.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         Log.i(TAG, "querying all events");
-        fetchAllEvents();
+//        fetchAllEvents();
+        if (mPage == 0){
+            fetchAllFutureEvents();
+        } else {
+            fetchAllPastEvents();
+        }
     }
 
     private void fetchAllEvents() {
         queryClient.fetchAllEvents(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> events, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Could not get user's events");
+                    Log.e(TAG, e.getCause().toString());
+                } else {
+                    for (Event event : events){
+                        Log.i(TAG, "Event showing in schedule for car: " + event.getCar().getModel());
+                    }
+                    adapter.clear();
+                    adapter.addAll(events);
+                    pb.setVisibility(ProgressBar.INVISIBLE);
+                }
+            }
+        });
+        // Now we call setRefreshing(false) to signal refresh has finished
+        if (swipeContainer.isRefreshing()){
+            swipeContainer.setRefreshing(false);
+        }
+    }
+
+    private void fetchAllFutureEvents() {
+        queryClient.fetchAllFutureEvents(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> events, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Could not get user's events");
+                    Log.e(TAG, e.getCause().toString());
+                } else {
+                    for (Event event : events){
+                        Log.i(TAG, "Event showing in schedule for car: " + event.getCar().getModel());
+                    }
+                    adapter.clear();
+                    adapter.addAll(events);
+                    pb.setVisibility(ProgressBar.INVISIBLE);
+                }
+            }
+        });
+        // Now we call setRefreshing(false) to signal refresh has finished
+        if (swipeContainer.isRefreshing()){
+            swipeContainer.setRefreshing(false);
+        }
+    }
+
+    private void fetchAllPastEvents() {
+        queryClient.fetchAllPastEvents(new FindCallback<Event>() {
             @Override
             public void done(List<Event> events, ParseException e) {
                 if (e != null) {

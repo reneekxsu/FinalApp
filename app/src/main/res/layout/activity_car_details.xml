@@ -71,4 +71,15 @@
         android:layout_marginEnd="19dp"
         app:srcCompat="@android:drawable/ic_menu_my_calendar"
         app:tint="?attr/colorPrimary" />
+
+    <TextView
+        android:id="@+id/tvCarculator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCarDetailName"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="19dp"
+        android:layout_toEndOf="@+id/tvDetailRate"
+        android:text="Carculator"
+        android:textStyle="bold" />
 </RelativeLayout>

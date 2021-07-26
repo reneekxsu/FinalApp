@@ -9,6 +9,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +42,61 @@ public class QueryClient {
         query.include(Event.KEY_RENTER);
         query.findInBackground(callback);
     }
+
+    public void fetchAllFutureEvents(FindCallback<Event> callback){
+        Calendar c = Calendar.getInstance();
+        Date d = c.getTime();
+        Log.i(TAG, "fetching all future events");
+        // query events in which user is renter OR owner
+        ParseQuery<Event> queryRenter = ParseQuery.getQuery(Event.class);
+        queryRenter.whereEqualTo(Event.KEY_RENTER, ParseUser.getCurrentUser());
+        queryRenter.whereGreaterThanOrEqualTo(Event.KEY_END, d);
+
+        ParseQuery<Event> queryOwner = ParseQuery.getQuery(Event.class);
+        ParseQuery<Car> innerQuery = ParseQuery.getQuery(Car.class);
+        innerQuery.whereEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
+        queryOwner.whereMatchesQuery(Event.KEY_CAR, innerQuery);
+        queryOwner.whereGreaterThanOrEqualTo(Event.KEY_END, d);
+
+        List<ParseQuery<Event>> queries = new ArrayList<ParseQuery<Event>>();
+        queries.add(queryRenter);
+        queries.add(queryOwner);
+        ParseQuery<Event> query = ParseQuery.or(queries);
+
+        query.addAscendingOrder(Event.KEY_START);
+        query.setLimit(20);
+        query.include(Event.KEY_CAR);
+        query.include(Event.KEY_RENTER);
+        query.findInBackground(callback);
+    }
+
+    public void fetchAllPastEvents(FindCallback<Event> callback){
+        Calendar c = Calendar.getInstance();
+        Date d = c.getTime();
+        Log.i(TAG, "fetching all past events");
+        // query events in which user is renter OR owner
+        ParseQuery<Event> queryRenter = ParseQuery.getQuery(Event.class);
+        queryRenter.whereEqualTo(Event.KEY_RENTER, ParseUser.getCurrentUser());
+        queryRenter.whereLessThan(Event.KEY_END, d);
+
+        ParseQuery<Event> queryOwner = ParseQuery.getQuery(Event.class);
+        ParseQuery<Car> innerQuery = ParseQuery.getQuery(Car.class);
+        innerQuery.whereEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
+        queryOwner.whereMatchesQuery(Event.KEY_CAR, innerQuery);
+        queryOwner.whereLessThan(Event.KEY_END, d);
+
+        List<ParseQuery<Event>> queries = new ArrayList<ParseQuery<Event>>();
+        queries.add(queryRenter);
+        queries.add(queryOwner);
+        ParseQuery<Event> query = ParseQuery.or(queries);
+
+        query.addAscendingOrder(Event.KEY_START);
+        query.setLimit(20);
+        query.include(Event.KEY_CAR);
+        query.include(Event.KEY_RENTER);
+        query.findInBackground(callback);
+    }
+
 
     public void fetchCars(FindCallback<Car> callback, boolean isAll){
         Log.i(TAG, "fetching all cars");
