@@ -9,17 +9,16 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.wheeldeal.utils.QueryClient;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.adapters.EventAdapter;
 import com.example.wheeldeal.models.Event;
+import com.example.wheeldeal.utils.QueryClient;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 
@@ -68,9 +67,9 @@ public class ScheduleFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        toolbar.setTitle("Schedule");
+//        toolbar = view.findViewById(R.id.toolbar);
+//        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+//        toolbar.setTitle("Schedule");
 
         queryClient = new QueryClient();
 

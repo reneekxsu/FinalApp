@@ -6,10 +6,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.wheeldeal.fragments.ScheduleFragment">
 
-    <include
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+<!--    <include-->
+<!--        layout="@layout/toolbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content" />-->
 
     <LinearLayout android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -26,7 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
-        android:layout_marginTop="?attr/actionBarSize"
         android:layout_above="@+id/bottom_navigation">
 
         <androidx.recyclerview.widget.RecyclerView

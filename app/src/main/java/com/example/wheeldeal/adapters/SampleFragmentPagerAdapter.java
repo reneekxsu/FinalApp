@@ -21,14 +21,7 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch(position){
-            case 0:
-                return ScheduleFragment.newInstance(position);
-            case 1:
-                return ScheduleFragment.newInstance(position);
-            default:
-                return null;
-        }
+        return ScheduleFragment.newInstance(position);
 //        return PageFragment.newInstance(position + 1);
     }
 

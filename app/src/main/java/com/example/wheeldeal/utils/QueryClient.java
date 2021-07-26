@@ -45,6 +45,7 @@ public class QueryClient {
 
     public void fetchAllFutureEvents(FindCallback<Event> callback){
         Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_MONTH, -1);
         Date d = c.getTime();
         Log.i(TAG, "fetching all future events");
         // query events in which user is renter OR owner
@@ -72,6 +73,7 @@ public class QueryClient {
 
     public void fetchAllPastEvents(FindCallback<Event> callback){
         Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_MONTH, -1);
         Date d = c.getTime();
         Log.i(TAG, "fetching all past events");
         // query events in which user is renter OR owner
