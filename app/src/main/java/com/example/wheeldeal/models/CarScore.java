@@ -13,16 +13,16 @@ public class CarScore {
     }
 
     public double getScore(){
-        return weighYear(year) + 11 * (0.94 * (passengers - 1)) + 10 * flagLux;
+        return weighYear(year) + 10 * (0.94 * (passengers - 1)) + (10 * flagLux) * Math.pow(3.5,(flagLux + 1));
     }
 
     public double weighYear(int year){
         // sigmoid
         int n = 2021 - year;
-        double scaled = (23.0 / (1 + Math.exp(0.34 * (n - 12)))) - 1.7;
+        double scaled = (22 / (1 + Math.exp(0.4 * (n - 10)))) + 1.5;
 //        double scaled = -1 * Math.pow(1.3, n) + 20;
         Log.i("CarScore", "year scaled to: " + scaled);
-        return 3.5 * scaled;
+        return 4.3 * scaled;
     }
 
 }

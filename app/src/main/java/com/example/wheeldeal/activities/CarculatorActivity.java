@@ -182,8 +182,8 @@ public class CarculatorActivity extends AppCompatActivity {
     }
 
     private void initLuxury(){
-        UltLuxury.addAll(List.of("Bentley","Ferrari", "Lamborghini", "Maserati", "Mclaren", "Rolls Royce", "Aston Martin"));
-        Luxury.addAll(List.of("BMW", "Audi", "Land Rover", "Range Rover", "Mercedes", "Tesla"));
+        UltLuxury.addAll(List.of("Bentley","Ferrari", "Lamborghini", "Maserati", "Mclaren", "Rolls Royce", "Aston Martin", "Corvette"));
+        Luxury.addAll(List.of("BMW", "Audi", "Land Rover", "Range Rover", "Mercedes-Benz", "Tesla"));
     }
 
     private int scoreToPrice(double score){
