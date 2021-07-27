@@ -22,7 +22,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     public static final String TAG = "EventDetailsActivity";
     Event event;
     private TextView tvEventDetailStart, tvEventDetailEnd, tvEventDetailCarName,
-            tvEventDetailRenter, tvEventDetailCarOwner, tvGetDirections;
+            tvEventDetailRenter, tvEventDetailCarOwner, tvGetDirections, tvEventPrice;
     private DateClient dateClient;
 
     @Override
@@ -37,6 +37,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         tvEventDetailRenter = findViewById(R.id.tvEventDetailRenter);
         tvEventDetailCarOwner = findViewById(R.id.tvEventDetailCarOwner);
         tvGetDirections = findViewById(R.id.tvGetDirections);
+        tvEventPrice = findViewById(R.id.tvEventPrice);
         dateClient = new DateClient();
 
         tvGetDirections.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +70,7 @@ public class EventDetailsActivity extends AppCompatActivity {
             Log.v(TAG, e.toString());
             e.printStackTrace();
         }
+        tvEventPrice.setText("$" + event.getPrice() + "/day");
         tvEventDetailCarOwner.setText("Owner: " + name);
     }
 

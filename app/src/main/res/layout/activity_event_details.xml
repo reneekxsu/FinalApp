@@ -62,18 +62,27 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="68dp"
-        android:layout_toEndOf="@+id/tvEventDetailEnd"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        app:tint="?attr/colorPrimary"/>
 
     <TextView
         android:id="@+id/tvGetDirections"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventDetailCarOwner"
+        android:layout_below="@id/tvEventPrice"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Get Directions!"
         android:textSize="20sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvEventPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvEventDetailCarOwner"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        tools:text="$120/day" />
 </RelativeLayout>
