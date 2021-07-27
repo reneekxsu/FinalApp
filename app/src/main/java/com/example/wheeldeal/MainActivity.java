@@ -43,7 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Get a boolean flag for determining whether to display the loading fragment
         Intent intent = getIntent();
-        fromLogin = intent.getExtras().getBoolean("flag");
+        fromLogin = false;
+        if (intent.getExtras() != null){
+            fromLogin = intent.getExtras().getBoolean("flag");
+        }
 
         // Define fragments
         final Fragment homeFragment = new HomeFragment();

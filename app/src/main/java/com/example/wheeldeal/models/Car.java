@@ -2,6 +2,7 @@ package com.example.wheeldeal.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -20,6 +21,7 @@ public class Car extends ParseObject {
     public static final String KEY_PASSENGERS = "passengers";
     public static final String KEY_SIZE = "size";
     public static final String KEY_ADDRESS = "address";
+    public static final String KEY_ADDRESSGEOPOINT = "addressGeoPoint";
 
     // description getter and setter
     public String getDescription(){
@@ -118,5 +120,14 @@ public class Car extends ParseObject {
 
     public void setAddress(String address) {
         put(KEY_ADDRESS, address);
+    }
+
+    // address getter and setter
+    public ParseGeoPoint getAddressGeoPoint() {
+        return getParseGeoPoint(KEY_ADDRESSGEOPOINT);
+    }
+
+    public void setAddressGeoPoint(ParseGeoPoint address) {
+        put(KEY_ADDRESSGEOPOINT, address);
     }
 }

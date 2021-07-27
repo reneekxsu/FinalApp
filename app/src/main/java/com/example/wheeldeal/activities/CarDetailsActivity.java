@@ -12,12 +12,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.wheeldeal.MainActivity;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.DateRangeHolder;
 import com.example.wheeldeal.models.Event;
 import com.example.wheeldeal.models.ParcelableCar;
 import com.example.wheeldeal.utils.QueryClient;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -35,7 +37,7 @@ public class CarDetailsActivity extends AppCompatActivity {
     TextView tvCarDetailName, tvDetailRate, tvDetailDescription, tvCarculator;
     ImageView ivDetailCar;
     Context context;
-    ImageButton ibtnEdit, ibtnEvent;
+    ImageButton ibtnEdit, ibtnEvent, ibtnDelete;
     QueryClient queryClient;
     ArrayList<DateRangeHolder> rangeHolder;
 
@@ -52,11 +54,12 @@ public class CarDetailsActivity extends AppCompatActivity {
         tvCarculator = findViewById(R.id.tvCarculator);
         ibtnEdit = findViewById(R.id.ibtnEdit);
         ibtnEvent = findViewById(R.id.ibtnEvent);
+        ibtnDelete = findViewById(R.id.ibtnDelete);
         context = this;
         queryClient = new QueryClient();
         rangeHolder = new ArrayList<>();
 
-//        ibtnEdit.setVisibility(View.GONE);
+        ibtnEvent.setVisibility(View.GONE);
         fetchAllCarEvents(car);
 
         tvCarDetailName.setText(car.getModel());
@@ -101,7 +104,6 @@ public class CarDetailsActivity extends AppCompatActivity {
 
         // car owner will schedule when they are not free, while customer will schedule when they want to rent it
         ibtnEvent.setBackgroundDrawable(null);
-        ibtnEvent.setVisibility(View.VISIBLE);
         ibtnEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +116,21 @@ public class CarDetailsActivity extends AppCompatActivity {
                 }
                 i.putExtra("CarEvents", Parcels.wrap(rangeHolder));
                 startActivity(i);
+            }
+        });
+
+        ibtnDelete.setBackgroundDrawable(null);
+        ibtnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                car.deleteInBackground(new DeleteCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Intent i = new Intent(context, MainActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
+                });
             }
         });
 

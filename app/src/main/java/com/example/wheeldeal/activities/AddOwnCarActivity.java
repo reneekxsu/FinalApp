@@ -3,6 +3,8 @@ package com.example.wheeldeal.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -10,7 +12,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,23 +23,29 @@ import androidx.core.content.FileProvider;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.BitmapScaler;
 import com.example.wheeldeal.models.Car;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class AddOwnCarActivity extends AppCompatActivity {
 
     public static final String TAG = "RegisterCarActivity";
 
-    private EditText etName, etCarMake, etCarModel, etYear, etPrice, etPassengers, etSizeType,
+    private TextInputEditText etName, etCarMake, etCarModel, etYear, etPrice, etPassengers, etSizeType,
             etDescription, etAddress;
     private Button btnCamera, btnRegister;
     private ImageView ivPreview;
     private TextView tvClose;
     String name, make, model, year, price, passengerCount, sizeType, description, address;
+    private TextInputLayout tilPrice;
     boolean nameFilled = false;
     boolean makeFilled = false;
     boolean modelFilled = false;
@@ -60,17 +67,33 @@ public class AddOwnCarActivity extends AppCompatActivity {
 
         etName = findViewById(R.id.etCarName);
         etCarMake = findViewById(R.id.etCarMake);
-        etCarModel = findViewById(R.id.etCarModel);
-        etYear = findViewById(R.id.etCarYear);
+        etCarModel = findViewById(R.id.etCarculatorModel);
+        etYear = findViewById(R.id.etCarculatorYear);
         etPrice = findViewById(R.id.etCarPrice);
-        etPassengers = findViewById(R.id.etCarPassengers);
-        etSizeType = findViewById(R.id.etSizeType);
+        etPassengers = findViewById(R.id.etCarculatorPassengers);
+        etSizeType = findViewById(R.id.etCarculatorSizeType);
         etDescription = findViewById(R.id.etCarDescription);
-        etAddress = findViewById(R.id.etCarAddress);
+        etAddress = findViewById(R.id.etCarculatorAddress);
         btnCamera = findViewById(R.id.btnCamera);
         btnRegister = findViewById(R.id.btnUpdateCar);
         ivPreview = findViewById(R.id.ivPreview);
         tvClose = findViewById(R.id.tvClose);
+        tilPrice = findViewById(R.id.tilPrice);
+
+        tilPrice.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(AddOwnCarActivity.this, CarculatorActivity.class);
+                i.putExtra("make", etCarMake.getText().toString());
+                i.putExtra("model", etCarModel.getText().toString());
+                i.putExtra("year", etYear.getText().toString());
+//                i.putExtra("price", etPrice.getText().toString());
+                i.putExtra("passengers", etPassengers.getText().toString());
+                i.putExtra("sizetype", etSizeType.getText().toString());
+                i.putExtra("address", etAddress.getText().toString());
+                startActivity(i);
+            }
+        });
 
 //        etName.addTextChangedListener(new TextWatcher() {
 //            @Override
@@ -191,6 +214,25 @@ public class AddOwnCarActivity extends AppCompatActivity {
         car.setPassengers(passengers);
         car.setSizeType(size);
         car.setAddress(address);
+        Geocoder g = new Geocoder(this);
+        double lat, lng;
+        try {
+            ArrayList<Address> addresses = (ArrayList<Address>) g.getFromLocationName(address, 50);
+            for(Address add : addresses){
+                double longitude = add.getLongitude();
+                double latitude = add.getLatitude();
+                Log.i(TAG, "Latitude: " + latitude);
+                Log.i(TAG, "Longitude: " + longitude);
+            }
+            lat = addresses.get(0).getLatitude();
+            lng = addresses.get(0).getLongitude();
+            ParseGeoPoint gp = new ParseGeoPoint(lat, lng);
+            car.setAddressGeoPoint(gp);
+        } catch (IOException e){
+            Log.e(TAG, "geocoder failed");
+            e.printStackTrace();
+        }
+
         car.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

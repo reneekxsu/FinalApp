@@ -31,7 +31,7 @@ public class UserCarFeedActivity extends AppCompatActivity {
     private ProgressBar pb;
     private FloatingActionButton fabAddCar;
     private QueryClient queryClient;
-    public static final String TAG = "UserCarFeedActivity";
+    public static final String TAG = "FeedActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class UserCarFeedActivity extends AppCompatActivity {
         fabAddCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("FeedActivity", "clicked post button");
+                Log.i(TAG, "clicked add car button");
                 Intent i = new Intent(UserCarFeedActivity.this, AddOwnCarActivity.class);
                 startActivityForResult(i, 20);
             }

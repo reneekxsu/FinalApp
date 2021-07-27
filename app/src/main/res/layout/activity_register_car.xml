@@ -56,7 +56,6 @@
                     android:drawablePadding="0dp"
                     tools:text="Toyota"></com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +63,7 @@
                 android:hint="Model">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCarModel"
+                    android:id="@+id/etCarculatorModel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="0dp"
@@ -72,7 +71,6 @@
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,7 +78,7 @@
                 android:hint="Year">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCarYear"
+                    android:id="@+id/etCarculatorYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="0dp"
@@ -90,10 +88,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Price">
+                android:hint="Price"
+                app:endIconDrawable="@android:drawable/ic_dialog_info"
+                app:endIconMode="custom">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCarPrice"
@@ -104,7 +105,6 @@
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
                 android:hint="Number of Passengers">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCarPassengers"
+                    android:id="@+id/etCarculatorPassengers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="0dp"
@@ -128,7 +128,7 @@
                 android:hint="Size Type">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etSizeType"
+                    android:id="@+id/etCarculatorSizeType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="0dp"
@@ -160,7 +160,7 @@
                 android:hint="Address">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCarAddress"
+                    android:id="@+id/etCarculatorAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="0dp"

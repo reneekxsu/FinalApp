@@ -62,7 +62,7 @@ public class CarMapActivity extends AppCompatActivity {
     Location mCurrentLocation;
     private long UPDATE_INTERVAL = 60000;  /* 60 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
-    public static final String TAG = "MapDemoActivity";
+    public static final String TAG = "CarMapActivity";
     Hashtable<LatLng, MarkerCarCountHolder> markerLookup = new Hashtable<LatLng, MarkerCarCountHolder>();
 
     private final static String KEY_LOCATION = "location";
