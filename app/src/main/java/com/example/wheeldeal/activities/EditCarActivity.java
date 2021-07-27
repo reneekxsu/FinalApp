@@ -28,6 +28,7 @@ import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.BitmapScaler;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.ParcelableCar;
+import com.google.android.material.textfield.TextInputLayout;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -52,6 +53,8 @@ public class EditCarActivity extends AppCompatActivity {
     TextView tvEditClose;
     Car car;
     Context context;
+    TextInputLayout tilPrice;
+
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     public String photoFileName = "photo.jpg";
@@ -79,6 +82,7 @@ public class EditCarActivity extends AppCompatActivity {
         btnEditSave = findViewById(R.id.btnUpdateCar);
         ivEditPreview = findViewById(R.id.ivPreview);
         tvEditClose = findViewById(R.id.tvClose);
+        tilPrice = findViewById(R.id.tilPrice);
 
         car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();
 
@@ -152,6 +156,21 @@ public class EditCarActivity extends AppCompatActivity {
                 Intent i = new Intent(EditCarActivity.this, MainActivity.class);
                 startActivity(i);
                 finish();
+            }
+        });
+
+        tilPrice.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(EditCarActivity.this, CarculatorActivity.class);
+                i.putExtra("make", etEditCarMake.getText().toString());
+                i.putExtra("model", etEditCarModel.getText().toString());
+                i.putExtra("year", etEditYear.getText().toString());
+//                i.putExtra("price", etPrice.getText().toString());
+                i.putExtra("passengers", etEditPassengers.getText().toString());
+                i.putExtra("sizetype", etEditSizeType.getText().toString());
+                i.putExtra("address", etEditAddress.getText().toString());
+                startActivity(i);
             }
         });
 

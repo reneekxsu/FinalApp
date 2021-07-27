@@ -210,6 +210,7 @@ public class ScheduleDatesActivity extends AppCompatActivity {
         event.setEnd(end);
         event.setRenter(ParseUser.getCurrentUser());
         event.setCar(car);
+        event.setPrice(car.getRate());
         int rentType = 0;
         if (userIsCustomer()){
             rentType = 1;

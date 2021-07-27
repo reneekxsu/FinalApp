@@ -1,6 +1,7 @@
 package com.example.wheeldeal.activities;
 
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,15 +18,16 @@ import java.util.List;
 public class CarculatorActivity extends AppCompatActivity {
 
     QueryClient queryClient;
-    ArrayList<Car> sameMake;
-    ArrayList<Car> sameModel;
-    ArrayList<Car> sameYear;
-    ArrayList<Car> samePassengers;
-    ArrayList<Car> sameSizeType;
-    ArrayList<Car> sameAddress;
-    ArrayList<Car> allCars;
+    ArrayList<Car> sameMake = new ArrayList<>();
+    ArrayList<Car> sameModel = new ArrayList<>();
+    ArrayList<Car> sameYear = new ArrayList<>();
+    ArrayList<Car> samePassengers = new ArrayList<>();
+    ArrayList<Car> sameSizeType = new ArrayList<>();
+    ArrayList<Car> sameAddress = new ArrayList<>();
+    ArrayList<Car> allCars = new ArrayList<>();
     String myMake, myModel, myYear, myPrice, myPassengers, mySizeType, myAddress;
     TextInputEditText etCarMake, etCarModel, etCarYear,etCarPassengers, etCarSizeType, etCarAddress;
+    Button btnCalculate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class CarculatorActivity extends AppCompatActivity {
         etCarPassengers = findViewById(R.id.etCarculatorPassengers);
         etCarSizeType = findViewById(R.id.etCarculatorSizeType);
         etCarAddress = findViewById(R.id.etCarculatorAddress);
+        btnCalculate = findViewById(R.id.btnCalculate);
 
         etCarMake.setText(myMake);
         etCarModel.setText(myModel);
@@ -55,6 +58,8 @@ public class CarculatorActivity extends AppCompatActivity {
         etCarPassengers.setText(myPassengers);
         etCarSizeType.setText(mySizeType);
         etCarAddress.setText(myAddress);
+
+        btnCalculate.setEnabled(false);
 
         queryClient = new QueryClient();
         queryClient.fetchCars(new FindCallback<Car>() {
@@ -67,8 +72,26 @@ public class CarculatorActivity extends AppCompatActivity {
     }
     public void updateCategories(){
         for (Car car : allCars){
-
+            if (car.getMake().equals(etCarMake.getText().toString())){
+                sameMake.add(car);
+            }
+            if (car.getModel().equals(etCarModel.getText().toString())){
+                sameModel.add(car);
+            }
+            if (car.getYear().equals(etCarYear.getText().toString())){
+                sameYear.add(car);
+            }
+            if (car.getPassengers().equals(etCarPassengers.getText().toString())){
+                samePassengers.add(car);
+            }
+            if (car.getSizeType().equals(etCarSizeType.getText().toString())){
+                sameSizeType.add(car);
+            }
+            if (car.getAddress().equals(etCarAddress.getText().toString())){
+                sameAddress.add(car);
+            }
         }
+        btnCalculate.setEnabled(true);
     }
 
     private double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
