@@ -1,7 +1,9 @@
 package com.example.wheeldeal.activities;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,6 +29,7 @@ public class CarculatorActivity extends AppCompatActivity {
     ArrayList<Car> allCars = new ArrayList<>();
     String myMake, myModel, myYear, myPrice, myPassengers, mySizeType, myAddress;
     TextInputEditText etCarMake, etCarModel, etCarYear,etCarPassengers, etCarSizeType, etCarAddress;
+    TextView tvCalculatedPrice;
     Button btnCalculate;
 
     @Override
@@ -51,6 +54,7 @@ public class CarculatorActivity extends AppCompatActivity {
         etCarSizeType = findViewById(R.id.etCarculatorSizeType);
         etCarAddress = findViewById(R.id.etCarculatorAddress);
         btnCalculate = findViewById(R.id.btnCalculate);
+        tvCalculatedPrice = findViewById(R.id.tvCalculatedPrice);
 
         etCarMake.setText(myMake);
         etCarModel.setText(myModel);
@@ -58,6 +62,7 @@ public class CarculatorActivity extends AppCompatActivity {
         etCarPassengers.setText(myPassengers);
         etCarSizeType.setText(mySizeType);
         etCarAddress.setText(myAddress);
+        tvCalculatedPrice.setVisibility(View.GONE);
 
         btnCalculate.setEnabled(false);
 
@@ -66,12 +71,34 @@ public class CarculatorActivity extends AppCompatActivity {
             @Override
             public void done(List<Car> cars, ParseException e) {
                 allCars.addAll(cars);
+//                allCars.remove(car);
                 updateCategories();
             }
         }, true);
+
+        btnCalculate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculatePricing();
+            }
+        });
     }
+
+    private void calculatePricing() {
+        int price = 0;
+        if (sameModel.size() > 0){
+            for (Car car : sameModel){
+                int compPrice = Integer.parseInt(car.getRate());
+                price = compPrice;
+            }
+        }
+        tvCalculatedPrice.setVisibility(View.VISIBLE);
+        tvCalculatedPrice.setText("Your recommended price is $" + price + "/day");
+    }
+
     public void updateCategories(){
         for (Car car : allCars){
+            // remove own car
             if (car.getMake().equals(etCarMake.getText().toString())){
                 sameMake.add(car);
             }

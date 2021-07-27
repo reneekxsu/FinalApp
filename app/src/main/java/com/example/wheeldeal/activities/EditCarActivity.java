@@ -95,6 +95,73 @@ public class EditCarActivity extends AppCompatActivity {
         etEditSizeType.setText(car.getSizeType());
         etEditDescription.setText(car.getDescription());
         etEditAddress.setText(car.getAddress());
+
+        etEditName.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                etEditName.setText("");
+                return true;
+            }
+        });
+        etEditCarMake.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                etEditCarMake.setText("");
+                return true;
+            }
+        });
+        etEditCarModel.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                etEditCarModel.setText("");
+                return true;
+            }
+        });
+        etEditYear.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                etEditYear.setText("");
+                return true;
+            }
+        });
+        etEditRate.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                etEditRate.setText("");
+                return true;
+            }
+        });
+        etEditPassengers.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                etEditPassengers.setText("");
+                return true;
+            }
+        });
+        etEditSizeType.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                etEditSizeType.setText("");
+                return true;
+            }
+        });
+        etEditDescription.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                etEditDescription.setText("");
+                return true;
+            }
+        });
+        etEditAddress.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                etEditAddress.setText("");
+                return true;
+            }
+        });
+
+
+
         image = car.getImage();
         if (image != null) {
             ivEditPreview.setVisibility(View.VISIBLE);
