@@ -6,23 +6,36 @@ public class CarScore {
     int year;
     int passengers;
     int flagLux; // 0 = normal, 1 = luxury, 2 = ultimate luxury
+    Car car;
     public CarScore(int year, int passengers, int flagLux){
         this.year = year;
         this.passengers = passengers;
         this.flagLux = flagLux;
+        car = null;
+    }
+
+    public CarScore(int year, int passengers, int flagLux, Car car){
+        this.year = year;
+        this.passengers = passengers;
+        this.flagLux = flagLux;
+        this.car = car;
     }
 
     public double getScore(){
-        return weighYear(year) + 10 * (0.94 * (passengers - 1)) + (10 * flagLux) * Math.pow(3.5,(flagLux + 1));
+        return weighYear(year) + 10 * (0.98 * (passengers - 1)) + (7 * flagLux) * (Math.pow(3.5,(flagLux + 1)));
     }
 
     public double weighYear(int year){
         // sigmoid
         int n = 2021 - year;
-        double scaled = (22 / (1 + Math.exp(0.4 * (n - 10)))) + 1.5;
+        double scaled = (20 / (1 + Math.exp(0.3 * (n - 9)))) + 3;
 //        double scaled = -1 * Math.pow(1.3, n) + 20;
         Log.i("CarScore", "year scaled to: " + scaled);
-        return 4.3 * scaled;
+        return 6 * scaled;
+    }
+
+    public Car getCar(){
+        return car;
     }
 
 }

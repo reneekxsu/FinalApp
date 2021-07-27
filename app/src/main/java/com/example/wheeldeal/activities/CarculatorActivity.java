@@ -1,6 +1,7 @@
 package com.example.wheeldeal.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.CarScore;
+import com.example.wheeldeal.models.LinearRegression;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputEditText;
 import com.parse.FindCallback;
@@ -20,6 +22,7 @@ import java.util.List;
 
 public class CarculatorActivity extends AppCompatActivity {
 
+    public static final String TAG = "CarculatorActivity";
     QueryClient queryClient;
     ArrayList<Car> sameMake = new ArrayList<>();
     ArrayList<Car> sameModel = new ArrayList<>();
@@ -31,6 +34,8 @@ public class CarculatorActivity extends AppCompatActivity {
     ArrayList<String> UltLuxury = new ArrayList<>();
     ArrayList<String> Luxury = new ArrayList<>();
     ArrayList<CarScore> scores = new ArrayList<>();
+    ArrayList<Double> x = new ArrayList<>();
+    ArrayList<Double> y = new ArrayList<>();
     String myMake, myModel, myYear, myPrice, myPassengers, mySizeType, myAddress;
     TextInputEditText etCarMake, etCarModel, etCarYear,etCarPassengers, etCarSizeType, etCarAddress;
     TextView tvCalculatedPrice;
@@ -91,8 +96,16 @@ public class CarculatorActivity extends AppCompatActivity {
     }
 
     private void calculatePricing() {
-        int price = 0;
+        int price;
+        double score, prediction;
         int flagLux = 0;
+        for (CarScore cs : scores){
+            x.add(cs.getScore());
+            y.add(Double.parseDouble(cs.getCar().getRate()));
+        }
+        LinearRegression lr = new LinearRegression(x,y);
+        Log.i(TAG, "intercept: " + lr.intercept());
+        Log.i(TAG, "slope: " + lr.slope());
         for (String s : UltLuxury){
             if (etCarMake.getText().toString().equals(s)){
                 flagLux = 2;
@@ -109,7 +122,9 @@ public class CarculatorActivity extends AppCompatActivity {
         }
         CarScore thisCar = new CarScore(Integer.parseInt(etCarYear.getText().toString()),
                 Integer.parseInt(etCarPassengers.getText().toString()), flagLux);
-        price = scoreToPrice(thisCar.getScore());
+        score = thisCar.getScore();
+        prediction = lr.intercept() + lr.slope() * score;
+        price = scoreToPrice((score + prediction) / 2);
         tvCalculatedPrice.setVisibility(View.VISIBLE);
         tvCalculatedPrice.setText("Your recommended price is $" + price + "/day");
     }
@@ -133,28 +148,28 @@ public class CarculatorActivity extends AppCompatActivity {
                 }
             }
             CarScore thisCar = new CarScore(Integer.parseInt(car.getYear()),
-                    Integer.parseInt(car.getPassengers()), flagLux);
+                    Integer.parseInt(car.getPassengers()), flagLux, car);
 
             scores.add(thisCar);
 
-            if (car.getMake().equals(etCarMake.getText().toString())){
-                sameMake.add(car);
-            }
-            if (car.getModel().equals(etCarModel.getText().toString())){
-                sameModel.add(car);
-            }
-            if (car.getYear().equals(etCarYear.getText().toString())){
-                sameYear.add(car);
-            }
-            if (car.getPassengers().equals(etCarPassengers.getText().toString())){
-                samePassengers.add(car);
-            }
-            if (car.getSizeType().equals(etCarSizeType.getText().toString())){
-                sameSizeType.add(car);
-            }
-            if (car.getAddress().equals(etCarAddress.getText().toString())){
-                sameAddress.add(car);
-            }
+//            if (car.getMake().equals(etCarMake.getText().toString())){
+//                sameMake.add(car);
+//            }
+//            if (car.getModel().equals(etCarModel.getText().toString())){
+//                sameModel.add(car);
+//            }
+//            if (car.getYear().equals(etCarYear.getText().toString())){
+//                sameYear.add(car);
+//            }
+//            if (car.getPassengers().equals(etCarPassengers.getText().toString())){
+//                samePassengers.add(car);
+//            }
+//            if (car.getSizeType().equals(etCarSizeType.getText().toString())){
+//                sameSizeType.add(car);
+//            }
+//            if (car.getAddress().equals(etCarAddress.getText().toString())){
+//                sameAddress.add(car);
+//            }
         }
         btnCalculate.setEnabled(true);
     }
