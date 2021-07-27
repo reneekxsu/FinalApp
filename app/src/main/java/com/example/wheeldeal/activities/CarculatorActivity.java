@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
+import com.example.wheeldeal.models.CarScore;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputEditText;
 import com.parse.FindCallback;
@@ -27,6 +28,9 @@ public class CarculatorActivity extends AppCompatActivity {
     ArrayList<Car> sameSizeType = new ArrayList<>();
     ArrayList<Car> sameAddress = new ArrayList<>();
     ArrayList<Car> allCars = new ArrayList<>();
+    ArrayList<String> UltLuxury = new ArrayList<>();
+    ArrayList<String> Luxury = new ArrayList<>();
+    ArrayList<CarScore> scores = new ArrayList<>();
     String myMake, myModel, myYear, myPrice, myPassengers, mySizeType, myAddress;
     TextInputEditText etCarMake, etCarModel, etCarYear,etCarPassengers, etCarSizeType, etCarAddress;
     TextView tvCalculatedPrice;
@@ -66,6 +70,8 @@ public class CarculatorActivity extends AppCompatActivity {
 
         btnCalculate.setEnabled(false);
 
+        initLuxury();
+
         queryClient = new QueryClient();
         queryClient.fetchCars(new FindCallback<Car>() {
             @Override
@@ -86,12 +92,24 @@ public class CarculatorActivity extends AppCompatActivity {
 
     private void calculatePricing() {
         int price = 0;
-        if (sameModel.size() > 0){
-            for (Car car : sameModel){
-                int compPrice = Integer.parseInt(car.getRate());
-                price = compPrice;
+        int flagLux = 0;
+        for (String s : UltLuxury){
+            if (etCarMake.getText().toString().equals(s)){
+                flagLux = 2;
+                break;
             }
         }
+        if (flagLux == 0){
+            for (String s : Luxury){
+                if (etCarMake.getText().toString().equals(s)){
+                    flagLux = 1;
+                    break;
+                }
+            }
+        }
+        CarScore thisCar = new CarScore(Integer.parseInt(etCarYear.getText().toString()),
+                Integer.parseInt(etCarPassengers.getText().toString()), flagLux);
+        price = scoreToPrice(thisCar.getScore());
         tvCalculatedPrice.setVisibility(View.VISIBLE);
         tvCalculatedPrice.setText("Your recommended price is $" + price + "/day");
     }
@@ -99,6 +117,26 @@ public class CarculatorActivity extends AppCompatActivity {
     public void updateCategories(){
         for (Car car : allCars){
             // remove own car
+            int flagLux = 0;
+            for (String s : UltLuxury){
+                if (car.getMake().equals(s)){
+                    flagLux = 2;
+                    break;
+                }
+            }
+            if (flagLux == 0){
+                for (String s : Luxury){
+                    if (car.getMake().equals(s)){
+                        flagLux = 1;
+                        break;
+                    }
+                }
+            }
+            CarScore thisCar = new CarScore(Integer.parseInt(car.getYear()),
+                    Integer.parseInt(car.getPassengers()), flagLux);
+
+            scores.add(thisCar);
+
             if (car.getMake().equals(etCarMake.getText().toString())){
                 sameMake.add(car);
             }
@@ -141,5 +179,14 @@ public class CarculatorActivity extends AppCompatActivity {
 
     private double rad2deg(double rad) {
         return (rad * 180.0 / Math.PI);
+    }
+
+    private void initLuxury(){
+        UltLuxury.addAll(List.of("Bentley","Ferrari", "Lamborghini", "Maserati", "Mclaren", "Rolls Royce", "Aston Martin"));
+        Luxury.addAll(List.of("BMW", "Audi", "Land Rover", "Range Rover", "Mercedes", "Tesla"));
+    }
+
+    private int scoreToPrice(double score){
+        return (int) score;
     }
 }
