@@ -72,6 +72,7 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/linlayUserStats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="-60dp"
@@ -83,8 +84,8 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 app:cardBackgroundColor="#44AC2C"
-                app:cardElevation="10dp"
-                app:cardCornerRadius="15dp">
+                app:cardCornerRadius="15dp"
+                app:cardElevation="10dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -122,8 +123,8 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 app:cardBackgroundColor="#44AC2C"
-                app:cardElevation="10dp"
-                app:cardCornerRadius="15dp">
+                app:cardCornerRadius="15dp"
+                app:cardElevation="10dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -161,8 +162,8 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 app:cardBackgroundColor="#44AC2C"
-                app:cardElevation="10dp"
-                app:cardCornerRadius="15dp">
+                app:cardCornerRadius="15dp"
+                app:cardElevation="10dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"

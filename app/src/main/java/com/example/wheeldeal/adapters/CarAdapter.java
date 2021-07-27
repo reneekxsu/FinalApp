@@ -116,8 +116,8 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
             } else {
                 tvCarName.setVisibility(View.GONE);
             }
-            tvCarModel.setText(car.getModel());
-            tvCarMake.setText(" " + car.getMake());
+            tvCarMake.setText(car.getMake());
+            tvCarModel.setText(" " + car.getModel());
             tvCarYear.setText(" " + car.getYear());
             tvNumSeats.setText("Seats " + car.getPassengers() + " passengers");
         }

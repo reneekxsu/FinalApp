@@ -48,10 +48,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvStart"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="10dp"
-                tools:text="Tesla" />
+                android:layout_toEndOf="@+id/tvEventCarMake"
+                tools:text=" Model S" />
 
             <TextView
                 android:id="@+id/tvRenter"
@@ -88,10 +88,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvStart"
-                android:layout_marginStart="0dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/tvEventCarModel"
-                tools:text=" Model S" />
+                tools:text="Tesla" />
 
             <TextView
                 android:id="@+id/tvEventCarYear"
@@ -100,7 +99,7 @@
                 android:layout_below="@+id/tvStart"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/tvEventCarMake"
+                android:layout_toEndOf="@+id/tvEventCarModel"
                 tools:text=" 2020" />
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>

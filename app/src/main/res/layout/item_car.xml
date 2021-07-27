@@ -60,29 +60,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvCarListingName"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="5dp"
-                android:layout_toEndOf="@+id/ivCarImage"
+                android:layout_toEndOf="@+id/tvMake"
                 android:textStyle="bold"
-                tools:text="Model" />
+                tools:text=" Model" />
 
             <TextView
                 android:id="@+id/tvMake"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvCarListingName"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
-                android:layout_toEndOf="@+id/tvModel"
+                android:layout_toEndOf="@+id/ivCarImage"
                 android:textStyle="bold"
-                tools:text=" Make" />
+                tools:text="Make" />
 
             <TextView
                 android:id="@+id/tvCarYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvCarListingName"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="5dp"
-                android:layout_toEndOf="@+id/tvMake"
+                android:layout_toEndOf="@+id/tvModel"
                 android:textStyle="bold"
                 tools:text=" Year" />
 

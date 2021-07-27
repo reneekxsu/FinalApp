@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class AccountDetailsFragment extends Fragment {
     ParseFile image;
     ImageView ivProfileImage;
     Context context;
+    LinearLayout linlayUserStats;
     public static final String TAG = "AccountDetailsFragment";
 
 
@@ -58,6 +60,9 @@ public class AccountDetailsFragment extends Fragment {
         btnAddProfileImage = view.findViewById(R.id.btnAddProfileImage);
         btnSaveProfileImage = view.findViewById(R.id.btnSaveProfileImage);
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
+        linlayUserStats = view.findViewById(R.id.linlayUserStats);
+
+        linlayUserStats.setVisibility(View.GONE);
 
         fetchUserDetails();
         btnUpdate.setOnClickListener(new View.OnClickListener() {

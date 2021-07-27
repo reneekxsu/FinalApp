@@ -51,14 +51,14 @@ public class EventDetailsActivity extends AppCompatActivity {
                 String sDestination = event.getCar().getAddress();
                 Address sDestAdd = null;
                 try {
-                    ArrayList<Address> adresses = (ArrayList<Address>) g.getFromLocationName(sDestination, 50);
-                    for(Address add : adresses){
+                    ArrayList<Address> addresses = (ArrayList<Address>) g.getFromLocationName(sDestination, 50);
+                    for(Address add : addresses){
                         double longitude = add.getLongitude();
                         double latitude = add.getLatitude();
                         Log.i(TAG, "Latitude: " + latitude);
                         Log.i(TAG, "Longitude: " + longitude);
                     }
-                    sDestAdd  = adresses.get(0);
+                    sDestAdd  = addresses.get(0);
                 } catch (IOException e) {
                     Log.e(TAG, "geocoder not working for google maps directions");
                     e.printStackTrace();
@@ -76,7 +76,7 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         tvEventDetailStart.setText(dateClient.formatDate(event.getStart()));
         tvEventDetailEnd.setText(" to " + dateClient.formatDate(event.getEnd()));
-        tvEventDetailCarName.setText(event.getCar().getModel());
+        tvEventDetailCarName.setText(event.getCar().getMake() + " " + event.getCar().getModel() + " " + event.getCar().getYear());
         if (event.getRentType() == (Integer) 1){
             // user is renter, not owner
             tvEventDetailRenter.setVisibility(View.VISIBLE);

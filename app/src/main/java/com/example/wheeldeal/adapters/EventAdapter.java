@@ -92,8 +92,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
         public void bind(Event event) {
             tvStart.setText(dateClient.formatDate(event.getStart()));
             tvEnd.setText(" to " + dateClient.formatDate(event.getEnd()));
-            tvEventCarModel.setText(event.getCar().getModel());
-            tvEventCarMake.setText(" " + event.getCar().getMake());
+            tvEventCarMake.setText(event.getCar().getMake());
+            tvEventCarModel.setText(" " + event.getCar().getModel());
             tvEventCarYear.setText(" " + event.getCar().getYear());
             if (event.getRentType() == (Integer) 1){
                 // user is renter, not owner

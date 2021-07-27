@@ -40,6 +40,7 @@ public class CarDetailsActivity extends AppCompatActivity {
     ImageButton ibtnEdit, ibtnEvent, ibtnDelete;
     QueryClient queryClient;
     ArrayList<DateRangeHolder> rangeHolder;
+    ArrayList<Event> allEvents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +59,12 @@ public class CarDetailsActivity extends AppCompatActivity {
         context = this;
         queryClient = new QueryClient();
         rangeHolder = new ArrayList<>();
+        allEvents = new ArrayList<>();
 
         ibtnEvent.setVisibility(View.GONE);
         fetchAllCarEvents(car);
 
-        tvCarDetailName.setText(car.getModel());
+        tvCarDetailName.setText(car.getMake() + " " + car.getModel() + " " + car.getYear());
         ParseFile image = car.getImage();
         if (image != null) {
             ivDetailCar.setVisibility(View.VISIBLE);
@@ -119,18 +121,12 @@ public class CarDetailsActivity extends AppCompatActivity {
             }
         });
 
+        ibtnDelete.setVisibility(View.GONE);
         ibtnDelete.setBackgroundDrawable(null);
         ibtnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                car.deleteInBackground(new DeleteCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Intent i = new Intent(context, MainActivity.class);
-                        startActivity(i);
-                        finish();
-                    }
-                });
+                deleteAssociatedEvents(car);
             }
         });
 
@@ -153,9 +149,24 @@ public class CarDetailsActivity extends AppCompatActivity {
                     Log.i(TAG, "event start: " + event.getStart().toString());
                     rangeHolder.add(new DateRangeHolder(event.getStart(), event.getEnd()));
                 }
+                allEvents.addAll(events);
                 ibtnEvent.setVisibility(View.VISIBLE);
+                ibtnDelete.setVisibility(View.VISIBLE);
             }
         }, car);
+    }
+    private void deleteAssociatedEvents(Car car){
+        for (Event event : allEvents){
+            event.deleteInBackground();
+        }
+        car.deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                Intent i = new Intent(context, MainActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
     }
 
 }
