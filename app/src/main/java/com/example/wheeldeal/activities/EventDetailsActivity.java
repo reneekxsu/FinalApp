@@ -2,8 +2,6 @@ package com.example.wheeldeal.activities;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,9 +17,6 @@ import com.example.wheeldeal.models.ParcelableEvent;
 import com.example.wheeldeal.utils.DateClient;
 
 import org.parceler.Parcels;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class EventDetailsActivity extends AppCompatActivity {
     public static final String TAG = "EventDetailsActivity";
@@ -47,29 +42,12 @@ public class EventDetailsActivity extends AppCompatActivity {
         tvGetDirections.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Geocoder g = new Geocoder(getApplicationContext());
                 String sDestination = event.getCar().getAddress();
-                Address sDestAdd = null;
-                try {
-                    ArrayList<Address> addresses = (ArrayList<Address>) g.getFromLocationName(sDestination, 50);
-                    for(Address add : addresses){
-                        double longitude = add.getLongitude();
-                        double latitude = add.getLatitude();
-                        Log.i(TAG, "Latitude: " + latitude);
-                        Log.i(TAG, "Longitude: " + longitude);
-                    }
-                    sDestAdd  = addresses.get(0);
-                } catch (IOException e) {
-                    Log.e(TAG, "geocoder not working for google maps directions");
-                    e.printStackTrace();
-                }
 
                 if (sDestination.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Car has no associated address", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (sDestAdd != null){
-                        displayTrack(sDestAdd);
-                    }
+                    displayTrack(sDestination);
                 }
             }
         });
@@ -94,11 +72,9 @@ public class EventDetailsActivity extends AppCompatActivity {
         tvEventDetailCarOwner.setText("Owner: " + name);
     }
 
-    private void displayTrack(Address sDestination) {
+    private void displayTrack(String sDestination) {
         try {
-            double sDestLat = sDestination.getLatitude();
-            double sDestLong = sDestination.getLongitude();
-            Uri uri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" + sDestLat + "%2C" + sDestLong);
+            Uri uri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" + sDestination);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             intent.setPackage("com.google.android.apps.maps");
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

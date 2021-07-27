@@ -3,7 +3,6 @@ package com.example.wheeldeal.activities;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
-import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
@@ -45,7 +44,6 @@ import com.parse.ParseException;
 
 import org.parceler.Parcels;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -266,35 +264,21 @@ public class CarMapActivity extends AppCompatActivity {
                 Log.i(TAG, "car in allCars: " + car.getMake());
                 double lat;
                 double lng;
-                try {
-                    ArrayList<Address> addresses = (ArrayList<Address>) g.getFromLocationName(car.getAddress(), 50);
-                    for(Address add : addresses){
-                        double longitude = add.getLongitude();
-                        double latitude = add.getLatitude();
-                        Log.i(TAG, "Latitude: " + latitude);
-                        Log.i(TAG, "Longitude: " + longitude);
-                    }
-                    lat = addresses.get(0).getLatitude();
-                    lng = addresses.get(0).getLongitude();
-                    LatLng carLatLng = new LatLng(lat, lng);
-                    MarkerCarCountHolder lookup = markerLookup.get(carLatLng);
-                    if (lookup == null){
-                        MarkerOptions markerOption = new MarkerOptions().position(carLatLng).title("1 car found").snippet(car.getAddress());
-                        Marker marker = map.addMarker(markerOption);
-                        markerLookup.put(carLatLng, new MarkerCarCountHolder(marker, 1));
-                    } else {
-                        int count = lookup.getCount();
-                        Log.i(TAG, "count before " + count);
-                        lookup.incrementCount();
-                        count = lookup.getCount();
-                        Log.i(TAG, "count incremented to " + count);
-                        lookup.getMarker().setTitle(count + " cars found");
-                    }
-
-
-                } catch (IOException e) {
-                    Log.e(TAG, "geocoder failed");
-                    e.printStackTrace();
+                lat = car.getAddressGeoPoint().getLatitude();
+                lng = car.getAddressGeoPoint().getLongitude();
+                LatLng carLatLng = new LatLng(lat, lng);
+                MarkerCarCountHolder lookup = markerLookup.get(carLatLng);
+                if (lookup == null){
+                    MarkerOptions markerOption = new MarkerOptions().position(carLatLng).title("1 car found").snippet(car.getAddress());
+                    Marker marker = map.addMarker(markerOption);
+                    markerLookup.put(carLatLng, new MarkerCarCountHolder(marker, 1));
+                } else {
+                    int count = lookup.getCount();
+                    Log.i(TAG, "count before " + count);
+                    lookup.incrementCount();
+                    count = lookup.getCount();
+                    Log.i(TAG, "count incremented to " + count);
+                    lookup.getMarker().setTitle(count + " cars found");
                 }
             }
         } else {
