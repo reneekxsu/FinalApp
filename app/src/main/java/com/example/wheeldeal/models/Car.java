@@ -130,4 +130,18 @@ public class Car extends ParseObject {
     public void setAddressGeoPoint(ParseGeoPoint address) {
         put(KEY_ADDRESSGEOPOINT, address);
     }
+
+    @Override
+    public boolean equals(Object o){
+        if (!(o instanceof Car)){
+            return false;
+        }
+        Car other = (Car) o;
+        return this.getObjectId().equals(other.getObjectId());
+    }
+
+    @Override
+    public int hashCode(){
+        return getObjectId().hashCode();
+    }
 }

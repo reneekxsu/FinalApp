@@ -12,10 +12,13 @@ import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.CarScore;
 import com.example.wheeldeal.models.LinearRegression;
+import com.example.wheeldeal.models.ParcelableCar;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputEditText;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +43,14 @@ public class CarculatorActivity extends AppCompatActivity {
     TextInputEditText etCarMake, etCarModel, etCarYear,etCarPassengers, etCarSizeType, etCarAddress;
     TextView tvCalculatedPrice;
     Button btnCalculate;
+    Car car;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carculator);
 
-        allCars = new ArrayList<>();
+        car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();
 
         myMake = getIntent().getStringExtra("make");
         myModel = getIntent().getStringExtra("model");
@@ -82,7 +86,7 @@ public class CarculatorActivity extends AppCompatActivity {
             @Override
             public void done(List<Car> cars, ParseException e) {
                 allCars.addAll(cars);
-//                allCars.remove(car);
+                allCars.remove(car);
                 updateCategories();
             }
         }, true);
@@ -131,26 +135,29 @@ public class CarculatorActivity extends AppCompatActivity {
 
     public void updateCategories(){
         for (Car car : allCars){
-            // remove own car
-            int flagLux = 0;
-            for (String s : UltLuxury){
-                if (car.getMake().equals(s)){
-                    flagLux = 2;
-                    break;
-                }
-            }
-            if (flagLux == 0){
-                for (String s : Luxury){
+//            if (!car.equals(this.car)){
+                Log.i(TAG, "car: " + car.getModel());
+                // remove own car
+                int flagLux = 0;
+                for (String s : UltLuxury){
                     if (car.getMake().equals(s)){
-                        flagLux = 1;
+                        flagLux = 2;
                         break;
                     }
                 }
-            }
-            CarScore thisCar = new CarScore(Integer.parseInt(car.getYear()),
-                    Integer.parseInt(car.getPassengers()), flagLux, car);
+                if (flagLux == 0){
+                    for (String s : Luxury){
+                        if (car.getMake().equals(s)){
+                            flagLux = 1;
+                            break;
+                        }
+                    }
+                }
+                CarScore thisCar = new CarScore(Integer.parseInt(car.getYear()),
+                        Integer.parseInt(car.getPassengers()), flagLux, car);
 
-            scores.add(thisCar);
+                scores.add(thisCar);
+//            }
 
 //            if (car.getMake().equals(etCarMake.getText().toString())){
 //                sameMake.add(car);
