@@ -163,8 +163,8 @@ public class AddOwnCarActivity extends AppCompatActivity {
                     int res = bs.binarySearch(makes, make);
                     if (res == -1){
                         tilCarMake.setError("Please select valid car make");
+                        return;
                     }
-                    return;
                 }
 
                 if (formClient.isEntryEmpty(name, make, model, year, price, passengerCount, sizeType, description, address)){
@@ -186,7 +186,7 @@ public class AddOwnCarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "Close button clicked");
-                Intent i = new Intent(AddOwnCarActivity.this, UserCarFeedActivity.class);
+                Intent i = new Intent();
                 setResult(20, i);
                 finish();
             }
