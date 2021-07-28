@@ -18,11 +18,11 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.wheeldeal.R;
+import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputEditText;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +38,7 @@ public class AccountDetailsFragment extends Fragment {
     ImageView ivProfileImage;
     Context context;
     LinearLayout linlayUserStats;
+    QueryClient queryClient = new QueryClient();
     public static final String TAG = "AccountDetailsFragment";
 
 
@@ -77,20 +78,16 @@ public class AccountDetailsFragment extends Fragment {
         // Specify which class to query
         email = etEmail.getText().toString();
         address = etAddress.getText().toString();
-        currentUser.put("email", email);
-        currentUser.put("address", address);
-        currentUser.saveInBackground();
+        queryClient.saveUserDetails(currentUser, email, address);
         Toast.makeText(getContext(), "Edits to user were saved", Toast.LENGTH_SHORT).show();
     }
 
     public void fetchUserDetails(){
         tvName.setText("Hey, " + currentUser.getUsername() + "!");
-        // Specify which class to query
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        // Specify the object id
-        query.getInBackground(currentUser.getObjectId(), new GetCallback<ParseUser>() {
+
+        queryClient.fetchUserDetails(currentUser, new GetCallback<ParseUser>(){
             @Override
-            public void done(ParseUser user, ParseException e) {
+            public void done(ParseUser object, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Could not get user");
                 } else {

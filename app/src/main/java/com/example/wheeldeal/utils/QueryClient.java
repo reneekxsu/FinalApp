@@ -4,10 +4,18 @@ import android.util.Log;
 
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.Event;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.LogInCallback;
+import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+import com.parse.SignUpCallback;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -134,4 +142,87 @@ public class QueryClient {
         query.findInBackground(callback);
     }
 
+    public void saveCar(String description, ParseUser currentUser, File photoFile, String rate,
+                        String model, String name, String make, String year, String passengers,
+                        String size, String address, ParseGeoPoint gp, SaveCallback callback) {
+        Log.i(TAG, "saving car");
+        Car car = new Car();
+        saveCarFields(car, description, currentUser, new ParseFile(photoFile), rate, model, name, make, year,
+                passengers, size, address, gp, callback);
+    }
+
+    public void saveCarFields(Car car, String description, ParseUser currentUser, ParseFile image, String rate,
+                              String model, String name, String make, String year, String passengers,
+                              String size, String address, ParseGeoPoint gp, SaveCallback callback){
+        car.setDescription(description);
+        car.setOwner(currentUser);
+        car.setImage(image);
+        car.setRate(rate);
+        car.setModel(model);
+        car.setName(name);
+        car.setMake(make);
+        car.setYear(year);
+        car.setPassengers(passengers);
+        car.setSizeType(size);
+        car.setAddress(address);
+        car.setAddressGeoPoint(gp);
+        if (callback == null){
+            car.saveInBackground();
+        } else {
+            car.saveInBackground(callback);
+        }
+    }
+
+    public void saveEvent(Date start, Date end, Car car, boolean userIsCustomer, SaveCallback callback){
+        Log.i(TAG, "Saving event");
+        Event event = new Event();
+        event.setStart(start);
+        event.setEnd(end);
+        event.setRenter(ParseUser.getCurrentUser());
+        event.setCar(car);
+        event.setPrice(car.getRate());
+        int rentType = 0;
+        if (userIsCustomer){
+            rentType = 1;
+        }
+        event.setRentType(rentType);
+        event.saveInBackground(callback);
+    }
+
+
+    public void deleteAssociatedEvents(Car car, List<Event> allEvents){
+        for (Event event : allEvents){
+            event.deleteInBackground();
+        }
+    }
+
+    public void deleteCar(Car car, DeleteCallback callback){
+        car.deleteInBackground(callback);
+    }
+
+    public void fetchUserDetails(ParseUser user, GetCallback callback){
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        // Specify the object id
+        query.getInBackground(user.getObjectId(), callback);
+    }
+
+    public void signUpUser(String username, String password, SignUpCallback callback){
+        // Create the new ParseUser
+        ParseUser user = new ParseUser();
+        // Set core properties
+        user.setUsername(username);
+        user.setPassword(password);
+        // Try to sign user up
+        user.signUpInBackground(callback);
+    }
+
+    public void logInUser(String username, String password, LogInCallback callback){
+        ParseUser.logInInBackground(username, password, callback);
+    }
+
+    public void saveUserDetails(ParseUser currentUser, String email, String address){
+        currentUser.put("email", email);
+        currentUser.put("address", address);
+        currentUser.saveInBackground();
+    }
 }

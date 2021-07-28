@@ -120,11 +120,6 @@ public class CarMapActivity extends AppCompatActivity {
         map = googleMap;
         if (map != null) {
             // Map is ready
-//            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//                public boolean onMarkerClick(Marker marker) {
-//                    // Handle marker click here
-//                }
-//            });
             map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                 @Override
                 public void onInfoWindowClick(Marker marker) {
@@ -257,7 +252,7 @@ public class CarMapActivity extends AppCompatActivity {
             LatLng latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
             map.animateCamera(cameraUpdate);
-            MarkerOptions options = new MarkerOptions().position(latLng).title("I am here");
+            MarkerOptions options = new MarkerOptions().position(latLng).title("You are here");
             map.addMarker(options);
             Geocoder g = new Geocoder(this);
             for (Car car : allCars){

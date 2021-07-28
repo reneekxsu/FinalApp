@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wheeldeal.MainActivity;
 import com.example.wheeldeal.R;
+import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputLayout;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -36,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etUsername, etPassword;
     private Button btnLogin, btnSignup;
     private TextInputLayout tilUsername, tilPassword;
+    QueryClient queryClient = new QueryClient();
+
 
     /**
      * @brief Upon creation of this activity, we want to initialize our global variables, and set
@@ -97,8 +100,8 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void loginUser(String username, String password) {
         Log.i(TAG, "Trying to login user " + username);
-        // Try to log in the user using provided credentials
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
+//        // Try to log in the user using provided credentials
+        queryClient.logInUser(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e != null){

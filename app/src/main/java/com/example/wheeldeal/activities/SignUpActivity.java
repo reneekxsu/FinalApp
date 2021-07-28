@@ -11,9 +11,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wheeldeal.R;
+import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 /**
@@ -29,6 +29,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText etSignUpUsername, etSignUpPassword;
     Button btnFinishSignUp;
     TextInputLayout tilSignUpUsername;
+    QueryClient queryClient = new QueryClient();
 
     /**
      * @brief Initialize global variables and set button click listeners
@@ -72,13 +73,8 @@ public class SignUpActivity extends AppCompatActivity {
      * @param password Password that has been entered at time of button click
      */
     private void signupUser(String username, String password) {
-        // Create the new ParseUser
-        ParseUser user = new ParseUser();
-        // Set core properties
-        user.setUsername(username);
-        user.setPassword(password);
-        // Try to sign user up
-        user.signUpInBackground(new SignUpCallback() {
+        queryClient.signUpUser(username, password, new SignUpCallback() {
+            @Override
             public void done(ParseException e) {
                 if (e == null) {
                     // Sign up was successful

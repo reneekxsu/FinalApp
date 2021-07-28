@@ -16,6 +16,7 @@ import com.example.wheeldeal.models.DateRangeHolder;
 import com.example.wheeldeal.models.Event;
 import com.example.wheeldeal.models.ParcelableCar;
 import com.example.wheeldeal.utils.DateClient;
+import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.CompositeDateValidator;
 import com.google.android.material.datepicker.DateValidatorPointForward;
@@ -43,6 +44,7 @@ public class ScheduleDatesActivity extends AppCompatActivity {
     Car car;
     DateClient dateClient;
     ArrayList<DateRangeHolder> rangeHolders;
+    QueryClient queryClient = new QueryClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +96,9 @@ public class ScheduleDatesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.i(TAG, "start date is: " + start.toString());
                 Log.i(TAG, "end date is: " + end.toString());
-                if (isValidDateWindow(start, end)){
+                if (dateClient.isValidDateWindow(start, end)){
                     Log.i(TAG, "valid time window");
-                    if (EventConflictExists(start, end)){
+                    if (dateClient.EventConflictExists(start, end, rangeHolders)){
                         Log.i(TAG, "event conflicts exist");
                         Toast.makeText(ScheduleDatesActivity.this, "Event conflicts with another", Toast.LENGTH_SHORT).show();
                     } else {
@@ -109,9 +111,7 @@ public class ScheduleDatesActivity extends AppCompatActivity {
             }
         });
     }
-    /*
-     * Limit selectable range to days other than Mondays of the month
-     */
+
     private CalendarConstraints.Builder calConstraints() {
         CalendarConstraints.Builder constraintsBuilderRange = new CalendarConstraints.Builder();
         EventRangesOutValidator m = new EventRangesOutValidator(2021, Calendar.JULY, Calendar.MONDAY, rangeHolders);
@@ -146,77 +146,8 @@ public class ScheduleDatesActivity extends AppCompatActivity {
         }
     }
 
-
-    public boolean EventConflictExists(Date start, Date end) {
-        for (DateRangeHolder ranges : rangeHolders){
-            Date eventStart = ranges.getStart();
-            Date eventEnd = ranges.getEnd();
-            int eventStartMonth = getMonth(eventStart);
-            int eventStartDate = getDay(eventStart);
-            int eventStartYear = getYear(eventStart);
-            int eventEndMonth = getMonth(eventEnd);
-            int eventEndDate = getDay(eventEnd);
-            int eventEndYear = getYear(eventEnd);
-            int startMonth = getMonth(start);
-            int startDate = getDay(start);
-            int startYear = getYear(start);
-            int endMonth = getMonth(end);
-            int endDate = getDay(end);
-            int endYear = getYear(end);
-
-            // check if start is in between eventStart and eventEnd
-            if (isDateBefore(eventStartYear, eventStartMonth, eventStartDate, startYear, startMonth, startDate) <= 0
-                    && isDateBefore(startYear, startMonth, startDate, eventEndYear, eventEndMonth, eventEndDate) <= 0){
-                Log.i(TAG, "eventStart: " + dateClient.formatDate(eventStartYear, eventStartMonth, eventStartDate));
-                Log.i(TAG, "eventEnd: " + dateClient.formatDate(eventEndYear, eventEndMonth, eventEndDate));
-                Log.i(TAG, "start: " + dateClient.formatDate(startYear, startMonth, startDate));
-                return true;
-            }
-
-            // check if end is in between eventStart and eventEnd
-            if (isDateBefore(eventStartYear, eventStartMonth, eventStartDate, endYear, endMonth, endDate) <= 0
-                    && isDateBefore(endYear, endMonth, endDate, eventEndYear, eventEndMonth, eventEndDate) <= 0){
-                Log.i(TAG, "eventStart: " + dateClient.formatDate(eventStartYear, eventStartMonth, eventStartDate));
-                Log.i(TAG, "eventEnd: " + dateClient.formatDate(eventEndYear, eventEndMonth, eventEndDate));
-                Log.i(TAG, "end: " + dateClient.formatDate(endYear, endMonth, endDate));
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static Calendar toCalendar(Date date){
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        return cal;
-    }
-
-    public boolean isValidDateWindow(Date start, Date end){
-        // ensures startDateTime < endDateTime
-        int comp = start.compareTo(end);
-        if (comp > 0){
-            // allow one day rentals
-            return false;
-        } else {
-            // comp < 0 means start <  end
-            return true;
-        }
-    }
-
     private void saveEvent(Date start, Date end){
-        Log.i(TAG, "Saving event");
-        Event event = new Event();
-        event.setStart(start);
-        event.setEnd(end);
-        event.setRenter(ParseUser.getCurrentUser());
-        event.setCar(car);
-        event.setPrice(car.getRate());
-        int rentType = 0;
-        if (userIsCustomer()){
-            rentType = 1;
-        }
-        event.setRentType(rentType);
-        event.saveInBackground(new SaveCallback() {
+        queryClient.saveEvent(start, end, car, userIsCustomer(), new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e != null){
@@ -237,26 +168,5 @@ public class ScheduleDatesActivity extends AppCompatActivity {
 
     boolean userIsCustomer(){
         return !userIsAuthor(car);
-    }
-
-    public int getMonth(Date date){
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        int month = c.get(Calendar.MONTH);
-        return month;
-    }
-
-    public int getDay(Date date){
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        return day;
-    }
-
-    public int getYear(Date date){
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        int year = c.get(Calendar.YEAR);
-        return year;
     }
 }

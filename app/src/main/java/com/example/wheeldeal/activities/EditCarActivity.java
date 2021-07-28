@@ -4,11 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -28,19 +25,17 @@ import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.BitmapScaler;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.ParcelableCar;
+import com.example.wheeldeal.utils.CameraClient;
+import com.example.wheeldeal.utils.GeocoderClient;
+import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputLayout;
-import com.parse.GetCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class EditCarActivity extends AppCompatActivity {
 
@@ -60,6 +55,9 @@ public class EditCarActivity extends AppCompatActivity {
     public String photoFileName = "photo.jpg";
     File photoFile;
     ParseFile image;
+    QueryClient queryClient = new QueryClient();
+    GeocoderClient geocoderClient;
+    CameraClient cameraClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +66,8 @@ public class EditCarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register_car);
 
         context = this;
+        geocoderClient = new GeocoderClient(context);
+        cameraClient = new CameraClient(context);
 
         etEditName = findViewById(R.id.etCarName);
         etEditCarMake = findViewById(R.id.etCarMake);
@@ -160,8 +160,6 @@ public class EditCarActivity extends AppCompatActivity {
             }
         });
 
-
-
         image = car.getImage();
         if (image != null) {
             ivEditPreview.setVisibility(View.VISIBLE);
@@ -182,8 +180,6 @@ public class EditCarActivity extends AppCompatActivity {
         btnEditSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                etEditName, etEditCarMake, etEditCarModel, etEditYear,etEditPassengers, etEditSizeType,
-//                        etEditAddress, etEditDescription, etEditRate;
                 String name = etEditName.getText().toString();
                 String make = etEditCarMake.getText().toString();
                 String model = etEditCarModel.getText().toString();
@@ -250,53 +246,14 @@ public class EditCarActivity extends AppCompatActivity {
     private void editCar(String name, String make, String model, String year, String rate,
                          String passengers, String sizeType, String description, String address,
                          File photoFile) {
-        ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
-
-        // Retrieve the object by id
-        query.getInBackground(car.getObjectId(), new GetCallback<Car>() {
-            @Override
-            public void done(Car car, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Could not save edits to car");
-                } else {
-                    Log.i(TAG, "Car was saved to backend");
-                    car.setDescription(description);
-                    if (photoFile != null){
-                        image = new ParseFile(photoFile);
-                    }
-                    car.setDescription(description);
-                    car.setImage(image);
-                    car.setRate(rate);
-                    car.setModel(model);
-                    car.setName(name);
-                    car.setMake(make);
-                    car.setYear(year);
-                    car.setPassengers(passengers);
-                    car.setSizeType(sizeType);
-                    car.setAddress(address);
-                    Geocoder g = new Geocoder(context);
-                    double lat, lng;
-                    try {
-                        ArrayList<Address> addresses = (ArrayList<Address>) g.getFromLocationName(address, 50);
-                        for(Address add : addresses){
-                            double longitude = add.getLongitude();
-                            double latitude = add.getLatitude();
-                            Log.i(TAG, "Latitude: " + latitude);
-                            Log.i(TAG, "Longitude: " + longitude);
-                        }
-                        lat = addresses.get(0).getLatitude();
-                        lng = addresses.get(0).getLongitude();
-                        ParseGeoPoint gp = new ParseGeoPoint(lat, lng);
-                        car.setAddressGeoPoint(gp);
-                    } catch (IOException ie){
-                        Log.e(TAG, "geocoder failed");
-                        ie.printStackTrace();
-                    }
-                    car.saveInBackground();
-                    Toast.makeText(EditCarActivity.this, "Edits to car were saved", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        Log.i(TAG, "Car was saved to backend");
+        if (photoFile != null){
+            image = new ParseFile(photoFile);
+        }
+        ParseGeoPoint gp = geocoderClient.getAddressFromString(address);
+        queryClient.saveCarFields(car, description, ParseUser.getCurrentUser(), image,
+                rate, model, name, make, year, passengers, sizeType, address, gp, null);
+        Toast.makeText(EditCarActivity.this, "Edits to car were saved", Toast.LENGTH_SHORT).show();
     }
 
     private void launchCamera() {
@@ -304,7 +261,7 @@ public class EditCarActivity extends AppCompatActivity {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Create a File reference for future access
-        photoFile = getPhotoFileUri(photoFileName);
+        photoFile = cameraClient.getPhotoFileUri(photoFileName, TAG);
 
         // wrap File object into a content provider
         // required for API >= 24
@@ -335,20 +292,5 @@ public class EditCarActivity extends AppCompatActivity {
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    public File getPhotoFileUri(String fileName) {
-        // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
-        // This way, we don't need to request external read/write runtime permissions.
-        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-            Log.d(TAG, "failed to create directory");
-        }
-
-        // Return the file target for the photo based on filename
-        return new File(mediaStorageDir.getPath() + File.separator + fileName);
     }
 }

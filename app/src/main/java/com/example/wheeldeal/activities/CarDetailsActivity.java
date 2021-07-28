@@ -132,10 +132,6 @@ public class CarDetailsActivity extends AppCompatActivity {
         return car.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
     }
 
-    boolean userIsCustomer(){
-        return !userIsAuthor(car);
-    }
-
     private void fetchAllCarEvents(Car car){
         queryClient.fetchAllCarEvents(new FindCallback<Event>() {
             @Override
@@ -152,10 +148,8 @@ public class CarDetailsActivity extends AppCompatActivity {
         }, car);
     }
     private void deleteAssociatedEvents(Car car){
-        for (Event event : allEvents){
-            event.deleteInBackground();
-        }
-        car.deleteInBackground(new DeleteCallback() {
+        queryClient.deleteAssociatedEvents(car, allEvents);
+        queryClient.deleteCar(car, new DeleteCallback() {
             @Override
             public void done(ParseException e) {
                 Intent i = new Intent(context, MainActivity.class);

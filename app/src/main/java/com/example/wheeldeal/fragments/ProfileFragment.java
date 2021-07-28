@@ -133,7 +133,6 @@ public class ProfileFragment extends Fragment {
         // Highlight the selected item has been done by NavigationView
         Log.i(TAG, "menu item set checked index: " + menuItem.getItemId());
         menuItem.setChecked(true);
-//        nvDrawer.setCheckedItem(menuItem.getItemId());
         // Set action bar title
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(menuItem.getTitle());
         // Close the navigation drawer

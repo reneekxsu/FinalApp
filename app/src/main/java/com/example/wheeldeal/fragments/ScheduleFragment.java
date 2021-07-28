@@ -104,34 +104,10 @@ public class ScheduleFragment extends Fragment {
         rvEvents.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         Log.i(TAG, "querying all events");
-//        fetchAllEvents();
         if (mPage == 0){
             fetchAllFutureEvents();
         } else {
             fetchAllPastEvents();
-        }
-    }
-
-    private void fetchAllEvents() {
-        queryClient.fetchAllEvents(new FindCallback<Event>() {
-            @Override
-            public void done(List<Event> events, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Could not get user's events");
-                    Log.e(TAG, e.getCause().toString());
-                } else {
-                    for (Event event : events){
-                        Log.i(TAG, "Event showing in schedule for car: " + event.getCar().getModel());
-                    }
-                    adapter.clear();
-                    adapter.addAll(events);
-                    pb.setVisibility(ProgressBar.INVISIBLE);
-                }
-            }
-        });
-        // Now we call setRefreshing(false) to signal refresh has finished
-        if (swipeContainer.isRefreshing()){
-            swipeContainer.setRefreshing(false);
         }
     }
 

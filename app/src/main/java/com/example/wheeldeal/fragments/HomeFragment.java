@@ -23,13 +23,10 @@ import com.example.wheeldeal.activities.CarMapActivity;
 import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.DateRangeHolder;
-import com.example.wheeldeal.models.Event;
 import com.example.wheeldeal.models.ParcelableCar;
 import com.example.wheeldeal.utils.QueryClient;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
@@ -107,19 +104,8 @@ public class HomeFragment extends Fragment {
 
         Log.i(TAG, "querying all cars");
         fetchAllCars();
-//        deleteSpecificEvent();
     }
 
-    private void deleteSpecificEvent() {
-        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-        query.getInBackground("NyqD9IbjN2", new GetCallback<Event>() {
-            @Override
-            public void done(Event object, ParseException e) {
-                object.deleteInBackground();
-                Log.i(TAG, "event deleted");
-            }
-        });
-    }
 
     private void fetchAllCars() {
         queryClient.fetchCars(new FindCallback<Car>() {
