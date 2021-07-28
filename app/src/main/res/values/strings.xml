@@ -7,4 +7,68 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string-array name="makes_array">
+        <item>Acura</item>
+        <item>Alfa-Romeo</item>
+        <item>Aston Martin</item>
+        <item>Audi</item>
+        <item>BMW</item>
+        <item>Bentley</item>
+        <item>Buick</item>
+        <item>Cadillac</item>
+        <item>Chevrolet</item>
+        <item>Chrysler</item>
+        <item>Daewoo</item>
+        <item>Daihatsu</item>
+        <item>Dodge</item>
+        <item>Eagle</item>
+        <item>Ferrari</item>
+        <item>Fiat</item>
+        <item>Fisker</item>
+        <item>Ford</item>
+        <item>Freighliner</item>
+        <item>GMC</item>
+        <item>Genesis</item>
+        <item>Geo</item>
+        <item>Honda</item>
+        <item>Hummer</item>
+        <item>Hyundai</item>
+        <item>Infinity</item>
+        <item>Isuzu</item>
+        <item>Jaguar</item>
+        <item>Jeep</item>
+        <item>Kia</item>
+        <item>Lamborghini</item>
+        <item>Land Rover</item>
+        <item>Lexus</item>
+        <item>Lincoln</item>
+        <item>Lotus</item>
+        <item>Mazda</item>
+        <item>Maserati</item>
+        <item>Maybach</item>
+        <item>Mclaren</item>
+        <item>Mercedes-Benz</item>
+        <item>Mercury</item>
+        <item>Mini</item>
+        <item>Mitsubishi</item>
+        <item>Nissan</item>
+        <item>Oldsmobile</item>
+        <item>Panoz</item>
+        <item>Plymouth</item>
+        <item>Polestar</item>
+        <item>Pontiac</item>
+        <item>Porsche</item>
+        <item>Ram</item>
+        <item>Rivian</item>
+        <item>Rolls Royce</item>
+        <item>Saab</item>
+        <item>Saturn</item>
+        <item>Smart</item>
+        <item>Subaru</item>
+        <item>Suzuki</item>
+        <item>Tesla</item>
+        <item>Toyota</item>
+        <item>Volkswagen</item>
+        <item>Volvo</item>
+    </string-array>
 </resources>

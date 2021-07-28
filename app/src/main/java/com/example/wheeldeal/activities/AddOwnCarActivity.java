@@ -1,6 +1,7 @@
 package com.example.wheeldeal.activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -58,20 +59,15 @@ public class AddOwnCarActivity extends AppCompatActivity {
     GeocoderClient geocoderClient;
     CameraClient cameraClient;
     BinarySearchClient bs = new BinarySearchClient();
-
-    String[] makes = {"Acura", "Alfa-Romeo", "Aston Martin", "Audi", "BMW", "Bentley", "Buick",
-            "Cadillac", "Chevrolet", "Chrysler", "Daewoo", "Daihatsu", "Dodge", "Eagle", "Ferrari",
-            "Fiat", "Fisker", "Ford", "Freighliner", "GMC", "Genesis", "Geo", "Honda", "Hummer",
-            "Hyundai", "Infinity", "Isuzu", "Jaguar", "Jeep", "Kia", "Lamgorghini", "Land Rover",
-            "Lexus", "Lincoln", "Lotus", "Mazda", "Maserati", "Maybach", "Mclaren", "Mercedes-Benz",
-            "Mercury", "Mini", "Mitsubishi", "Nissan", "Oldsmobile", "Panoz", "Plymouth", "Polestar",
-            "Pontiac", "Porsche", "Ram", "Rivian", "Rolls Royce", "Saab", "Saturn", "Smart",
-            "Subaru", "Suzuki", "Tesla", "Toyota", "Volkswagen", "Volvo"};
+    String makes[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_car);
+
+        Resources res = getResources();
+        makes = res.getStringArray(R.array.makes_array);
 
         etName = findViewById(R.id.etCarName);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, makes);
