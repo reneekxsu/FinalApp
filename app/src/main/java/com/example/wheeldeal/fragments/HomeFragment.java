@@ -101,7 +101,7 @@ public class HomeFragment extends Fragment {
 
         rvAllCars = view.findViewById(R.id.rvAllCars);
         allCars = new ArrayList<>();
-        adapter = new CarAdapter(view.getContext(), allCars);
+        adapter = new CarAdapter(getActivity(), allCars);
         rvAllCars.setAdapter(adapter);
         rvAllCars.setLayoutManager(new LinearLayoutManager(view.getContext()));
 

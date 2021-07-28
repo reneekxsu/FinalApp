@@ -55,7 +55,7 @@ public class CarDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();
-        tvCarDetailName = findViewById(R.id.tvCarDetailName);
+        tvCarDetailName = findViewById(R.id.tvDetailMakeModelYear);
         tvDetailRate = findViewById(R.id.tvDetailRate);
         tvDetailDescription = findViewById(R.id.tvDetailDescription);
         ivDetailCar = findViewById(R.id.ivDetailCar);
@@ -168,7 +168,7 @@ public class CarDetailsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                supportFinishAfterTransition();
                 return true;
         }
 

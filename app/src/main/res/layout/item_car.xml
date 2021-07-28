@@ -44,7 +44,8 @@
                 android:layout_marginStart="11dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/ivCarImage"
-                tools:text="$20/day" />
+                tools:text="$20/day"
+                android:transitionName="rate"/>
 
             <ImageView
                 android:id="@+id/ivCarImage"
@@ -54,21 +55,11 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginBottom="0dp"
                 android:scaleType="centerCrop"
-                tools:srcCompat="@tools:sample/avatars" />
+                tools:srcCompat="@tools:sample/avatars"
+                android:transitionName="image"/>
 
             <TextView
-                android:id="@+id/tvModel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvCarListingName"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="5dp"
-                android:layout_toEndOf="@+id/tvMake"
-                android:textStyle="bold"
-                tools:text=" Model" />
-
-            <TextView
-                android:id="@+id/tvMake"
+                android:id="@+id/tvMakeModelYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvCarListingName"
@@ -76,24 +67,14 @@
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/ivCarImage"
                 android:textStyle="bold"
-                tools:text="Make" />
-
-            <TextView
-                android:id="@+id/tvCarYear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvCarListingName"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="5dp"
-                android:layout_toEndOf="@+id/tvModel"
-                android:textStyle="bold"
-                tools:text=" Year" />
+                tools:text="Make Model Year"
+                android:transitionName="makemodelyear"/>
 
             <TextView
                 android:id="@+id/tvNumSeats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvModel"
+                android:layout_below="@+id/tvMakeModelYear"
                 android:layout_marginStart="11dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/ivCarImage"

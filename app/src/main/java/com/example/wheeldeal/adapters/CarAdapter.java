@@ -1,6 +1,6 @@
 package com.example.wheeldeal.adapters;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -31,10 +33,10 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
     public static final String TAG = "CarAdapter";
 
-    private Context context;
+    private Activity context;
     private List<Car> cars;
 
-    public CarAdapter(Context context, List<Car> cars){
+    public CarAdapter(Activity context, List<Car> cars){
         Log.i(TAG, "caradapter constructed");
         this.context = context;
         this.cars = cars;
@@ -65,16 +67,14 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
         private TextView tvCarName;
         private TextView tvCarRate;
         private ImageView ivCarImage;
-        private TextView tvCarModel, tvCarMake, tvCarYear, tvNumSeats, tvAddress;
+        private TextView tvCarMakeModelYear, tvNumSeats, tvAddress;
         public Viewholder(@NonNull @NotNull View itemView) {
             super(itemView);
             Log.i(TAG, "viewholder constructor");
             tvCarName = itemView.findViewById(R.id.tvCarListingName);
             tvCarRate = itemView.findViewById(R.id.tvCarRate);
             ivCarImage = itemView.findViewById(R.id.ivCarImage);
-            tvCarModel = itemView.findViewById(R.id.tvModel);
-            tvCarMake = itemView.findViewById(R.id.tvMake);
-            tvCarYear = itemView.findViewById(R.id.tvCarYear);
+            tvCarMakeModelYear = itemView.findViewById(R.id.tvMakeModelYear);
             tvNumSeats = itemView.findViewById(R.id.tvNumSeats);
             // later add on click listener for detailed view
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +87,12 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
                         ParcelableCar c = new ParcelableCar(car);
                         Intent i = new Intent(context, CarDetailsActivity.class);
                         i.putExtra(ParcelableCar.class.getSimpleName(), Parcels.wrap(c));
-                        context.startActivity(i);
+                        Pair<View, String> p1 = Pair.create((View)tvCarMakeModelYear, "makemodelyear");
+                        Pair<View, String> p2 = Pair.create((View)tvCarRate, "rate");
+                        Pair<View, String> p3 = Pair.create((View)ivCarImage, "image");
+                        ActivityOptionsCompat options = ActivityOptionsCompat.
+                                makeSceneTransitionAnimation(context, p1, p2, p3);
+                        context.startActivity(i, options.toBundle());
                     }
                 }
             });
@@ -116,9 +121,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
             } else {
                 tvCarName.setVisibility(View.GONE);
             }
-            tvCarMake.setText(car.getMake());
-            tvCarModel.setText(" " + car.getModel());
-            tvCarYear.setText(" " + car.getYear());
+            tvCarMakeModelYear.setText(car.getMake() + " " + car.getModel() + " " + car.getYear());
             tvNumSeats.setText("Seats " + car.getPassengers() + " passengers");
         }
     }

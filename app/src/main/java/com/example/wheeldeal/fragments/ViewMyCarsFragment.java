@@ -73,7 +73,7 @@ public class ViewMyCarsFragment extends Fragment {
 
         // initialize array for holding cars, and create CarAdapter
         allCars = new ArrayList<>();
-        adapter = new CarAdapter(view.getContext(), allCars);
+        adapter = new CarAdapter(getActivity(), allCars);
         // set adapter on RV
         rvCars.setAdapter(adapter);
         // set layout manager on RV
