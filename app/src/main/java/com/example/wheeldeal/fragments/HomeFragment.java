@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -33,6 +34,9 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 public class HomeFragment extends Fragment {
     public static final String TAG = "HomeFragment";
@@ -99,7 +103,13 @@ public class HomeFragment extends Fragment {
         rvAllCars = view.findViewById(R.id.rvAllCars);
         allCars = new ArrayList<>();
         adapter = new CarAdapter(getActivity(), allCars);
-        rvAllCars.setAdapter(adapter);
+        AlphaInAnimationAdapter alphaInAnimationAdapter = new AlphaInAnimationAdapter(adapter);
+        alphaInAnimationAdapter.setDuration(1000);
+        alphaInAnimationAdapter.setInterpolator(new OvershootInterpolator());
+        alphaInAnimationAdapter.setFirstOnly(false);
+        ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(alphaInAnimationAdapter);
+        scaleInAnimationAdapter.setFirstOnly(false);
+        rvAllCars.setAdapter(scaleInAnimationAdapter);
         rvAllCars.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         Log.i(TAG, "querying all cars");
