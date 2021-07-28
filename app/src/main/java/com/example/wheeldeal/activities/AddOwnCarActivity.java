@@ -6,8 +6,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,10 +19,12 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.core.content.FileProvider;
 
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.BitmapScaler;
+import com.example.wheeldeal.utils.BinarySearchClient;
 import com.example.wheeldeal.utils.CameraClient;
 import com.example.wheeldeal.utils.FormClient;
 import com.example.wheeldeal.utils.GeocoderClient;
@@ -36,13 +42,13 @@ public class AddOwnCarActivity extends AppCompatActivity {
 
     public static final String TAG = "RegisterCarActivity";
 
-    private TextInputEditText etName, etCarMake, etCarModel, etYear, etPrice, etPassengers, etSizeType,
+    private TextInputEditText etName, etCarModel, etYear, etPrice, etPassengers, etSizeType,
             etDescription, etAddress;
     private Button btnCamera, btnRegister;
     private ImageView ivPreview;
     private TextView tvClose;
     String name, make, model, year, price, passengerCount, sizeType, description, address;
-    private TextInputLayout tilPrice;
+    private TextInputLayout tilPrice, tilCarMake;
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     public String photoFileName = "photo.jpg";
@@ -51,6 +57,16 @@ public class AddOwnCarActivity extends AppCompatActivity {
     QueryClient queryClient = new QueryClient();
     GeocoderClient geocoderClient;
     CameraClient cameraClient;
+    BinarySearchClient bs = new BinarySearchClient();
+
+    String[] makes = {"Acura", "Alfa-Romeo", "Aston Martin", "Audi", "BMW", "Bentley", "Buick",
+            "Cadillac", "Chevrolet", "Chrysler", "Daewoo", "Daihatsu", "Dodge", "Eagle", "Ferrari",
+            "Fiat", "Fisker", "Ford", "Freighliner", "GMC", "Genesis", "Geo", "Honda", "Hummer",
+            "Hyundai", "Infinity", "Isuzu", "Jaguar", "Jeep", "Kia", "Lamgorghini", "Land Rover",
+            "Lexus", "Lincoln", "Lotus", "Mazda", "Maserati", "Maybach", "Mclaren", "Mercedes-Benz",
+            "Mercury", "Mini", "Mitsubishi", "Nissan", "Oldsmobile", "Panoz", "Plymouth", "Polestar",
+            "Pontiac", "Porsche", "Ram", "Rivian", "Rolls Royce", "Saab", "Saturn", "Smart",
+            "Subaru", "Suzuki", "Tesla", "Toyota", "Volkswagen", "Volvo"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +74,39 @@ public class AddOwnCarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register_car);
 
         etName = findViewById(R.id.etCarName);
-        etCarMake = findViewById(R.id.etCarMake);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, makes);
+        //Find TextView control
+        AppCompatAutoCompleteTextView acTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.etCarMake);
+        //Set the number of characters the user must type before the drop down list is shown
+        acTextView.setThreshold(1);
+        //Set the adapter
+        acTextView.setAdapter(adapter);
+
+        final String[] myMake = new String[1];
+        acTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                myMake[0] = adapter.getItem(position).toString();
+            }
+        });
+
+        acTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                myMake[0] = null;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         etCarModel = findViewById(R.id.etCarculatorModel);
         etYear = findViewById(R.id.etCarculatorYear);
         etPrice = findViewById(R.id.etCarPrice);
@@ -71,15 +119,17 @@ public class AddOwnCarActivity extends AppCompatActivity {
         ivPreview = findViewById(R.id.ivPreview);
         tvClose = findViewById(R.id.tvClose);
         tilPrice = findViewById(R.id.tilPrice);
+        tilCarMake = findViewById(R.id.tilCarMake);
 
         geocoderClient = new GeocoderClient(this);
         cameraClient = new CameraClient(this);
+
 
         tilPrice.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(AddOwnCarActivity.this, CarculatorActivity.class);
-                i.putExtra("make", etCarMake.getText().toString());
+                i.putExtra("make", acTextView.getText().toString());
                 i.putExtra("model", etCarModel.getText().toString());
                 i.putExtra("year", etYear.getText().toString());
                 i.putExtra("passengers", etPassengers.getText().toString());
@@ -103,7 +153,7 @@ public class AddOwnCarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 name = etName.getText().toString();
-                make = etCarMake.getText().toString();
+                make = acTextView.getText().toString();
                 model = etCarModel.getText().toString();
                 year = etYear.getText().toString();
                 price = etPrice.getText().toString();
@@ -111,6 +161,15 @@ public class AddOwnCarActivity extends AppCompatActivity {
                 sizeType = etSizeType.getText().toString();
                 description = etDescription.getText().toString();
                 address = etAddress.getText().toString();
+
+                if (myMake[0] == null){
+                    // text was inputted rather than selected from autocomplete, must search array
+                    int res = bs.binarySearch(makes, make);
+                    if (res == -1){
+                        tilCarMake.setError("Please select valid car make");
+                    }
+                    return;
+                }
 
                 if (formClient.isEntryEmpty(name, make, model, year, price, passengerCount, sizeType, description, address)){
                     Toast.makeText(AddOwnCarActivity.this, "All fields must be filled", Toast.LENGTH_SHORT).show();

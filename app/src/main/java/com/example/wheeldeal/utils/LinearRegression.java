@@ -1,4 +1,4 @@
-package com.example.wheeldeal.models;
+package com.example.wheeldeal.utils;
 
 import android.util.Log;
 

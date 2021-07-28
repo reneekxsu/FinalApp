@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.CarScore;
-import com.example.wheeldeal.models.LinearRegression;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -34,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                app:errorEnabled="true"
                 android:hint="Name">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -47,20 +48,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Make"
-                android:layout_marginBottom="10dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCarMake"
+                android:layout_marginBottom="10dp"
+                app:errorEnabled="true"
+                android:id="@+id/tilCarMake">
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/etCarMake"
                     android:drawablePadding="0dp"
-                    tools:text="Toyota"></com.google.android.material.textfield.TextInputEditText>
+                    tools:text="Toyota"
+                    style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox">
+                </androidx.appcompat.widget.AppCompatAutoCompleteTextView>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Model">
+                android:hint="Model"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCarculatorModel"
@@ -75,7 +80,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Year">
+                android:hint="Year"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCarculatorYear"
@@ -86,7 +92,6 @@
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPrice"
                 android:layout_width="match_parent"
@@ -94,7 +99,8 @@
                 android:layout_marginBottom="10dp"
                 android:hint="Price"
                 app:endIconDrawable="@android:drawable/ic_dialog_info"
-                app:endIconMode="custom">
+                app:endIconMode="custom"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCarPrice"
@@ -109,7 +115,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Number of Passengers">
+                android:hint="Number of Passengers"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCarculatorPassengers"
@@ -120,12 +127,12 @@
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Size Type">
+                android:hint="Size Type"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCarculatorSizeType"
@@ -136,12 +143,12 @@
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Description">
+                android:hint="Description"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCarDescription"
@@ -152,12 +159,12 @@
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Address">
+                android:hint="Address"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCarculatorAddress"
