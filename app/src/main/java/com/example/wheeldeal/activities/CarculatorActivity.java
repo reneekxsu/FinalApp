@@ -1,5 +1,6 @@
 package com.example.wheeldeal.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,14 +44,19 @@ public class CarculatorActivity extends AppCompatActivity {
     TextInputEditText etCarMake, etCarModel, etCarYear,etCarPassengers, etCarSizeType, etCarAddress;
     TextView tvCalculatedPrice;
     Button btnCalculate;
-    Car car;
+    Car car = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carculator);
 
-        car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();
+        Intent intent = getIntent();
+        boolean carFlag = intent.getExtras().getBoolean("carFlag");
+
+        if (carFlag){
+            car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();
+        }
 
         myMake = getIntent().getStringExtra("make");
         myModel = getIntent().getStringExtra("model");
@@ -86,7 +92,9 @@ public class CarculatorActivity extends AppCompatActivity {
             @Override
             public void done(List<Car> cars, ParseException e) {
                 allCars.addAll(cars);
-                allCars.remove(car);
+                if (carFlag){
+                    allCars.remove(car);
+                }
                 updateCategories();
             }
         }, true);

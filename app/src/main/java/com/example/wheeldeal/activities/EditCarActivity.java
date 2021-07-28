@@ -219,9 +219,9 @@ public class EditCarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "Close button clicked");
-//                Intent i = new Intent(EditCarActivity.this, UserCarFeedActivity.class);
                 Intent i = new Intent(EditCarActivity.this, MainActivity.class);
                 startActivity(i);
+                overridePendingTransition(0, R.anim.slide_out_down);
                 finish();
             }
         });
@@ -233,14 +233,16 @@ public class EditCarActivity extends AppCompatActivity {
                 i.putExtra("make", etEditCarMake.getText().toString());
                 i.putExtra("model", etEditCarModel.getText().toString());
                 i.putExtra("year", etEditYear.getText().toString());
-//                i.putExtra("price", etPrice.getText().toString());
                 i.putExtra("passengers", etEditPassengers.getText().toString());
                 i.putExtra("sizetype", etEditSizeType.getText().toString());
                 i.putExtra("address", etEditAddress.getText().toString());
                 ParcelableCar c = new ParcelableCar(car);
                 i.putExtra(ParcelableCar.class.getSimpleName(), Parcels.wrap(c));
+                i.putExtra("carFlag", true);
                 startActivity(i);
+                overridePendingTransition(R.anim.slide_in_up, R.anim.no_change);
             }
+
         });
 
     }

@@ -6,91 +6,90 @@
     android:layout_height="match_parent"
     tools:context="com.example.wheeldeal.activities.CarDetailsActivity">
 
-    <TextView
-        android:id="@+id/tvCarDetailName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="30dp"
-        android:text="Honda Odyssey 2007" />
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/tvDetailRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvCarDetailName"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="19dp"
-        tools:text="Rate" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
+        <TextView
+            android:id="@+id/tvCarDetailName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="30dp"
+            android:text="Honda Odyssey 2007" />
 
-    <TextView
-        android:id="@+id/tvDetailDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvDetailRate"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="15dp"
-        tools:text="Description" />
+        <TextView
+            android:id="@+id/tvDetailRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCarDetailName"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="19dp"
+            tools:text="Rate" />
 
-    <ImageView
-        android:id="@+id/ivDetailCar"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_below="@+id/tvDetailDescription"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="23dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="20dp"
-        android:scaleType="centerCrop"
-        tools:srcCompat="@tools:sample/avatars" />
+        <TextView
+            android:id="@+id/tvDetailDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvDetailRate"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            tools:text="Description" />
 
-    <ImageButton
-        android:id="@+id/ibtnEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="19dp"
-        app:srcCompat="@android:drawable/ic_menu_edit"
-        app:tint="?attr/colorPrimary" />
+        <ImageView
+            android:id="@+id/ivDetailCar"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_below="@+id/tvDetailDescription"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="23dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="20dp"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@tools:sample/avatars" />
 
-    <ImageButton
-        android:id="@+id/ibtnEvent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ibtnEdit"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="19dp"
-        app:srcCompat="@android:drawable/ic_menu_my_calendar"
-        app:tint="?attr/colorPrimary" />
+        <ImageButton
+            android:id="@+id/ibtnEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="19dp"
+            app:srcCompat="@android:drawable/ic_menu_edit"
+            app:tint="?attr/colorPrimary" />
 
-    <TextView
-        android:id="@+id/tvCarculator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvCarDetailName"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="19dp"
-        android:layout_toEndOf="@+id/tvDetailRate"
-        android:text="Carculator"
-        android:textStyle="bold" />
+        <ImageButton
+            android:id="@+id/ibtnEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ibtnEdit"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="19dp"
+            app:srcCompat="@android:drawable/ic_menu_my_calendar"
+            app:tint="?attr/colorPrimary" />
 
-    <ImageButton
-        android:id="@+id/ibtnDelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ibtnEvent"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="19dp"
-        app:tint="?attr/colorPrimary"
-        app:srcCompat="@android:drawable/ic_menu_delete" />
+        <ImageButton
+            android:id="@+id/ibtnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ibtnEvent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="19dp"
+            app:tint="?attr/colorPrimary"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+    </RelativeLayout>
 </RelativeLayout>

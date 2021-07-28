@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.example.wheeldeal.MainActivity;
@@ -34,7 +37,7 @@ public class CarDetailsActivity extends AppCompatActivity {
     public static final String TAG = "UserCarDetailsActivity";
 
     Car car;
-    TextView tvCarDetailName, tvDetailRate, tvDetailDescription, tvCarculator;
+    TextView tvCarDetailName, tvDetailRate, tvDetailDescription;
     ImageView ivDetailCar;
     Context context;
     ImageButton ibtnEdit, ibtnEvent, ibtnDelete;
@@ -46,13 +49,16 @@ public class CarDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_details);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();
         tvCarDetailName = findViewById(R.id.tvCarDetailName);
         tvDetailRate = findViewById(R.id.tvDetailRate);
         tvDetailDescription = findViewById(R.id.tvDetailDescription);
         ivDetailCar = findViewById(R.id.ivDetailCar);
-        tvCarculator = findViewById(R.id.tvCarculator);
         ibtnEdit = findViewById(R.id.ibtnEdit);
         ibtnEvent = findViewById(R.id.ibtnEvent);
         ibtnDelete = findViewById(R.id.ibtnDelete);
@@ -77,7 +83,6 @@ public class CarDetailsActivity extends AppCompatActivity {
 
         if (!userIsAuthor(car)){
             ibtnEdit.setVisibility(View.GONE);
-            tvCarculator.setVisibility(View.GONE);
         } else {
             ibtnEdit.setVisibility(View.VISIBLE);
             ibtnEdit.setBackgroundDrawable(null);
@@ -88,17 +93,7 @@ public class CarDetailsActivity extends AppCompatActivity {
                     Intent i = new Intent(context, EditCarActivity.class);
                     i.putExtra(ParcelableCar.class.getSimpleName(), Parcels.wrap(c));
                     startActivity(i);
-                    finish();
-                }
-            });
-            tvCarculator.setVisibility(View.VISIBLE);
-            tvCarculator.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ParcelableCar c = new ParcelableCar(car);
-                    Intent i = new Intent(context, CarculatorActivity.class);
-                    i.putExtra(ParcelableCar.class.getSimpleName(), Parcels.wrap(c));
-                    startActivity(i);
+                    overridePendingTransition(R.anim.slide_in_up, R.anim.no_change);
                     finish();
                 }
             });
@@ -118,6 +113,7 @@ public class CarDetailsActivity extends AppCompatActivity {
                 }
                 i.putExtra("CarEvents", Parcels.wrap(rangeHolder));
                 startActivity(i);
+                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
             }
         });
 
@@ -167,6 +163,20 @@ public class CarDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
     }
 
 }
