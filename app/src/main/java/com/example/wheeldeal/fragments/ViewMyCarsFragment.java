@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 public class ViewMyCarsFragment extends Fragment {
 
@@ -74,9 +78,13 @@ public class ViewMyCarsFragment extends Fragment {
         // initialize array for holding cars, and create CarAdapter
         allCars = new ArrayList<>();
         adapter = new CarAdapter(getActivity(), allCars);
-        // set adapter on RV
-        rvCars.setAdapter(adapter);
-        // set layout manager on RV
+        AlphaInAnimationAdapter alphaInAnimationAdapter = new AlphaInAnimationAdapter(adapter);
+        alphaInAnimationAdapter.setDuration(1000);
+        alphaInAnimationAdapter.setInterpolator(new OvershootInterpolator());
+        alphaInAnimationAdapter.setFirstOnly(false);
+        ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(alphaInAnimationAdapter);
+        scaleInAnimationAdapter.setFirstOnly(false);
+        rvCars.setAdapter(scaleInAnimationAdapter);
         rvCars.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         fabAddCar = view.findViewById(R.id.fabAddCar);
