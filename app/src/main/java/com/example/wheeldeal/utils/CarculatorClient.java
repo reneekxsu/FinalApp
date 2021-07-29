@@ -34,7 +34,7 @@ public class CarculatorClient {
         int flagLux = 0;
         for (CarScore cs : scores){
             x.add(cs.getScore());
-            y.add(Double.parseDouble(cs.getCar().getRate()));
+            y.add(Double.parseDouble(cs.getCar().getRate().toString()));
         }
         LinearRegression lr = new LinearRegression(x,y);
         Log.i(TAG, "intercept: " + lr.intercept());

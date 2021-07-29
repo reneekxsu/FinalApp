@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_closest"
+        android:title="Closest"
+        app:showAsAction="never"
+        android:orderInCategory="1"/>
+    <item
+        android:id="@+id/menu_low_to_high"
+        android:title="Price: Low to High"
+        app:showAsAction="never"
+        android:orderInCategory="2"/>
+    <item
+        android:id="@+id/menu_num_passengers"
+        android:orderInCategory="3"
+        android:title="Number of Passengers"
+        app:showAsAction="never" />
+</menu>

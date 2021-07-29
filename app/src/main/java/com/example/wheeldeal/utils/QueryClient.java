@@ -118,10 +118,28 @@ public class QueryClient {
     }
 
     public void fetchCarsWithAddress(FindCallback<Car> callback, String address){
-        Log.i(TAG, "fetching all cars");
+        Log.i(TAG, "fetching all cars with address");
         ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
         query.whereEqualTo(Car.KEY_ADDRESS, address);
         setCarQuery(query, callback);
+    }
+
+    public void fetchCarsBySeats(FindCallback<Car> callback){
+        Log.i(TAG, "fetching cars ordered by num passengers");
+        ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
+        query.include(Car.KEY_OWNER);
+        query.setLimit(20);
+        query.addDescendingOrder("passengers");
+        query.findInBackground(callback);
+    }
+
+    public void fetchCarsByPrice(FindCallback<Car> callback){
+        Log.i(TAG, "fetching cars ordered by num passengers");
+        ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
+        query.include(Car.KEY_OWNER);
+        query.setLimit(20);
+        query.addAscendingOrder("rate");
+        query.findInBackground(callback);
     }
 
     public void setCarQuery(ParseQuery<Car> query, FindCallback<Car> callback){
@@ -157,7 +175,7 @@ public class QueryClient {
         car.setDescription(description);
         car.setOwner(currentUser);
         car.setImage(image);
-        car.setRate(rate);
+        car.setRate(Integer.parseInt(rate));
         car.setModel(model);
         car.setName(name);
         car.setMake(make);
@@ -180,7 +198,7 @@ public class QueryClient {
         event.setEnd(end);
         event.setRenter(ParseUser.getCurrentUser());
         event.setCar(car);
-        event.setPrice(car.getRate());
+        event.setPrice(car.getRate().toString());
         int rentType = 0;
         if (userIsCustomer){
             rentType = 1;

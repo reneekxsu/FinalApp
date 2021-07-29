@@ -51,11 +51,11 @@ public class Car extends ParseObject {
     }
 
     // rate getter and setter
-    public String getRate(){
-        return getString(KEY_RATE);
+    public Number getRate(){
+        return getNumber(KEY_RATE);
     }
 
-    public void setRate(String rate){
+    public void setRate(Number rate){
         put(KEY_RATE,rate);
     }
 

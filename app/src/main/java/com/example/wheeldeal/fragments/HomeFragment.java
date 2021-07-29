@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,17 +48,23 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvAllCars;
     protected CarAdapter adapter;
     protected List<Car> allCars;
+    protected List<Car> allCarsDefault = new ArrayList<>();
+    protected List<Car> allCarsSortedPrice = new ArrayList<>();
+    protected List<Car> allCarsSortedPassengers = new ArrayList<>();
+    protected List<Car> allCarsSortedDistance = new ArrayList<>();
     protected ArrayList<ArrayList<DateRangeHolder>> allEventDates;
     private ProgressBar pb;
     private SwipeRefreshLayout swipeContainer;
     private QueryClient queryClient;
     private Toolbar toolbar;
     private TextView tvGoToMap;
+    Menu menu;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -64,6 +74,7 @@ public class HomeFragment extends Fragment {
 
         toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.showOverflowMenu();
 
         tvGoToMap = view.findViewById(R.id.tvGoToMap);
         tvGoToMap.setVisibility(View.GONE);
@@ -135,9 +146,69 @@ public class HomeFragment extends Fragment {
                 }
             }
         }, true);
+
+
+        queryClient.fetchCarsBySeats(new FindCallback<Car>() {
+            @Override
+            public void done(List<Car> cars, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Could not get user's cars");
+                    Log.i(TAG, "error message: " + e.getCause().getMessage());
+                } else {
+                    for (Car car : cars) {
+                        Log.i(TAG, "Car: " + car.getModel());
+                    }
+                    allCarsSortedPassengers.addAll(cars);
+                }
+            }
+        });
+
+        queryClient.fetchCarsByPrice(new FindCallback<Car>() {
+            @Override
+            public void done(List<Car> cars, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Could not get user's cars");
+                    Log.i(TAG, "error message: " + e.getCause().getMessage());
+                } else {
+                    for (Car car : cars) {
+                        Log.i(TAG, "Car: " + car.getModel());
+                    }
+                    allCarsSortedPrice.addAll(cars);
+                }
+            }
+        });
+
         // Now we call setRefreshing(false) to signal refresh has finished
         if (swipeContainer.isRefreshing()) {
             swipeContainer.setRefreshing(false);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
+        inflater.inflate(R.menu.sort_menu, menu);
+        Log.i(TAG, "onCreateOptions");
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.menu_closest:
+                Toast.makeText(getContext(), "Sort by closest", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.menu_low_to_high:
+                Toast.makeText(getContext(), "Sort by price: low to high", Toast.LENGTH_SHORT).show();
+                adapter.clear();
+                adapter.addAll(allCarsSortedPrice);
+                return true;
+            case R.id.menu_num_passengers:
+                Toast.makeText(getContext(), "Sort by number of passengers", Toast.LENGTH_SHORT).show();
+                adapter.clear();
+                adapter.addAll(allCarsSortedPassengers);
+                return true;
+        }
+        Log.i(TAG, "default");
+        return super.onOptionsItemSelected(item);
     }
 }

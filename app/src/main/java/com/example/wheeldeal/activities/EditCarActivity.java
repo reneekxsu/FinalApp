@@ -136,7 +136,7 @@ public class EditCarActivity extends AppCompatActivity {
         acTextView.setText(car.getMake());
         etEditCarModel.setText(car.getModel());
         etEditYear.setText(car.getYear());
-        etEditRate.setText(car.getRate());
+        etEditRate.setText(car.getRate().toString());
         etEditPassengers.setText(car.getPassengers());
         etEditSizeType.setText(car.getSizeType());
         etEditDescription.setText(car.getDescription());

@@ -3,7 +3,6 @@ package com.example.wheeldeal.activities;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
@@ -17,7 +16,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
-import com.example.wheeldeal.models.MarkerCarCountHolder;
+import com.example.wheeldeal.utils.MarkerCarCountHolder;
 import com.example.wheeldeal.models.ParcelableCar;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.gms.common.ConnectionResult;
@@ -124,7 +123,7 @@ public class CarMapActivity extends AppCompatActivity {
                 @Override
                 public void onInfoWindowClick(Marker marker) {
                     Log.i(TAG, "window clicked: " + marker.getTitle());
-                    if (!marker.getTitle().equals("I am here")) {
+                    if (!marker.getTitle().equals("You are here")) {
                         queryClient.fetchCarsWithAddress(new FindCallback<Car>() {
                             @Override
                             public void done(List<Car> cars, ParseException e) {
@@ -251,10 +250,9 @@ public class CarMapActivity extends AppCompatActivity {
             Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
             LatLng latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
-            map.animateCamera(cameraUpdate);
+            map.moveCamera(cameraUpdate);
             MarkerOptions options = new MarkerOptions().position(latLng).title("You are here");
             map.addMarker(options);
-            Geocoder g = new Geocoder(this);
             for (Car car : allCars){
                 Log.i(TAG, "car in allCars: " + car.getMake());
                 double lat;
