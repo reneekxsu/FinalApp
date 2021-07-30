@@ -17,10 +17,12 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/mapSwitchLayout"/>
+        <Spinner
+            android:id="@+id/mySpinner"
+            android:layout_width="wrap_content"
+            android:entries="@array/sort_array"
+            android:prompt="@string/sort_prompt"
+            android:layout_height="wrap_content" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeContainer"

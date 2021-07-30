@@ -10,7 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -108,6 +111,36 @@ public class HomeFragment extends Fragment {
 
         Log.i(TAG, "querying all cars");
         fetchAllCars();
+
+        Spinner spinner = (Spinner) view.findViewById(R.id.mySpinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.sort_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0){
+
+                } else if (position == 1){
+                    Toast.makeText(getContext(), "Sort by price: low to high", Toast.LENGTH_SHORT).show();
+                    adapter.clear();
+                    adapter.addAll(allCarsSortedPrice);
+                } else {
+                    Toast.makeText(getContext(), "Sort by number of passengers", Toast.LENGTH_SHORT).show();
+                    adapter.clear();
+                    adapter.addAll(allCarsSortedPassengers);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 
@@ -188,22 +221,6 @@ public class HomeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
         switch(item.getItemId()){
-            case R.id.menu_closest:
-                item.setChecked(!item.isChecked());
-                Toast.makeText(getContext(), "Sort by closest", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.menu_low_to_high:
-                item.setChecked(!item.isChecked());
-                Toast.makeText(getContext(), "Sort by price: low to high", Toast.LENGTH_SHORT).show();
-                adapter.clear();
-                adapter.addAll(allCarsSortedPrice);
-                return true;
-            case R.id.menu_num_passengers:
-                item.setChecked(!item.isChecked());
-                Toast.makeText(getContext(), "Sort by number of passengers", Toast.LENGTH_SHORT).show();
-                adapter.clear();
-                adapter.addAll(allCarsSortedPassengers);
-                return true;
             case R.id.action_map:
                 ArrayList<ParcelableCar> parcelableCars = new ArrayList<ParcelableCar>();
                 for (Car car : allCars){

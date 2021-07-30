@@ -76,4 +76,5 @@
         <item>Price: Low to High</item>
         <item>Num Passengers</item>
     </string-array>
+    <string name="sort_prompt">Sort by</string>
 </resources>
