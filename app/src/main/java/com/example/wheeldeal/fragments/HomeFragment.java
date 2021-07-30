@@ -124,7 +124,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0){
-
+                    Toast.makeText(getContext(), "Default order", Toast.LENGTH_SHORT).show();
+                    adapter.clear();
+                    adapter.addAll(allCarsDefault);
                 } else if (position == 1){
                     Toast.makeText(getContext(), "Sort by price: low to high", Toast.LENGTH_SHORT).show();
                     adapter.clear();
@@ -152,11 +154,12 @@ public class HomeFragment extends Fragment {
                     Log.e(TAG, "Could not get user's cars");
                     Log.i(TAG, "error message: " + e.getCause().getMessage());
                 } else {
-                    for (Car car : cars) {
-                        Log.i(TAG, "Car: " + car.getModel());
-                    }
                     adapter.clear();
                     adapter.addAll(cars);
+                    for (Car car : allCars) {
+                        Log.i(TAG, "Car in allCars: " + car.getModel());
+                    }
+                    allCarsDefault.addAll(cars);
                     isLoaded = true;
                     if (isLoaded){
                         finishedLoading.setVisible(true);
@@ -176,9 +179,9 @@ public class HomeFragment extends Fragment {
                     Log.e(TAG, "Could not get user's cars");
                     Log.i(TAG, "error message: " + e.getCause().getMessage());
                 } else {
-                    for (Car car : cars) {
-                        Log.i(TAG, "Car: " + car.getModel());
-                    }
+//                    for (Car car : cars) {
+//                        Log.i(TAG, "Car: " + car.getModel());
+//                    }
                     allCarsSortedPassengers.addAll(cars);
                 }
             }
@@ -191,9 +194,9 @@ public class HomeFragment extends Fragment {
                     Log.e(TAG, "Could not get user's cars");
                     Log.i(TAG, "error message: " + e.getCause().getMessage());
                 } else {
-                    for (Car car : cars) {
-                        Log.i(TAG, "Car: " + car.getModel());
-                    }
+//                    for (Car car : cars) {
+//                        Log.i(TAG, "Car: " + car.getModel());
+//                    }
                     allCarsSortedPrice.addAll(cars);
                 }
             }
@@ -224,12 +227,12 @@ public class HomeFragment extends Fragment {
             case R.id.action_map:
                 ArrayList<ParcelableCar> parcelableCars = new ArrayList<ParcelableCar>();
                 for (Car car : allCars){
-                    Log.i(TAG, "Car on textview click: " + car.getModel());
+//                    Log.i(TAG, "Car on textview click: " + car.getModel());
                     parcelableCars.add(new ParcelableCar(car));
                 }
-                Intent i = new Intent(getContext(), CarMapActivity.class);
-                i.putExtra("ParcelableCars", Parcels.wrap(parcelableCars));
-                startActivity(i);
+                Intent intent = new Intent(getContext(), CarMapActivity.class);
+                intent.putExtra("ParcelableCars", Parcels.wrap(parcelableCars));
+                startActivity(intent);
         }
         Log.i(TAG, "default");
         return super.onOptionsItemSelected(item);

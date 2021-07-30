@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/menu_closest"
-            android:title="Closest"
+            android:title="Default"
             app:showAsAction="never"
             android:orderInCategory="1"/>
         <item
