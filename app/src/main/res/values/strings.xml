@@ -71,4 +71,9 @@
         <item>Volkswagen</item>
         <item>Volvo</item>
     </string-array>
+    <string-array name="sort_array">
+        <item>Closest</item>
+        <item>Price: Low to High</item>
+        <item>Num Passengers</item>
+    </string-array>
 </resources>

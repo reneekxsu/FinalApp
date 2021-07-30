@@ -20,17 +20,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mapSwitchLayout">
-
-            <TextView
-                android:id="@+id/tvGoToMap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="Go to Map View"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
+            android:id="@+id/mapSwitchLayout"/>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeContainer"

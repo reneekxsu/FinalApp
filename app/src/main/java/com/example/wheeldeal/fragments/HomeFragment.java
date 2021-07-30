@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -57,8 +56,8 @@ public class HomeFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
     private QueryClient queryClient;
     private Toolbar toolbar;
-    private TextView tvGoToMap;
-    Menu menu;
+    MenuItem finishedLoading;
+    boolean isLoaded = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,22 +74,6 @@ public class HomeFragment extends Fragment {
         toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         toolbar.showOverflowMenu();
-
-        tvGoToMap = view.findViewById(R.id.tvGoToMap);
-        tvGoToMap.setVisibility(View.GONE);
-        tvGoToMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ArrayList<ParcelableCar> parcelableCars = new ArrayList<ParcelableCar>();
-                for (Car car : allCars){
-                    Log.i(TAG, "Car on textview click: " + car.getModel());
-                    parcelableCars.add(new ParcelableCar(car));
-                }
-                Intent i = new Intent(view.getContext(), CarMapActivity.class);
-                i.putExtra("ParcelableCars", Parcels.wrap(parcelableCars));
-                startActivity(i);
-            }
-        });
 
         queryClient = new QueryClient();
 
@@ -141,8 +124,13 @@ public class HomeFragment extends Fragment {
                     }
                     adapter.clear();
                     adapter.addAll(cars);
+                    isLoaded = true;
+                    if (isLoaded){
+                        finishedLoading.setVisible(true);
+                    } else {
+                        finishedLoading.setVisible(false);
+                    }
                     pb.setVisibility(ProgressBar.INVISIBLE);
-                    tvGoToMap.setVisibility(View.VISIBLE);
                 }
             }
         }, true);
@@ -186,7 +174,13 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
-        inflater.inflate(R.menu.sort_menu, menu);
+        inflater.inflate(R.menu.menu_action, menu);
+        finishedLoading = menu.findItem(R.id.action_map);
+        if (isLoaded){
+            finishedLoading.setVisible(true);
+        } else {
+            finishedLoading.setVisible(false);
+        }
         Log.i(TAG, "onCreateOptions");
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -195,18 +189,30 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
         switch(item.getItemId()){
             case R.id.menu_closest:
+                item.setChecked(!item.isChecked());
                 Toast.makeText(getContext(), "Sort by closest", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_low_to_high:
+                item.setChecked(!item.isChecked());
                 Toast.makeText(getContext(), "Sort by price: low to high", Toast.LENGTH_SHORT).show();
                 adapter.clear();
                 adapter.addAll(allCarsSortedPrice);
                 return true;
             case R.id.menu_num_passengers:
+                item.setChecked(!item.isChecked());
                 Toast.makeText(getContext(), "Sort by number of passengers", Toast.LENGTH_SHORT).show();
                 adapter.clear();
                 adapter.addAll(allCarsSortedPassengers);
                 return true;
+            case R.id.action_map:
+                ArrayList<ParcelableCar> parcelableCars = new ArrayList<ParcelableCar>();
+                for (Car car : allCars){
+                    Log.i(TAG, "Car on textview click: " + car.getModel());
+                    parcelableCars.add(new ParcelableCar(car));
+                }
+                Intent i = new Intent(getContext(), CarMapActivity.class);
+                i.putExtra("ParcelableCars", Parcels.wrap(parcelableCars));
+                startActivity(i);
         }
         Log.i(TAG, "default");
         return super.onOptionsItemSelected(item);
