@@ -65,9 +65,10 @@ public class HomeFragment extends Fragment {
     private GeocoderClient geocoderClient;
     private Toolbar toolbar;
     MenuItem loadedMap;
-    boolean firstLoad = true;
-    boolean isLoaded = false;
-    boolean inSearch = false;
+    boolean firstLoad;
+    boolean isLoaded;
+    boolean inSearch;
+    ParseGeoPoint p;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,6 +101,8 @@ public class HomeFragment extends Fragment {
         });
 
         firstLoad = true;
+        isLoaded = false;
+        inSearch = false;
 
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -218,16 +221,24 @@ public class HomeFragment extends Fragment {
     
     public void fetchCarByQuery(String query){
         // see if location matches
-        ParseGeoPoint p = geocoderClient.getAddressFromString(query);
-        queryClient.fetchCarByProximity(new FindCallback<Car>() {
-            @Override
-            public void done(List<Car> cars, ParseException e) {
-                adapter.clear();
-                adapter.addAll(cars);
-            }
-        }, p, 5);
-        // see if model matches
-        // see if make matches
+        p = geocoderClient.getAddressFromString(query);
+        Log.i(TAG, "geopoint: " + p);
+        if (p != null){
+            rvAllCars.setVisibility(View.VISIBLE);
+            queryClient.fetchCarByProximity(new FindCallback<Car>() {
+                @Override
+                public void done(List<Car> cars, ParseException e) {
+                    if (cars.size() > 0){
+                        adapter.clear();
+                        adapter.addAll(cars);
+                    } else {
+                        rvAllCars.setVisibility(View.GONE);
+                    }
+                }
+            }, p, 5);
+        } else {
+            rvAllCars.setVisibility(View.GONE);
+        }
     }
     
 
@@ -263,17 +274,18 @@ public class HomeFragment extends Fragment {
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                Toast.makeText(getContext(), "onMenuItemActionExpand called", Toast.LENGTH_SHORT).show();
                 swipeContainer.setEnabled(false);
+                inSearch = true;
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                Toast.makeText(getContext(), "onMenutItemActionCollapse called", Toast.LENGTH_SHORT).show();
                 swipeContainer.setEnabled(true);
+                rvAllCars.setVisibility(View.VISIBLE);
                 adapter.clear();
                 adapter.addAll(allCarsDefault);
+                inSearch = false;
                 return true;
             }
         });
@@ -291,6 +303,12 @@ public class HomeFragment extends Fragment {
                 }
                 Intent intent = new Intent(getContext(), CarMapActivity.class);
                 intent.putExtra("ParcelableCars", Parcels.wrap(parcelableCars));
+                if (inSearch && rvAllCars.getVisibility() == View.VISIBLE){
+                    intent.putExtra("locationFlag", true);
+                    intent.putExtra("ParseGeoPoint", p);
+                } else {
+                    intent.putExtra("locationFlag", false);
+                }
                 startActivity(intent);
         }
         Log.i(TAG, "default");

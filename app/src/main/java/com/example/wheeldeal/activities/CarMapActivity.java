@@ -16,8 +16,8 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
-import com.example.wheeldeal.utils.MarkerCarCountHolder;
 import com.example.wheeldeal.models.ParcelableCar;
+import com.example.wheeldeal.utils.MarkerCarCountHolder;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -40,6 +40,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 
 import org.parceler.Parcels;
 
@@ -60,6 +61,8 @@ public class CarMapActivity extends AppCompatActivity {
     private long UPDATE_INTERVAL = 60000;  /* 60 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
     public static final String TAG = "CarMapActivity";
+    boolean flag;
+    ParseGeoPoint gp = null;
     Hashtable<LatLng, MarkerCarCountHolder> markerLookup = new Hashtable<LatLng, MarkerCarCountHolder>();
 
     private final static String KEY_LOCATION = "location";
@@ -83,6 +86,12 @@ public class CarMapActivity extends AppCompatActivity {
         queryClient = new QueryClient();
 
         ArrayList<ParcelableCar> parcelableCars = (ArrayList<ParcelableCar>) Parcels.unwrap(getIntent().getParcelableExtra("ParcelableCars"));
+        flag = getIntent().getExtras().getBoolean("locationFlag");
+        if (flag){
+            Log.i(TAG, "flag was true");
+            gp = getIntent().getParcelableExtra("ParseGeoPoint");
+        }
+
         for (ParcelableCar parcelableCar : parcelableCars){
             allCars.add(parcelableCar.getCar());
         }
@@ -248,10 +257,16 @@ public class CarMapActivity extends AppCompatActivity {
     private void displayLocation() {
         if (mCurrentLocation != null) {
             Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
-            LatLng latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+            LatLng latLng;
+            if (flag){
+                latLng = new LatLng(gp.getLatitude(), gp.getLongitude());
+            } else {
+                latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+            }
+            LatLng latLngCurrent = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
             map.moveCamera(cameraUpdate);
-            MarkerOptions options = new MarkerOptions().position(latLng).title("You are here");
+            MarkerOptions options = new MarkerOptions().position(latLngCurrent).title("You are here");
             map.addMarker(options);
             for (Car car : allCars){
                 Log.i(TAG, "car in allCars: " + car.getMake());

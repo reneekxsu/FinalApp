@@ -28,6 +28,9 @@ public class GeocoderClient {
                 Log.i(TAG, "Latitude: " + latitude);
                 Log.i(TAG, "Longitude: " + longitude);
             }
+            if (addresses.size() == 0){
+                return null;
+            }
             lat = addresses.get(0).getLatitude();
             lng = addresses.get(0).getLongitude();
             gp = new ParseGeoPoint(lat, lng);
