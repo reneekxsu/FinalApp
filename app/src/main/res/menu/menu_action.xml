@@ -16,5 +16,12 @@
         android:id="@+id/action_map"
         android:icon="@android:drawable/ic_dialog_map"
         android:title="Map"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:orderInCategory="2"/>
+    <item android:id="@+id/action_search"
+        android:orderInCategory="1"
+        android:title="Search"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
 </menu>

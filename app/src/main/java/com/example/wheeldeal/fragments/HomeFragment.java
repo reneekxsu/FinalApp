@@ -19,7 +19,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,9 +33,11 @@ import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.DateRangeHolder;
 import com.example.wheeldeal.models.ParcelableCar;
+import com.example.wheeldeal.utils.GeocoderClient;
 import com.example.wheeldeal.utils.QueryClient;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
@@ -58,8 +62,9 @@ public class HomeFragment extends Fragment {
     private ProgressBar pb;
     private SwipeRefreshLayout swipeContainer;
     private QueryClient queryClient;
+    private GeocoderClient geocoderClient;
     private Toolbar toolbar;
-    MenuItem finishedLoading;
+    MenuItem loadedMap;
     boolean firstLoad = true;
     boolean isLoaded = false;
 
@@ -80,6 +85,7 @@ public class HomeFragment extends Fragment {
         toolbar.showOverflowMenu();
 
         queryClient = new QueryClient();
+        geocoderClient = new GeocoderClient(view.getContext());
 
         pb = view.findViewById(R.id.pbLoading);
         pb.setVisibility(ProgressBar.VISIBLE);
@@ -169,9 +175,9 @@ public class HomeFragment extends Fragment {
                     allCarsDefault.addAll(cars);
                     isLoaded = true;
                     if (isLoaded){
-                        finishedLoading.setVisible(true);
+                        loadedMap.setVisible(true);
                     } else {
-                        finishedLoading.setVisible(false);
+                        loadedMap.setVisible(false);
                     }
                     pb.setVisibility(ProgressBar.INVISIBLE);
                 }
@@ -214,17 +220,50 @@ public class HomeFragment extends Fragment {
             swipeContainer.setRefreshing(false);
         }
     }
+    
+    public void fetchCarByQuery(String query){
+        // see if location matches
+        ParseGeoPoint p = geocoderClient.getAddressFromString(query);
+        queryClient.fetchCarByProximity(new FindCallback<Car>() {
+            @Override
+            public void done(List<Car> cars, ParseException e) {
+                adapter.clear();
+                adapter.addAll(cars);
+            }
+        }, p, 5);
+        // see if model matches
+        // see if make matches
+    }
+    
 
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_action, menu);
-        finishedLoading = menu.findItem(R.id.action_map);
+        loadedMap = menu.findItem(R.id.action_map);
         if (isLoaded){
-            finishedLoading.setVisible(true);
+            loadedMap.setVisible(true);
         } else {
-            finishedLoading.setVisible(false);
+            loadedMap.setVisible(false);
         }
         Log.i(TAG, "onCreateOptions");
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // perform query here
+                fetchCarByQuery(query);
+                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
+                // see https://code.google.com/p/android/issues/detail?id=24599
+                searchView.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         super.onCreateOptionsMenu(menu, inflater);
     }
 

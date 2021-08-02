@@ -160,6 +160,17 @@ public class QueryClient {
         query.findInBackground(callback);
     }
 
+    public void fetchCarByProximity(FindCallback<Car> callback, ParseGeoPoint point, double maxDistance){
+        Log.i(TAG, "fetching cars by proximity");
+        ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
+        query.include(Car.KEY_OWNER);
+//        query.whereNear("addressGeoPoint", point);
+        query.whereWithinMiles("addressGeoPoint", point, maxDistance);
+        query.setLimit(20);
+        query.addDescendingOrder("eventCount");
+        query.findInBackground(callback);
+    }
+
     public void saveCar(String description, ParseUser currentUser, File photoFile, String rate,
                         String model, String name, String make, String year, String passengers,
                         String size, String address, ParseGeoPoint gp, SaveCallback callback) {
