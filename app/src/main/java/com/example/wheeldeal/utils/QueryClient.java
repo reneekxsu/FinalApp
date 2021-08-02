@@ -184,6 +184,7 @@ public class QueryClient {
         car.setSizeType(size);
         car.setAddress(address);
         car.setAddressGeoPoint(gp);
+        car.setEventCount(0);
         if (callback == null){
             car.saveInBackground();
         } else {
@@ -205,6 +206,8 @@ public class QueryClient {
         }
         event.setRentType(rentType);
         event.saveInBackground(callback);
+        car.setEventCount((int)car.getEventCount() + 1);
+        car.saveInBackground();
     }
 
 

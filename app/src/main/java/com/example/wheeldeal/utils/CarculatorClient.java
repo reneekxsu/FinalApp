@@ -16,7 +16,10 @@ public class CarculatorClient {
     ArrayList<CarScore> scores;
     ArrayList<Double> x;
     ArrayList<Double> y;
+    ArrayList<Double> scoreX;
+    ArrayList<Double> daysY;
     String make, year, passengers;
+    CarScore thisCar;
     public CarculatorClient(String make, String year, String passengers){
         allCars = new ArrayList<>();
         UltLuxury = new ArrayList<>();
@@ -24,6 +27,8 @@ public class CarculatorClient {
         scores = new ArrayList<>();
         x = new ArrayList<>();
         y = new ArrayList<>();
+        scoreX = new ArrayList<>();
+        daysY = new ArrayList<>();
         this.make = make;
         this.year = year;
         this.passengers = passengers;
@@ -53,12 +58,28 @@ public class CarculatorClient {
                 }
             }
         }
-        CarScore thisCar = new CarScore(Integer.parseInt(year),
+        thisCar = new CarScore(Integer.parseInt(year),
                 Integer.parseInt(passengers), flagLux);
         score = thisCar.getScore();
         prediction = lr.intercept() + lr.slope() * score;
-        price = scoreToPrice((score + prediction) / 2);
+        price = scoreToPrice((0.5 * score + 0.5 * prediction));
         return price;
+    }
+
+    public int calculateDays(){
+        for (CarScore cs : scores){
+            scoreX.add(cs.getScore());
+            daysY.add(Double.parseDouble(cs.getCar().getEventCount().toString()));
+        }
+        LinearRegression lr = new LinearRegression(scoreX,daysY);
+        Log.i(TAG, "intercept: " + lr.intercept());
+        Log.i(TAG, "slope: " + lr.slope());
+        double prediction = lr.intercept() + lr.slope() * thisCar.getScore();
+        Log.i(TAG, "predicted days: " + prediction);
+        if (prediction <= 0){
+            prediction = (Math.abs(prediction) + 1) * 0.7;
+        }
+        return (int)Math.ceil(prediction * 5);
     }
 
     public void updateCategories(){
