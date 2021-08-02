@@ -67,6 +67,7 @@ public class HomeFragment extends Fragment {
     MenuItem loadedMap;
     boolean firstLoad = true;
     boolean isLoaded = false;
+    boolean inSearch = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -192,9 +193,6 @@ public class HomeFragment extends Fragment {
                     Log.e(TAG, "Could not get user's cars");
                     Log.i(TAG, "error message: " + e.getCause().getMessage());
                 } else {
-//                    for (Car car : cars) {
-//                        Log.i(TAG, "Car: " + car.getModel());
-//                    }
                     allCarsSortedPassengers.addAll(cars);
                 }
             }
@@ -207,9 +205,6 @@ public class HomeFragment extends Fragment {
                     Log.e(TAG, "Could not get user's cars");
                     Log.i(TAG, "error message: " + e.getCause().getMessage());
                 } else {
-//                    for (Car car : cars) {
-//                        Log.i(TAG, "Car: " + car.getModel());
-//                    }
                     allCarsSortedPrice.addAll(cars);
                 }
             }
@@ -262,6 +257,24 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
+            }
+        });
+
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                Toast.makeText(getContext(), "onMenuItemActionExpand called", Toast.LENGTH_SHORT).show();
+                swipeContainer.setEnabled(false);
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                Toast.makeText(getContext(), "onMenutItemActionCollapse called", Toast.LENGTH_SHORT).show();
+                swipeContainer.setEnabled(true);
+                adapter.clear();
+                adapter.addAll(allCarsDefault);
+                return true;
             }
         });
         super.onCreateOptionsMenu(menu, inflater);
