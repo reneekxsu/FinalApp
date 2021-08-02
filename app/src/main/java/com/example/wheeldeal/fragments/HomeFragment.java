@@ -69,6 +69,8 @@ public class HomeFragment extends Fragment {
     boolean isLoaded;
     boolean inSearch;
     ParseGeoPoint p;
+    Spinner spinner;
+    int savedSelection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,6 +87,8 @@ public class HomeFragment extends Fragment {
         toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         toolbar.showOverflowMenu();
+
+        savedSelection = 0;
 
         queryClient = new QueryClient();
         geocoderClient = new GeocoderClient(view.getContext());
@@ -125,7 +129,7 @@ public class HomeFragment extends Fragment {
         Log.i(TAG, "querying all cars");
         fetchAllCars();
 
-        Spinner spinner = (Spinner) view.findViewById(R.id.mySpinner);
+        spinner = (Spinner) view.findViewById(R.id.mySpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.sort_array, android.R.layout.simple_spinner_item);
@@ -136,23 +140,8 @@ public class HomeFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0){
-                    if (!firstLoad){
-                        Toast.makeText(getContext(), "Default order", Toast.LENGTH_SHORT).show();
-                        adapter.clear();
-                        adapter.addAll(allCarsDefault);
-                    }
-                } else if (position == 1){
-                    Toast.makeText(getContext(), "Sort by price: low to high", Toast.LENGTH_SHORT).show();
-                    adapter.clear();
-                    adapter.addAll(allCarsSortedPrice);
-                    firstLoad = false;
-                } else {
-                    Toast.makeText(getContext(), "Sort by number of passengers", Toast.LENGTH_SHORT).show();
-                    adapter.clear();
-                    adapter.addAll(allCarsSortedPassengers);
-                    firstLoad = false;
-                }
+                Log.i(TAG, "item selected");
+                updateOrder(position);
             }
 
             @Override
@@ -274,6 +263,7 @@ public class HomeFragment extends Fragment {
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
+                spinner.setVisibility(View.GONE);
                 swipeContainer.setEnabled(false);
                 inSearch = true;
                 return true;
@@ -281,11 +271,11 @@ public class HomeFragment extends Fragment {
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
+                spinner.setVisibility(View.VISIBLE);
                 swipeContainer.setEnabled(true);
-                rvAllCars.setVisibility(View.VISIBLE);
-                adapter.clear();
-                adapter.addAll(allCarsDefault);
+                updateOrder(savedSelection);
                 inSearch = false;
+                rvAllCars.setVisibility(View.VISIBLE);
                 return true;
             }
         });
@@ -313,5 +303,28 @@ public class HomeFragment extends Fragment {
         }
         Log.i(TAG, "default");
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updateOrder(int position){
+        if (position == 0){
+            if (!firstLoad){
+                Toast.makeText(getContext(), "Default order", Toast.LENGTH_SHORT).show();
+                adapter.clear();
+                adapter.addAll(allCarsDefault);
+                savedSelection = 0;
+            }
+        } else if (position == 1){
+            Toast.makeText(getContext(), "Sort by price: low to high", Toast.LENGTH_SHORT).show();
+            adapter.clear();
+            adapter.addAll(allCarsSortedPrice);
+            firstLoad = false;
+            savedSelection = 1;
+        } else {
+            Toast.makeText(getContext(), "Sort by number of passengers", Toast.LENGTH_SHORT).show();
+            adapter.clear();
+            adapter.addAll(allCarsSortedPassengers);
+            firstLoad = false;
+            savedSelection = 2;
+        }
     }
 }
