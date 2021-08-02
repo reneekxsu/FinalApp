@@ -62,7 +62,7 @@ public class CarculatorClient {
                 Integer.parseInt(passengers), flagLux);
         score = thisCar.getScore();
         prediction = lr.intercept() + lr.slope() * score;
-        price = scoreToPrice((0.5 * score + 0.5 * prediction));
+        price = scoreToPrice((0.6 * score + 0.4 * prediction));
         return price;
     }
 

@@ -22,7 +22,7 @@ public class CarScore {
     }
 
     public double getScore(){
-        return weighYear(year) + 10 * (0.98 * (passengers - 1)) + (7 * flagLux) * (Math.pow(3.5,(flagLux + 1)));
+        return weighYear(year) + 11 * (0.98 * (passengers - 1)) + (7 * flagLux) * (Math.pow(3.5,(flagLux + 1)));
     }
 
     public double weighYear(int year){
@@ -30,7 +30,7 @@ public class CarScore {
         int n = 2021 - year;
         double scaled = (20 / (1 + Math.exp(0.3 * (n - 9)))) + 3;
         Log.i("CarScore", "year scaled to: " + scaled);
-        return 6 * scaled;
+        return 4 * scaled;
     }
 
     public Car getCar(){

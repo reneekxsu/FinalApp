@@ -181,7 +181,7 @@ public class CarculatorActivity extends AppCompatActivity {
         int days = carculatorClient.calculateDays();
         int totalEarnings = price * days;
         tvCalculatedPrice.setVisibility(View.VISIBLE);
-        tvCalculatedPrice.setText("Your recommended price is $" + price + "/day. Your expected earnings are " + totalEarnings);
+        tvCalculatedPrice.setText("Your recommended price is $" + price + "/day. Your expected earnings are $" + totalEarnings + ".");
     }
 
     @Override
