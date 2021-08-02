@@ -60,6 +60,7 @@ public class HomeFragment extends Fragment {
     private QueryClient queryClient;
     private Toolbar toolbar;
     MenuItem finishedLoading;
+    boolean firstLoad = true;
     boolean isLoaded = false;
 
     @Override
@@ -90,6 +91,8 @@ public class HomeFragment extends Fragment {
                 fetchAllCars();
             }
         });
+
+        firstLoad = true;
 
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -124,17 +127,21 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0){
-                    Toast.makeText(getContext(), "Default order", Toast.LENGTH_SHORT).show();
-                    adapter.clear();
-                    adapter.addAll(allCarsDefault);
+                    if (!firstLoad){
+                        Toast.makeText(getContext(), "Default order", Toast.LENGTH_SHORT).show();
+                        adapter.clear();
+                        adapter.addAll(allCarsDefault);
+                    }
                 } else if (position == 1){
                     Toast.makeText(getContext(), "Sort by price: low to high", Toast.LENGTH_SHORT).show();
                     adapter.clear();
                     adapter.addAll(allCarsSortedPrice);
+                    firstLoad = false;
                 } else {
                     Toast.makeText(getContext(), "Sort by number of passengers", Toast.LENGTH_SHORT).show();
                     adapter.clear();
                     adapter.addAll(allCarsSortedPassengers);
+                    firstLoad = false;
                 }
             }
 

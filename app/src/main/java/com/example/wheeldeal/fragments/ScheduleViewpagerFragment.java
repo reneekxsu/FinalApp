@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.wheeldeal.R;
-import com.example.wheeldeal.adapters.SampleFragmentPagerAdapter;
+import com.example.wheeldeal.adapters.ScheduleFragmentPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +38,7 @@ public class ScheduleViewpagerFragment extends Fragment {
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
 
-        viewPager.setAdapter(new SampleFragmentPagerAdapter(getChildFragmentManager()));
+        viewPager.setAdapter(new ScheduleFragmentPagerAdapter(getChildFragmentManager()));
 
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);

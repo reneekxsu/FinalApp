@@ -6,11 +6,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.wheeldeal.fragments.ScheduleFragment;
 
-public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
+public class ScheduleFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
     private String tabTitles[] = new String[] { "Upcoming events", "Past events" };
 
-    public SampleFragmentPagerAdapter(FragmentManager fm) {
+    public ScheduleFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -22,7 +22,6 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return ScheduleFragment.newInstance(position);
-//        return PageFragment.newInstance(position + 1);
     }
 
     @Override

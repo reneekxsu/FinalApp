@@ -11,11 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wheeldeal.utils.DateClient;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.activities.EventDetailsActivity;
 import com.example.wheeldeal.models.Event;
 import com.example.wheeldeal.models.ParcelableEvent;
+import com.example.wheeldeal.utils.DateClient;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;

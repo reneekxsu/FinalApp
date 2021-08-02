@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void loginUser(String username, String password) {
         Log.i(TAG, "Trying to login user " + username);
-//        // Try to log in the user using provided credentials
+        // Try to log in the user using provided credentials
         queryClient.logInUser(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {

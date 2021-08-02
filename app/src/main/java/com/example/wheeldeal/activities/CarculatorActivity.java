@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +20,7 @@ import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.ParcelableCar;
 import com.example.wheeldeal.utils.BinarySearchClient;
 import com.example.wheeldeal.utils.CarculatorClient;
+import com.example.wheeldeal.utils.ModelClient;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -27,6 +29,7 @@ import com.parse.ParseException;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CarculatorActivity extends AppCompatActivity {
@@ -42,6 +45,8 @@ public class CarculatorActivity extends AppCompatActivity {
     CarculatorClient carculatorClient;
     BinarySearchClient bs;
     String[] makes;
+    AppCompatAutoCompleteTextView acMake, acModel;
+    ModelClient modelClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,23 +72,30 @@ public class CarculatorActivity extends AppCompatActivity {
         mySizeType = getIntent().getStringExtra("sizetype");
         myAddress = getIntent().getStringExtra("address");
 
+        ArrayList<String> allModels = new ArrayList<>();
+
+        ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.select_dialog_singlechoice,
+                allModels);
+        modelClient = new ModelClient(modelAdapter);
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, makes);
         //Find TextView control
-        AppCompatAutoCompleteTextView acTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.etCarculatorMake);
+        acMake = (AppCompatAutoCompleteTextView) findViewById(R.id.etCarculatorMake);
         //Set the number of characters the user must type before the drop down list is shown
-        acTextView.setThreshold(1);
+        acMake.setThreshold(1);
         //Set the adapter
-        acTextView.setAdapter(adapter);
+        acMake.setAdapter(adapter);
 
         final String[] myEnteredMake = new String[1];
-        acTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        acMake.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 myEnteredMake[0] = adapter.getItem(position).toString();
             }
         });
 
-        acTextView.addTextChangedListener(new TextWatcher() {
+        acMake.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -99,7 +111,15 @@ public class CarculatorActivity extends AppCompatActivity {
 
             }
         });
-        etCarModel = findViewById(R.id.etCarculatorModel);
+
+        Log.i(TAG, "adapter set");
+        //Find TextView control
+        acModel = (AppCompatAutoCompleteTextView) findViewById(R.id.etCarculatorModel);
+        //Set the number of characters the user must type before the drop down list is shown
+        acModel.setThreshold(1);
+        //Set the adapter
+        acModel.setAdapter(modelAdapter);
+
         etCarYear = findViewById(R.id.etCarculatorYear);
         etCarPassengers = findViewById(R.id.etCarculatorPassengers);
         etCarSizeType = findViewById(R.id.etCarculatorSizeType);
@@ -108,8 +128,8 @@ public class CarculatorActivity extends AppCompatActivity {
         tvCalculatedPrice = findViewById(R.id.tvCalculatedPrice);
         tilCarMake = findViewById(R.id.tilCarMake);
 
-        acTextView.setText(myMake);
-        etCarModel.setText(myModel);
+        acMake.setText(myMake);
+        acModel.setText(myModel);
         etCarYear.setText(myYear);
         etCarPassengers.setText(myPassengers);
         etCarSizeType.setText(mySizeType);
@@ -118,7 +138,7 @@ public class CarculatorActivity extends AppCompatActivity {
 
         btnCalculate.setEnabled(false);
 
-        carculatorClient = new CarculatorClient(acTextView.getText().toString(), etCarYear.getText().toString(),
+        carculatorClient = new CarculatorClient(acMake.getText().toString(), etCarYear.getText().toString(),
                 etCarPassengers.getText().toString());
 
         carculatorClient.initLuxury();
@@ -139,7 +159,7 @@ public class CarculatorActivity extends AppCompatActivity {
         btnCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String make = acTextView.getText().toString();
+                String make = acMake.getText().toString();
                 if (myEnteredMake[0] == null){
                     // text was inputted rather than selected from autocomplete, must search array
                     int res = bs.binarySearch(makes, make);
@@ -148,7 +168,7 @@ public class CarculatorActivity extends AppCompatActivity {
                         return;
                     }
                 }
-                carculatorClient.updateMake(acTextView.getText().toString());
+                carculatorClient.updateMake(acMake.getText().toString());
                 carculatorClient.updateYear(etCarYear.getText().toString());
                 carculatorClient.updatePassengers(etCarPassengers.getText().toString());
                 calculatePricing();
@@ -162,4 +182,9 @@ public class CarculatorActivity extends AppCompatActivity {
         tvCalculatedPrice.setText("Your recommended price is $" + price + "/day");
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(0, R.anim.slide_out_down);
+    }
 }

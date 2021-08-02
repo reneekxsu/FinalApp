@@ -74,7 +74,6 @@ public class ScheduleFragment extends Fragment {
         queryClient = new QueryClient();
 
         pb = view.findViewById(R.id.pbScheduleLoading);
-        pb.setVisibility(ProgressBar.VISIBLE);
         swipeContainer = view.findViewById(R.id.scheduleSwipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -99,17 +98,20 @@ public class ScheduleFragment extends Fragment {
         rvEvents = view.findViewById(R.id.rvAllEvents);
         allEvents = new ArrayList<>();
         adapter = new EventAdapter(view.getContext(), allEvents);
+        rvEvents.setAdapter(adapter);
         AlphaInAnimationAdapter alphaInAnimationAdapter = new AlphaInAnimationAdapter(adapter);
         alphaInAnimationAdapter.setDuration(1000);
         alphaInAnimationAdapter.setInterpolator(new OvershootInterpolator());
-        alphaInAnimationAdapter.setFirstOnly(false);
+        alphaInAnimationAdapter.setFirstOnly(true);
         ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(alphaInAnimationAdapter);
         scaleInAnimationAdapter.setFirstOnly(false);
         rvEvents.setAdapter(scaleInAnimationAdapter);
         rvEvents.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         Log.i(TAG, "querying all events");
+        pb.setVisibility(View.GONE);
         if (mPage == 0){
+            pb.setVisibility(ProgressBar.VISIBLE);
             fetchAllFutureEvents();
         } else {
             fetchAllPastEvents();
@@ -124,9 +126,6 @@ public class ScheduleFragment extends Fragment {
                     Log.e(TAG, "Could not get user's events");
                     Log.e(TAG, e.getCause().toString());
                 } else {
-                    for (Event event : events){
-                        Log.i(TAG, "Event showing in schedule for car: " + event.getCar().getModel());
-                    }
                     adapter.clear();
                     adapter.addAll(events);
                     pb.setVisibility(ProgressBar.INVISIBLE);
@@ -147,12 +146,8 @@ public class ScheduleFragment extends Fragment {
                     Log.e(TAG, "Could not get user's events");
                     Log.e(TAG, e.getCause().toString());
                 } else {
-                    for (Event event : events){
-                        Log.i(TAG, "Event showing in schedule for car: " + event.getCar().getModel());
-                    }
                     adapter.clear();
                     adapter.addAll(events);
-                    pb.setVisibility(ProgressBar.INVISIBLE);
                 }
             }
         });

@@ -34,6 +34,7 @@ import com.example.wheeldeal.models.ParcelableCar;
 import com.example.wheeldeal.utils.BinarySearchClient;
 import com.example.wheeldeal.utils.CameraClient;
 import com.example.wheeldeal.utils.GeocoderClient;
+import com.example.wheeldeal.utils.ModelClient;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseFile;
@@ -43,6 +44,7 @@ import com.parse.ParseUser;
 import org.parceler.Parcels;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class EditCarActivity extends AppCompatActivity {
 
@@ -67,6 +69,8 @@ public class EditCarActivity extends AppCompatActivity {
     CameraClient cameraClient;
     BinarySearchClient bs;
     String[] makes;
+    AppCompatAutoCompleteTextView acMake, acModel;
+    ModelClient modelClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,25 +86,32 @@ public class EditCarActivity extends AppCompatActivity {
         cameraClient = new CameraClient(context);
         bs = new BinarySearchClient();
 
+        ArrayList<String> allModels = new ArrayList<>();
+
+        ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.select_dialog_singlechoice,
+                allModels);
+        modelClient = new ModelClient(modelAdapter);
+
         etEditName = findViewById(R.id.etCarName);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, makes);
         //Find TextView control
-        AppCompatAutoCompleteTextView acTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.etCarMake);
+        acMake = (AppCompatAutoCompleteTextView) findViewById(R.id.etCarMake);
         //Set the number of characters the user must type before the drop down list is shown
-        acTextView.setThreshold(1);
+        acMake.setThreshold(1);
         //Set the adapter
-        acTextView.setAdapter(adapter);
+        acMake.setAdapter(adapter);
 
         final String[] myMake = new String[1];
-        acTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        acMake.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 myMake[0] = adapter.getItem(position).toString();
             }
         });
 
-        acTextView.addTextChangedListener(new TextWatcher() {
+        acMake.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -116,7 +127,15 @@ public class EditCarActivity extends AppCompatActivity {
 
             }
         });
-        etEditCarModel = findViewById(R.id.etCarculatorModel);
+
+        Log.i(TAG, "adapter set");
+        //Find TextView control
+        acModel = (AppCompatAutoCompleteTextView) findViewById(R.id.etCarculatorModel);
+        //Set the number of characters the user must type before the drop down list is shown
+        acModel.setThreshold(1);
+        //Set the adapter
+        acModel.setAdapter(modelAdapter);
+
         etEditYear = findViewById(R.id.etCarculatorYear);
         etEditRate = findViewById(R.id.etCarPrice);
         etEditPassengers = findViewById(R.id.etCarculatorPassengers);
@@ -133,8 +152,8 @@ public class EditCarActivity extends AppCompatActivity {
         car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();
 
         etEditName.setText(car.getName());
-        acTextView.setText(car.getMake());
-        etEditCarModel.setText(car.getModel());
+        acMake.setText(car.getMake());
+        acModel.setText(car.getModel());
         etEditYear.setText(car.getYear());
         etEditRate.setText(car.getRate().toString());
         etEditPassengers.setText(car.getPassengers());
@@ -149,17 +168,17 @@ public class EditCarActivity extends AppCompatActivity {
                 return true;
             }
         });
-        acTextView.setOnLongClickListener(new View.OnLongClickListener() {
+        acMake.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                acTextView.setText("");
+                acMake.setText("");
                 return true;
             }
         });
-        etEditCarModel.setOnLongClickListener(new View.OnLongClickListener() {
+        acModel.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                etEditCarModel.setText("");
+                acModel.setText("");
                 return true;
             }
         });
@@ -227,8 +246,8 @@ public class EditCarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = etEditName.getText().toString();
-                String make = acTextView.getText().toString();
-                String model = etEditCarModel.getText().toString();
+                String make = acMake.getText().toString();
+                String model = acModel.getText().toString();
                 String year = etEditYear.getText().toString();
                 String price = etEditRate.getText().toString();
                 String passengerCount = etEditPassengers.getText().toString();
@@ -281,8 +300,8 @@ public class EditCarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(EditCarActivity.this, CarculatorActivity.class);
-                i.putExtra("make", acTextView.getText().toString());
-                i.putExtra("model", etEditCarModel.getText().toString());
+                i.putExtra("make", acMake.getText().toString());
+                i.putExtra("model", acModel.getText().toString());
                 i.putExtra("year", etEditYear.getText().toString());
                 i.putExtra("passengers", etEditPassengers.getText().toString());
                 i.putExtra("sizetype", etEditSizeType.getText().toString());
@@ -347,5 +366,11 @@ public class EditCarActivity extends AppCompatActivity {
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(0, R.anim.slide_out_down);
     }
 }

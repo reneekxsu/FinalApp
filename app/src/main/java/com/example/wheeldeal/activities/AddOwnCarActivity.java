@@ -29,6 +29,7 @@ import com.example.wheeldeal.utils.BinarySearchClient;
 import com.example.wheeldeal.utils.CameraClient;
 import com.example.wheeldeal.utils.FormClient;
 import com.example.wheeldeal.utils.GeocoderClient;
+import com.example.wheeldeal.utils.ModelClient;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -38,6 +39,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class AddOwnCarActivity extends AppCompatActivity {
 
@@ -60,6 +62,8 @@ public class AddOwnCarActivity extends AppCompatActivity {
     CameraClient cameraClient;
     BinarySearchClient bs = new BinarySearchClient();
     String makes[];
+    ModelClient modelClient;
+    AppCompatAutoCompleteTextView acMake, acModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,24 +73,32 @@ public class AddOwnCarActivity extends AppCompatActivity {
         Resources res = getResources();
         makes = res.getStringArray(R.array.makes_array);
 
+
+        ArrayList<String> allModels = new ArrayList<>();
+
+        ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.select_dialog_singlechoice,
+                allModels);
+        modelClient = new ModelClient(modelAdapter);
+
         etName = findViewById(R.id.etCarName);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, makes);
         //Find TextView control
-        AppCompatAutoCompleteTextView acTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.etCarMake);
+        acMake = (AppCompatAutoCompleteTextView) findViewById(R.id.etCarMake);
         //Set the number of characters the user must type before the drop down list is shown
-        acTextView.setThreshold(1);
+        acMake.setThreshold(1);
         //Set the adapter
-        acTextView.setAdapter(adapter);
+        acMake.setAdapter(adapter);
 
         final String[] myMake = new String[1];
-        acTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        acMake.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 myMake[0] = adapter.getItem(position).toString();
             }
         });
 
-        acTextView.addTextChangedListener(new TextWatcher() {
+        acMake.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -103,7 +115,14 @@ public class AddOwnCarActivity extends AppCompatActivity {
             }
         });
 
-        etCarModel = findViewById(R.id.etCarculatorModel);
+        Log.i(TAG, "adapter set");
+        //Find TextView control
+        acModel = (AppCompatAutoCompleteTextView) findViewById(R.id.etCarculatorModel);
+        //Set the number of characters the user must type before the drop down list is shown
+        acModel.setThreshold(1);
+        //Set the adapter
+        acModel.setAdapter(modelAdapter);
+
         etYear = findViewById(R.id.etCarculatorYear);
         etPrice = findViewById(R.id.etCarPrice);
         etPassengers = findViewById(R.id.etCarculatorPassengers);
@@ -125,8 +144,8 @@ public class AddOwnCarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(AddOwnCarActivity.this, CarculatorActivity.class);
-                i.putExtra("make", acTextView.getText().toString());
-                i.putExtra("model", etCarModel.getText().toString());
+                i.putExtra("make", acMake.getText().toString());
+                i.putExtra("model", acModel.getText().toString());
                 i.putExtra("year", etYear.getText().toString());
                 i.putExtra("passengers", etPassengers.getText().toString());
                 i.putExtra("sizetype", etSizeType.getText().toString());
@@ -149,8 +168,8 @@ public class AddOwnCarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 name = etName.getText().toString();
-                make = acTextView.getText().toString();
-                model = etCarModel.getText().toString();
+                make = acMake.getText().toString();
+                model = acModel.getText().toString();
                 year = etYear.getText().toString();
                 price = etPrice.getText().toString();
                 passengerCount = etPassengers.getText().toString();
@@ -208,7 +227,7 @@ public class AddOwnCarActivity extends AppCompatActivity {
                             Log.i(TAG, "Car was saved to backend");
                             Toast.makeText(AddOwnCarActivity.this, "Car was saved", Toast.LENGTH_SHORT).show();
                             etDescription.setText("");
-                            etCarModel.setText("");
+                            acModel.setText("");
                             etPrice.setText("");
                             // set to empty image
                             ivPreview.setImageResource(0);

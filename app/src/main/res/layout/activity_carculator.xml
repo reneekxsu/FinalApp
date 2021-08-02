@@ -52,15 +52,23 @@
                 android:layout_marginBottom="10dp"
                 android:hint="Model"
                 app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCarculatorModel"
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/etCarculatorModel"
                     android:drawablePadding="0dp"
-                    tools:text="Camry">
+                    tools:text="Toyota"
+                    style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox">
+                </androidx.appcompat.widget.AppCompatAutoCompleteTextView>
 
-                </com.google.android.material.textfield.TextInputEditText>
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etCarculatorModel"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:drawablePadding="0dp"-->
+<!--                    tools:text="Camry">-->
+
+<!--                </com.google.android.material.textfield.TextInputEditText>-->
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
