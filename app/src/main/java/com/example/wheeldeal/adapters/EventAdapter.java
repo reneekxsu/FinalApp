@@ -78,7 +78,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION){
-                        Log.i(TAG, "going to details view");
                         Event event = events.get(position);
                         ParcelableEvent e = new ParcelableEvent(event);
                         Intent i = new Intent(context, EventDetailsActivity.class);
@@ -123,7 +122,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
 
     public void addAll(List<Event> list){
         events.addAll(list);
-        Log.i(TAG, "Events in adapter: " + events);
         notifyDataSetChanged();
     }
 

@@ -232,6 +232,27 @@ public class HomeFragment extends Fragment {
             rvAllCars.setVisibility(View.GONE);
         }
     }
+
+    public void fetchCarByFilter(String search, String model, String make){
+        if (search.isEmpty()){
+            p = null;
+        } else {
+            p = geocoderClient.getAddressFromString(search);
+        }
+        Log.i(TAG, "geopoint: " + p);
+        rvAllCars.setVisibility(View.VISIBLE);
+        queryClient.fetchCarsByFilter(new FindCallback<Car>() {
+            @Override
+            public void done(List<Car> cars, ParseException e) {
+                if (cars.size() > 0){
+                    adapter.clear();
+                    adapter.addAll(cars);
+                } else {
+                    rvAllCars.setVisibility(View.GONE);
+                }
+            }
+        }, p, 100, model, make);
+    }
     
 
     @Override
@@ -292,7 +313,6 @@ public class HomeFragment extends Fragment {
             case R.id.action_map:
                 ArrayList<ParcelableCar> parcelableCars = new ArrayList<ParcelableCar>();
                 for (Car car : allCars){
-//                    Log.i(TAG, "Car on textview click: " + car.getModel());
                     parcelableCars.add(new ParcelableCar(car));
                 }
                 Intent intent = new Intent(getContext(), CarMapActivity.class);
@@ -314,7 +334,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void openDialog() {
-        FilterDialog dialog = new FilterDialog();
+        FilterDialogFragment dialog = new FilterDialogFragment();
         dialog.setTargetFragment(this, 1);
         dialog.show(getFragmentManager().beginTransaction(), TAG);
     }
@@ -349,6 +369,11 @@ public class HomeFragment extends Fragment {
             case 1:
                 if (resultCode == Activity.RESULT_OK){
                     Log.i(TAG, "returned to home fragment from full screen dialog");
+                    String filterMake = data.getStringExtra("Make");
+                    String filterModel = data.getStringExtra("Model");
+                    Log.i(TAG, "filterMake: " + filterMake);
+                    Log.i(TAG, "filterModel: " + filterModel);
+                    fetchCarByFilter("", filterModel, filterMake);
                 }
                 break;
         }

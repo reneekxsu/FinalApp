@@ -2,7 +2,6 @@ package com.example.wheeldeal.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
     private List<Car> cars;
 
     public CarAdapter(Activity context, List<Car> cars){
-        Log.i(TAG, "caradapter constructed");
         this.context = context;
         this.cars = cars;
     }
@@ -46,14 +44,12 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
     @NotNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        Log.i(TAG, "onCreateViewHolder called");
         View view = LayoutInflater.from(context).inflate(R.layout.item_car, parent, false);
         return new Viewholder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull CarAdapter.Viewholder holder, int position) {
-        Log.i(TAG, "onBindViewHolder called");
         Car car = cars.get(position);
         holder.bind(car);
     }
@@ -70,7 +66,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
         private TextView tvCarMakeModelYear, tvNumSeats, tvAddress;
         public Viewholder(@NonNull @NotNull View itemView) {
             super(itemView);
-            Log.i(TAG, "viewholder constructor");
             tvCarName = itemView.findViewById(R.id.tvCarListingName);
             tvCarRate = itemView.findViewById(R.id.tvCarRate);
             ivCarImage = itemView.findViewById(R.id.ivCarImage);
@@ -82,7 +77,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION){
-                        Log.i(TAG, "going to details view");
                         Car car = cars.get(position);
                         ParcelableCar c = new ParcelableCar(car);
                         Intent i = new Intent(context, CarDetailsActivity.class);
@@ -98,7 +92,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
             });
         }
         public void bind(Car car){
-            Log.i(TAG, "bind");
             tvCarRate.setText("$" + car.getRate() + "/day");
             ParseFile image = car.getImage();
             if (image != null) {

@@ -168,6 +168,23 @@ public class QueryClient {
         query.findInBackground(callback);
     }
 
+    public void fetchCarsByFilter(FindCallback<Car> callback, ParseGeoPoint point,
+                                  double maxDistance, String model, String make){
+        Log.i(TAG, "fetching cars by proximity, model, and make");
+        ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
+        query.include(Car.KEY_OWNER);
+        if (point != null){
+            query.whereWithinMiles("addressGeoPoint", point, maxDistance);
+        }
+        if (!make.isEmpty()){
+            query.whereEqualTo(Car.KEY_MAKE, make);
+        }
+        if (!model.isEmpty()){
+            query.whereEqualTo(Car.KEY_MODEL, model);
+        }
+        query.findInBackground(callback);
+    }
+
     public void saveCar(String description, ParseUser currentUser, File photoFile, String rate,
                         String model, String name, String make, String year, String passengers,
                         String size, String address, ParseGeoPoint gp, SaveCallback callback) {
