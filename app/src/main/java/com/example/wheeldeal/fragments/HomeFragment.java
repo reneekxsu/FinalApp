@@ -391,6 +391,11 @@ public class HomeFragment extends Fragment {
                     if (isSearchComplete){
                         query = submittedQuery;
                     }
+                    if (filterModel.isEmpty() && filterMake.isEmpty()){
+                        spinner.setVisibility(View.VISIBLE);
+                    } else {
+                        spinner.setVisibility(View.GONE);
+                    }
                     fetchCarByFilter(query, filterModel, filterMake);
                 }
                 break;

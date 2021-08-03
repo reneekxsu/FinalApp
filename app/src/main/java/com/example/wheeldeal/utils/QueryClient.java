@@ -175,6 +175,8 @@ public class QueryClient {
         query.include(Car.KEY_OWNER);
         if (point != null){
             query.whereWithinMiles("addressGeoPoint", point, maxDistance);
+        } else {
+            query.addDescendingOrder("createdAt");
         }
         if (!make.isEmpty()){
             query.whereEqualTo(Car.KEY_MAKE, make);
