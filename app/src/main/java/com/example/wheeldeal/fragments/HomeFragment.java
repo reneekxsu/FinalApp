@@ -227,7 +227,7 @@ public class HomeFragment extends Fragment {
                         rvAllCars.setVisibility(View.GONE);
                     }
                 }
-            }, p, 5);
+            }, p, 100);
         } else {
             rvAllCars.setVisibility(View.GONE);
         }
@@ -269,6 +269,7 @@ public class HomeFragment extends Fragment {
                 spinner.setVisibility(View.GONE);
                 swipeContainer.setEnabled(false);
                 inSearch = true;
+                firstLoad = false;
                 return true;
             }
 
@@ -319,6 +320,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void updateOrder(int position){
+        Log.i(TAG, "updateOrder called");
         if (position == 0){
             if (!firstLoad){
                 Toast.makeText(getContext(), "Default order", Toast.LENGTH_SHORT).show();

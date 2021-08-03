@@ -164,10 +164,7 @@ public class QueryClient {
         Log.i(TAG, "fetching cars by proximity");
         ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
         query.include(Car.KEY_OWNER);
-        query.whereNear("addressGeoPoint", point);
-//        query.whereWithinMiles("addressGeoPoint", point, maxDistance);
-        query.setLimit(20);
-        query.addDescendingOrder("eventCount");
+        query.whereWithinMiles("addressGeoPoint", point, maxDistance);
         query.findInBackground(callback);
     }
 
