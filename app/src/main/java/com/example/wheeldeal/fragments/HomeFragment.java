@@ -74,6 +74,8 @@ public class HomeFragment extends Fragment {
     ParseGeoPoint p;
     Spinner spinner;
     int savedSelection;
+    String submittedQuery;
+    boolean isSearchComplete;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,6 +112,7 @@ public class HomeFragment extends Fragment {
         firstLoad = true;
         isLoaded = false;
         inSearch = false;
+        isSearchComplete = false;
 
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -242,13 +245,13 @@ public class HomeFragment extends Fragment {
             p = geocoderClient.getAddressFromString(search);
         }
         Log.i(TAG, "geopoint: " + p);
-        rvAllCars.setVisibility(View.VISIBLE);
         queryClient.fetchCarsByFilter(new FindCallback<Car>() {
             @Override
             public void done(List<Car> cars, ParseException e) {
                 if (cars.size() > 0){
                     adapter.clear();
                     adapter.addAll(cars);
+                    rvAllCars.setVisibility(View.VISIBLE);
                 } else {
                     rvAllCars.setVisibility(View.GONE);
                 }
@@ -278,6 +281,8 @@ public class HomeFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                isSearchComplete = true;
+                submittedQuery = query;
                 // perform query here
                 fetchCarByQuery(query);
                 // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
@@ -288,6 +293,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                isSearchComplete = false;
                 return false;
             }
         });
@@ -381,7 +387,11 @@ public class HomeFragment extends Fragment {
                     String filterModel = data.getStringExtra("Model");
                     Log.i(TAG, "filterMake: " + filterMake);
                     Log.i(TAG, "filterModel: " + filterModel);
-                    fetchCarByFilter("", filterModel, filterMake);
+                    String query = "";
+                    if (isSearchComplete){
+                        query = submittedQuery;
+                    }
+                    fetchCarByFilter(query, filterModel, filterMake);
                 }
                 break;
         }
