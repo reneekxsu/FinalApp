@@ -17,13 +17,20 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:orientation="vertical">
 
-        <Spinner
-            android:id="@+id/mySpinner"
-            android:layout_width="wrap_content"
-            android:entries="@array/sort_array"
-            android:prompt="@string/sort_prompt"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dropdown"/>
+            android:background="@color/colorPrimary">
+            <Spinner
+                android:id="@+id/mySpinner"
+                android:layout_width="wrap_content"
+                android:entries="@array/sort_array"
+                android:prompt="@string/sort_prompt"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:popupBackground="@color/colorPrimary" />
+
+        </LinearLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeContainer"

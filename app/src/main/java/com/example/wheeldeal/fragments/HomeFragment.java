@@ -1,5 +1,6 @@
 package com.example.wheeldeal.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -132,11 +133,12 @@ public class HomeFragment extends Fragment {
         spinner = (Spinner) view.findViewById(R.id.mySpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.sort_array, android.R.layout.simple_spinner_item);
+                R.array.sort_array, R.layout.spinner_item);
         // Specify the layout to use when the list of choices appears
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(spinnerAdapter);
+        spinner.setVisibility(View.GONE);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -173,6 +175,7 @@ public class HomeFragment extends Fragment {
                         loadedMap.setVisible(false);
                     }
                     pb.setVisibility(ProgressBar.INVISIBLE);
+                    spinner.setVisibility(View.VISIBLE);
                 }
             }
         }, true);
@@ -300,9 +303,19 @@ public class HomeFragment extends Fragment {
                     intent.putExtra("locationFlag", false);
                 }
                 startActivity(intent);
+                break;
+            case R.id.action_filter:
+                openDialog();
+                break;
         }
         Log.i(TAG, "default");
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openDialog() {
+        FilterDialog dialog = new FilterDialog();
+        dialog.setTargetFragment(this, 1);
+        dialog.show(getFragmentManager().beginTransaction(), TAG);
     }
 
     public void updateOrder(int position){
@@ -326,5 +339,17 @@ public class HomeFragment extends Fragment {
             firstLoad = false;
             savedSelection = 2;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        switch(requestCode){
+            case 1:
+                if (resultCode == Activity.RESULT_OK){
+                    Log.i(TAG, "returned to home fragment from full screen dialog");
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
