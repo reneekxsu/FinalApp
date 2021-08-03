@@ -11,6 +11,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +22,8 @@ public class ParseApplication extends Application {
     public static final String CLIENT_KEY = BuildConfig.CLIENT_KEY;
     public static final String TAG = "ParseApplication";
     public static ArrayList<String> models;
-    public static HashMap<String, String> hmMakeToModel;
+    public static HashMap<String, String> hmModelToMake;
+    public static HashMap<String, ArrayList> hmMakeToModels;
     List<CarModelList> allCars;
     int skip = 0;
     // Pair: make, model
@@ -44,7 +46,8 @@ public class ParseApplication extends Application {
         );
 
         // Creating an empty HashMap
-        hmMakeToModel = new HashMap<String, String>();
+        hmModelToMake = new HashMap<String, String>();
+        hmMakeToModels = new HashMap<String, ArrayList>();
 
         models = new ArrayList<>();
         allCars = new ArrayList<>();
@@ -76,14 +79,25 @@ public class ParseApplication extends Application {
     private void filterList(List<CarModelList> cars) {
         for (CarModelList c : cars){
             models.add(c.getModel());
-            hmMakeToModel.put(c.getModel(), c.getMake());
+            hmModelToMake.put(c.getModel(), c.getMake());
         }
         Log.i("ModelClient", "list size: " + cars.size());
         HashSet<String> uniqueMakes = new HashSet<String>();
         uniqueMakes.addAll(models);
         models.clear();
         models.addAll(uniqueMakes);
+        for (String model : models){
+            String make = hmModelToMake.get(model);
+            if (hmMakeToModels.get(make) == null){
+                hmMakeToModels.put(make, new ArrayList<String>(Arrays.asList(model)));
+            } else {
+                ArrayList<String> modelsMapped = hmMakeToModels.get(make);
+                modelsMapped.add(model);
+            }
+        }
         Log.i(TAG, "model unique size: " + models.size());
+        Log.i(TAG, "hm model to make size: " + hmModelToMake.size());
+        Log.i(TAG, "hm make to models size: " + hmMakeToModels.size());
         Log.i(TAG, "finished filtering");
     }
 
@@ -92,7 +106,11 @@ public class ParseApplication extends Application {
     }
 
     public HashMap<String, String> getHashMapModelMake(){
-        return hmMakeToModel;
+        return hmModelToMake;
+    }
+    
+    public HashMap<String, ArrayList> getHashMapMakeModel(){
+        return hmMakeToModels;
     }
 
 }

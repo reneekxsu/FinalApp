@@ -46,7 +46,7 @@ public class AddOwnCarActivity extends AppCompatActivity {
 
     public static final String TAG = "RegisterCarActivity";
 
-    private TextInputEditText etName, etCarModel, etYear, etPrice, etPassengers, etSizeType,
+    private TextInputEditText etName, etYear, etPrice, etPassengers, etSizeType,
             etDescription, etAddress;
     private Button btnCamera, btnRegister;
     private ImageView ivPreview;
@@ -65,6 +65,7 @@ public class AddOwnCarActivity extends AppCompatActivity {
     String makes[];
     AppCompatAutoCompleteTextView acMake, acModel;
     HashMap<String, String> hmModelMake;
+    HashMap<String, ArrayList> hmMakeModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +77,11 @@ public class AddOwnCarActivity extends AppCompatActivity {
 
         hmModelMake = ((ParseApplication) getApplication()).getHashMapModelMake();
 
+        hmMakeModels = ((ParseApplication) getApplication()).getHashMapMakeModel();
 
-        ArrayList<String> allModels = ((ParseApplication) getApplication()).getModels();
+
+        ArrayList<String> allModels = new ArrayList<String>(((ParseApplication) getApplication()).getModels());
+        ArrayList<String> allModelsExtra = new ArrayList<String>(((ParseApplication) getApplication()).getModels());
 
         ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.select_dialog_singlechoice,
@@ -97,6 +101,10 @@ public class AddOwnCarActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 myMake[0] = adapter.getItem(position).toString();
+                ArrayList<String> models = hmMakeModels.get(myMake[0]);
+                modelAdapter.clear();
+                modelAdapter.addAll(models);
+                modelAdapter.notifyDataSetChanged();
             }
         });
 
@@ -109,6 +117,11 @@ public class AddOwnCarActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 myMake[0] = null;
+                if (s.toString().length() == 0){
+                    modelAdapter.clear();
+                    modelAdapter.addAll(allModelsExtra);
+                    modelAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override

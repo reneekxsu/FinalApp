@@ -35,7 +35,6 @@ import com.example.wheeldeal.models.ParseApplication;
 import com.example.wheeldeal.utils.BinarySearchClient;
 import com.example.wheeldeal.utils.CameraClient;
 import com.example.wheeldeal.utils.GeocoderClient;
-import com.example.wheeldeal.utils.ModelClient;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseFile;
@@ -46,12 +45,13 @@ import org.parceler.Parcels;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EditCarActivity extends AppCompatActivity {
 
     public static final String TAG = "EditCarActivity";
 
-    EditText etEditName, etEditCarModel, etEditYear,etEditPassengers, etEditSizeType,
+    EditText etEditName, etEditYear,etEditPassengers, etEditSizeType,
             etEditAddress, etEditDescription, etEditRate;
     Button btnEditSave, btnEditCamera;
     ImageView ivEditPreview;
@@ -59,6 +59,8 @@ public class EditCarActivity extends AppCompatActivity {
     Car car;
     Context context;
     TextInputLayout tilPrice, tilCarMake;
+    HashMap<String, String> hmModelMake;
+    HashMap<String, ArrayList> hmMakeModels;
 
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
@@ -71,7 +73,6 @@ public class EditCarActivity extends AppCompatActivity {
     BinarySearchClient bs;
     String[] makes;
     AppCompatAutoCompleteTextView acMake, acModel;
-    ModelClient modelClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,12 @@ public class EditCarActivity extends AppCompatActivity {
         cameraClient = new CameraClient(context);
         bs = new BinarySearchClient();
 
-        ArrayList<String> allModels = ((ParseApplication) getApplication()).getModels();
+        hmModelMake = ((ParseApplication) getApplication()).getHashMapModelMake();
+
+        hmMakeModels = ((ParseApplication) getApplication()).getHashMapMakeModel();
+
+        ArrayList<String> allModels = new ArrayList<String>(((ParseApplication) getApplication()).getModels());
+        ArrayList<String> allModelsExtra = new ArrayList<String>(((ParseApplication) getApplication()).getModels());
 
         ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.select_dialog_singlechoice,
@@ -108,6 +114,10 @@ public class EditCarActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 myMake[0] = adapter.getItem(position).toString();
+                ArrayList<String> models = hmMakeModels.get(myMake[0]);
+                modelAdapter.clear();
+                modelAdapter.addAll(models);
+                modelAdapter.notifyDataSetChanged();
             }
         });
 
@@ -120,6 +130,11 @@ public class EditCarActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 myMake[0] = null;
+                if (s.toString().length() == 0){
+                    modelAdapter.clear();
+                    modelAdapter.addAll(allModelsExtra);
+                    modelAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -135,6 +150,16 @@ public class EditCarActivity extends AppCompatActivity {
         acModel.setThreshold(1);
         //Set the adapter
         acModel.setAdapter(modelAdapter);
+
+        acModel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedModel = modelAdapter.getItem(position).toString();
+                String make = hmModelMake.get(selectedModel);
+                acMake.setText(make);
+                Log.i(TAG, "matching make is: " + make);
+            }
+        });
 
         etEditYear = findViewById(R.id.etCarculatorYear);
         etEditRate = findViewById(R.id.etCarPrice);

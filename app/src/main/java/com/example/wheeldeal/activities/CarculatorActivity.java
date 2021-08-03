@@ -18,9 +18,9 @@ import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.ParcelableCar;
+import com.example.wheeldeal.models.ParseApplication;
 import com.example.wheeldeal.utils.BinarySearchClient;
 import com.example.wheeldeal.utils.CarculatorClient;
-import com.example.wheeldeal.utils.ModelClient;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -30,6 +30,7 @@ import com.parse.ParseException;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CarculatorActivity extends AppCompatActivity {
@@ -46,7 +47,8 @@ public class CarculatorActivity extends AppCompatActivity {
     BinarySearchClient bs;
     String[] makes;
     AppCompatAutoCompleteTextView acMake, acModel;
-    ModelClient modelClient;
+    HashMap<String, String> hmModelMake;
+    HashMap<String, ArrayList> hmMakeModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +74,16 @@ public class CarculatorActivity extends AppCompatActivity {
         mySizeType = getIntent().getStringExtra("sizetype");
         myAddress = getIntent().getStringExtra("address");
 
-        ArrayList<String> allModels = new ArrayList<>();
+        hmModelMake = ((ParseApplication) getApplication()).getHashMapModelMake();
+
+        hmMakeModels = ((ParseApplication) getApplication()).getHashMapMakeModel();
+
+        ArrayList<String> allModels = new ArrayList<String>(((ParseApplication) getApplication()).getModels());
+        ArrayList<String> allModelsExtra = new ArrayList<String>(((ParseApplication) getApplication()).getModels());
 
         ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.select_dialog_singlechoice,
                 allModels);
-        modelClient = new ModelClient(modelAdapter);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, makes);
         //Find TextView control
@@ -92,6 +98,10 @@ public class CarculatorActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 myEnteredMake[0] = adapter.getItem(position).toString();
+                ArrayList<String> models = hmMakeModels.get(myEnteredMake[0]);
+                modelAdapter.clear();
+                modelAdapter.addAll(models);
+                modelAdapter.notifyDataSetChanged();
             }
         });
 
@@ -104,6 +114,11 @@ public class CarculatorActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 myEnteredMake[0] = null;
+                if (s.toString().length() == 0){
+                    modelAdapter.clear();
+                    modelAdapter.addAll(allModelsExtra);
+                    modelAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -119,6 +134,16 @@ public class CarculatorActivity extends AppCompatActivity {
         acModel.setThreshold(1);
         //Set the adapter
         acModel.setAdapter(modelAdapter);
+
+        acModel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedModel = modelAdapter.getItem(position).toString();
+                String make = hmModelMake.get(selectedModel);
+                acMake.setText(make);
+                Log.i(TAG, "matching make is: " + make);
+            }
+        });
 
         etCarYear = findViewById(R.id.etCarculatorYear);
         etCarPassengers = findViewById(R.id.etCarculatorPassengers);
