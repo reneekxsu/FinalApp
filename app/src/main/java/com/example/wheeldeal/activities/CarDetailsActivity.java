@@ -21,6 +21,7 @@ import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.DateRangeHolder;
 import com.example.wheeldeal.models.Event;
 import com.example.wheeldeal.models.ParcelableCar;
+import com.example.wheeldeal.models.ParseApplication;
 import com.example.wheeldeal.utils.QueryClient;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
@@ -40,7 +41,8 @@ public class CarDetailsActivity extends AppCompatActivity {
     TextView tvCarDetailName, tvDetailRate, tvDetailDescription;
     ImageView ivDetailCar;
     Context context;
-    ImageButton ibtnEdit, ibtnEvent, ibtnDelete;
+    public static ImageButton ibtnEdit;
+    ImageButton ibtnEvent, ibtnDelete;
     QueryClient queryClient;
     ArrayList<DateRangeHolder> rangeHolder;
     ArrayList<Event> allEvents;
@@ -84,7 +86,11 @@ public class CarDetailsActivity extends AppCompatActivity {
         if (!userIsAuthor(car)){
             ibtnEdit.setVisibility(View.GONE);
         } else {
-            ibtnEdit.setVisibility(View.VISIBLE);
+            if (!((ParseApplication) getApplication()).isDataReady){
+                ibtnEdit.setVisibility(View.INVISIBLE);
+            } else {
+                ibtnEdit.setVisibility(View.VISIBLE);
+            }
             ibtnEdit.setBackgroundDrawable(null);
             ibtnEdit.setOnClickListener(new View.OnClickListener() {
                 @Override

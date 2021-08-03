@@ -1,4 +1,4 @@
-package com.example.wheeldeal.activities;
+package com.example.wheeldeal.oldclasses;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.wheeldeal.utils.QueryClient;
 import com.example.wheeldeal.R;
+import com.example.wheeldeal.activities.AddOwnCarActivity;
 import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;
+import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -94,7 +95,7 @@ public class UserCarFeedActivity extends AppCompatActivity {
                     adapter.clear();
                     adapter.addAll(cars);
                     pb.setVisibility(ProgressBar.INVISIBLE);
-                    fabAddCar.show();
+//                    fabAddCar.show();
                 }
             }
         }, false);

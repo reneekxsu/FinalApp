@@ -2,8 +2,11 @@ package com.example.wheeldeal.models;
 
 import android.app.Application;
 import android.util.Log;
+import android.view.View;
 
 import com.example.wheeldeal.BuildConfig;
+import com.example.wheeldeal.activities.CarDetailsActivity;
+import com.example.wheeldeal.fragments.ViewMyCarsFragment;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -26,12 +29,15 @@ public class ParseApplication extends Application {
     public static HashMap<String, ArrayList> hmMakeToModels;
     List<CarModelList> allCars;
     int skip = 0;
+    public static boolean isDataReady;
     // Pair: make, model
 
     // Initializes Parse SDK as soon as the application is created
     @Override
     public void onCreate() {
         super.onCreate();
+
+        isDataReady = false;
 
         // Register your parse models
         ParseObject.registerSubclass(Car.class);
@@ -99,6 +105,13 @@ public class ParseApplication extends Application {
         Log.i(TAG, "hm model to make size: " + hmModelToMake.size());
         Log.i(TAG, "hm make to models size: " + hmMakeToModels.size());
         Log.i(TAG, "finished filtering");
+        isDataReady = true;
+        if (ViewMyCarsFragment.fabAddCar != null){
+            ViewMyCarsFragment.fabAddCar.show();
+        }
+        if (CarDetailsActivity.ibtnEdit != null){
+            CarDetailsActivity.ibtnEdit.setVisibility(View.VISIBLE);
+        }
     }
 
     public ArrayList<String> getModels(){

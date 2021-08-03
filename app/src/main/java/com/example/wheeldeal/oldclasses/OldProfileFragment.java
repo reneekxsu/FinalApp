@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.activities.LoginActivity;
-import com.example.wheeldeal.activities.UserCarFeedActivity;
 import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;

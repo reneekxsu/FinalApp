@@ -20,6 +20,7 @@ import com.example.wheeldeal.R;
 import com.example.wheeldeal.activities.AddOwnCarActivity;
 import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;
+import com.example.wheeldeal.models.ParseApplication;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
@@ -40,9 +41,9 @@ public class ViewMyCarsFragment extends Fragment {
     protected List<Car> allCars;
     private SwipeRefreshLayout swipeContainer;
     private ProgressBar pb;
-    private FloatingActionButton fabAddCar;
+    public static FloatingActionButton fabAddCar;
     private QueryClient queryClient;
-    public static final String TAG = "UserCarFeedFragment";
+    public static final String TAG = "ViewMyCarsFragment";
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -88,7 +89,9 @@ public class ViewMyCarsFragment extends Fragment {
         rvCars.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         fabAddCar = view.findViewById(R.id.fabAddCar);
-        fabAddCar.hide();
+        if (!((ParseApplication)getActivity().getApplication()).isDataReady){
+            fabAddCar.hide();
+        }
         fabAddCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +116,6 @@ public class ViewMyCarsFragment extends Fragment {
                     adapter.clear();
                     adapter.addAll(cars);
                     pb.setVisibility(ProgressBar.INVISIBLE);
-                    fabAddCar.show();
                 }
             }
         }, false);

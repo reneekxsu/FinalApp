@@ -35,7 +35,7 @@
         <activity android:name=".activities.SameAddressCarsActivity" />
         <activity android:name=".activities.EditCarActivity" />
         <activity android:name=".activities.CarDetailsActivity" />
-        <activity android:name=".activities.UserCarFeedActivity" />
+        <activity android:name=".oldclasses.UserCarFeedActivity" />
         <activity android:name=".activities.AddOwnCarActivity" />
         <activity android:name=".activities.CarMapActivity"></activity>
 
