@@ -24,18 +24,10 @@ public class ModelClient {
         ParseQuery<CarModelList> query = ParseQuery.getQuery(CarModelList.class);
         query.setLimit(1000);
         query.findInBackground(getAllObjects());
-
     }
 
     private FindCallback<CarModelList> getAllObjects() {
         return new FindCallback<CarModelList>(){
-//            query.findInBackground(new FindCallback<CarModelList>() {
-//                @Override
-//                public void done(List<CarModelList> cars, ParseException e) {
-//                    allCars.addAll(cars);
-//                    filterList(cars);
-//                }
-//            });
             @Override
             public void done(List<CarModelList> cars, ParseException e) {
                 int limit = 1000;

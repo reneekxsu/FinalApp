@@ -25,11 +25,11 @@ import androidx.core.content.FileProvider;
 
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.BitmapScaler;
+import com.example.wheeldeal.models.ParseApplication;
 import com.example.wheeldeal.utils.BinarySearchClient;
 import com.example.wheeldeal.utils.CameraClient;
 import com.example.wheeldeal.utils.FormClient;
 import com.example.wheeldeal.utils.GeocoderClient;
-import com.example.wheeldeal.utils.ModelClient;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -40,6 +40,7 @@ import com.parse.SaveCallback;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AddOwnCarActivity extends AppCompatActivity {
 
@@ -62,8 +63,8 @@ public class AddOwnCarActivity extends AppCompatActivity {
     CameraClient cameraClient;
     BinarySearchClient bs = new BinarySearchClient();
     String makes[];
-    ModelClient modelClient;
     AppCompatAutoCompleteTextView acMake, acModel;
+    HashMap<String, String> hmModelMake;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +74,14 @@ public class AddOwnCarActivity extends AppCompatActivity {
         Resources res = getResources();
         makes = res.getStringArray(R.array.makes_array);
 
+        hmModelMake = ((ParseApplication) getApplication()).getHashMapModelMake();
 
-        ArrayList<String> allModels = new ArrayList<>();
+
+        ArrayList<String> allModels = ((ParseApplication) getApplication()).getModels();
 
         ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.select_dialog_singlechoice,
                 allModels);
-        modelClient = new ModelClient(modelAdapter);
 
         etName = findViewById(R.id.etCarName);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, makes);
@@ -122,6 +124,16 @@ public class AddOwnCarActivity extends AppCompatActivity {
         acModel.setThreshold(1);
         //Set the adapter
         acModel.setAdapter(modelAdapter);
+
+        acModel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedModel = modelAdapter.getItem(position).toString();
+                String make = hmModelMake.get(selectedModel);
+                acMake.setText(make);
+                Log.i(TAG, "matching make is: " + make);
+            }
+        });
 
         etYear = findViewById(R.id.etCarculatorYear);
         etPrice = findViewById(R.id.etCarPrice);

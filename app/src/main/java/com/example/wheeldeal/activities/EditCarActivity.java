@@ -31,6 +31,7 @@ import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.BitmapScaler;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.ParcelableCar;
+import com.example.wheeldeal.models.ParseApplication;
 import com.example.wheeldeal.utils.BinarySearchClient;
 import com.example.wheeldeal.utils.CameraClient;
 import com.example.wheeldeal.utils.GeocoderClient;
@@ -86,12 +87,11 @@ public class EditCarActivity extends AppCompatActivity {
         cameraClient = new CameraClient(context);
         bs = new BinarySearchClient();
 
-        ArrayList<String> allModels = new ArrayList<>();
+        ArrayList<String> allModels = ((ParseApplication) getApplication()).getModels();
 
         ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.select_dialog_singlechoice,
                 allModels);
-        modelClient = new ModelClient(modelAdapter);
 
         etEditName = findViewById(R.id.etCarName);
 
