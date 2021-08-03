@@ -233,7 +233,9 @@ public class QueryClient {
         }
         event.setRentType(rentType);
         event.saveInBackground(callback);
-        car.setEventCount((int)car.getEventCount() + 1);
+        if (userIsCustomer){
+            car.setEventCount((int)car.getEventCount() + 1);
+        }
         car.saveInBackground();
     }
 

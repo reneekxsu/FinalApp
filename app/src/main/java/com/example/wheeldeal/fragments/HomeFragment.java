@@ -32,6 +32,7 @@ import com.example.wheeldeal.R;
 import com.example.wheeldeal.activities.CarMapActivity;
 import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;
+import com.example.wheeldeal.models.CarFeedScorePair;
 import com.example.wheeldeal.models.DateRangeHolder;
 import com.example.wheeldeal.models.ParcelableCar;
 import com.example.wheeldeal.models.ParseApplication;
@@ -45,6 +46,8 @@ import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
@@ -56,10 +59,9 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvAllCars;
     protected CarAdapter adapter;
     protected List<Car> allCars;
-    protected List<Car> allCarsDefault = new ArrayList<>();
-    protected List<Car> allCarsSortedPrice = new ArrayList<>();
-    protected List<Car> allCarsSortedPassengers = new ArrayList<>();
-    protected List<Car> allCarsSortedDistance = new ArrayList<>();
+    protected List<Car> allCarsDefault;
+    protected List<Car> allCarsSortedPrice;
+    protected List<Car> allCarsSortedPassengers;
     protected ArrayList<ArrayList<DateRangeHolder>> allEventDates;
     private ProgressBar pb;
     private SwipeRefreshLayout swipeContainer;
@@ -122,6 +124,9 @@ public class HomeFragment extends Fragment {
 
         rvAllCars = view.findViewById(R.id.rvAllCars);
         allCars = new ArrayList<>();
+        allCarsDefault = new ArrayList<>();
+        allCarsSortedPrice = new ArrayList<>();
+        allCarsSortedPassengers = new ArrayList<>();
         adapter = new CarAdapter(getActivity(), allCars);
         AlphaInAnimationAdapter alphaInAnimationAdapter = new AlphaInAnimationAdapter(adapter);
         alphaInAnimationAdapter.setDuration(1000);
@@ -158,6 +163,23 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    public void sortFeed(){
+        ArrayList<CarFeedScorePair> scores = new ArrayList<>();
+        for (Car car : allCarsDefault){
+            scores.add(new CarFeedScorePair(car));
+        }
+        Collections.sort(scores, new Comparator<CarFeedScorePair>() {
+            @Override
+            public int compare(CarFeedScorePair score1, CarFeedScorePair score2) {
+                return (Double.compare(score2.getScore(), score1.getScore()));
+            }
+        });
+        allCarsDefault.clear();
+        for (CarFeedScorePair score : scores){
+            Log.i(TAG, "car: " + score.getCar().getModel() + " score: " + score.getScore());
+            allCarsDefault.add(score.getCar());
+        }
+    }
 
     private void fetchAllCars() {
         queryClient.fetchCars(new FindCallback<Car>() {
@@ -179,6 +201,7 @@ public class HomeFragment extends Fragment {
                     } else {
                         loadedMap.setVisible(false);
                     }
+                    sortFeed();
                     pb.setVisibility(ProgressBar.INVISIBLE);
                     spinner.setVisibility(View.VISIBLE);
                 }
