@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.example.wheeldeal.BuildConfig;
 import com.example.wheeldeal.activities.CarDetailsActivity;
+import com.example.wheeldeal.fragments.HomeFragment;
 import com.example.wheeldeal.fragments.ViewMyCarsFragment;
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -111,6 +112,9 @@ public class ParseApplication extends Application {
         }
         if (CarDetailsActivity.ibtnEdit != null){
             CarDetailsActivity.ibtnEdit.setVisibility(View.VISIBLE);
+        }
+        if (HomeFragment.filters != null){
+            HomeFragment.filters.setVisible(true);
         }
     }
 

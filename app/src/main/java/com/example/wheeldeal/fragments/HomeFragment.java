@@ -34,6 +34,7 @@ import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.DateRangeHolder;
 import com.example.wheeldeal.models.ParcelableCar;
+import com.example.wheeldeal.models.ParseApplication;
 import com.example.wheeldeal.utils.GeocoderClient;
 import com.example.wheeldeal.utils.QueryClient;
 import com.parse.FindCallback;
@@ -66,6 +67,7 @@ public class HomeFragment extends Fragment {
     private GeocoderClient geocoderClient;
     private Toolbar toolbar;
     MenuItem loadedMap;
+    public static MenuItem filters;
     boolean firstLoad;
     boolean isLoaded;
     boolean inSearch;
@@ -259,10 +261,16 @@ public class HomeFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_action, menu);
         loadedMap = menu.findItem(R.id.action_map);
+        filters = menu.findItem(R.id.action_filter);
         if (isLoaded){
             loadedMap.setVisible(true);
         } else {
             loadedMap.setVisible(false);
+        }
+        if (((ParseApplication) getActivity().getApplication()).isDataReady){
+            filters.setVisible(true);
+        } else {
+            filters.setVisible(false);
         }
         Log.i(TAG, "onCreateOptions");
         MenuItem searchItem = menu.findItem(R.id.action_search);
