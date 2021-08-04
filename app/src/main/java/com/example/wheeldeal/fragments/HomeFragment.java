@@ -163,9 +163,9 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    public void sortFeed(){
+    public ArrayList<Car> sortFeed(List<Car> cars){
         ArrayList<CarFeedScorePair> scores = new ArrayList<>();
-        for (Car car : allCarsDefault){
+        for (Car car : cars){
             scores.add(new CarFeedScorePair(car));
         }
         Collections.sort(scores, new Comparator<CarFeedScorePair>() {
@@ -174,11 +174,12 @@ public class HomeFragment extends Fragment {
                 return (Double.compare(score2.getScore(), score1.getScore()));
             }
         });
-        allCarsDefault.clear();
+        ArrayList<Car> sortedCars = new ArrayList<>();
         for (CarFeedScorePair score : scores){
             Log.i(TAG, "car: " + score.getCar().getModel() + " score: " + score.getScore());
-            allCarsDefault.add(score.getCar());
+            sortedCars.add(score.getCar());
         }
+        return sortedCars;
     }
 
     private void fetchAllCars() {
@@ -189,21 +190,21 @@ public class HomeFragment extends Fragment {
                     Log.e(TAG, "Could not get user's cars");
                     Log.i(TAG, "error message: " + e.getCause().getMessage());
                 } else {
+                    ArrayList<Car> sortedCars = sortFeed(cars);
                     adapter.clear();
-                    adapter.addAll(cars);
-                    for (Car car : allCars) {
-                        Log.i(TAG, "Car in allCars: " + car.getModel());
-                    }
-                    allCarsDefault.addAll(cars);
+                    adapter.addAll(sortedCars);
+                    allCarsDefault.clear();
+                    allCarsDefault.addAll(sortedCars);
                     isLoaded = true;
                     if (isLoaded){
                         loadedMap.setVisible(true);
                     } else {
                         loadedMap.setVisible(false);
                     }
-                    sortFeed();
                     pb.setVisibility(ProgressBar.INVISIBLE);
                     spinner.setVisibility(View.VISIBLE);
+                    firstLoad = true;
+                    spinner.setSelection(0, true);
                 }
             }
         }, true);
@@ -216,6 +217,7 @@ public class HomeFragment extends Fragment {
                     Log.e(TAG, "Could not get user's cars");
                     Log.i(TAG, "error message: " + e.getCause().getMessage());
                 } else {
+                    allCarsSortedPassengers.clear();
                     allCarsSortedPassengers.addAll(cars);
                 }
             }
@@ -228,6 +230,7 @@ public class HomeFragment extends Fragment {
                     Log.e(TAG, "Could not get user's cars");
                     Log.i(TAG, "error message: " + e.getCause().getMessage());
                 } else {
+                    allCarsSortedPrice.clear();
                     allCarsSortedPrice.addAll(cars);
                 }
             }
@@ -257,6 +260,7 @@ public class HomeFragment extends Fragment {
                 }
             }, p, 100);
         } else {
+            Log.i(TAG, "no location found");
             rvAllCars.setVisibility(View.GONE);
         }
     }
@@ -281,7 +285,6 @@ public class HomeFragment extends Fragment {
             }
         }, p, 100, model, make);
     }
-    
 
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
@@ -380,6 +383,7 @@ public class HomeFragment extends Fragment {
         Log.i(TAG, "updateOrder called");
         if (position == 0){
             if (!firstLoad){
+                Log.i(TAG, "default selected");
                 Toast.makeText(getContext(), "Default order", Toast.LENGTH_SHORT).show();
                 adapter.clear();
                 adapter.addAll(allCarsDefault);

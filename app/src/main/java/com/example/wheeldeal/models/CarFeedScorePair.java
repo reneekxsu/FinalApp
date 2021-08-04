@@ -1,5 +1,7 @@
 package com.example.wheeldeal.models;
 
+import java.util.Calendar;
+
 public class CarFeedScorePair {
     double score;
     Car car;
@@ -9,7 +11,9 @@ public class CarFeedScorePair {
     }
 
     private void calculateScore() {
-        score = (Math.log10((int)car.getEventCount() + 2));
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        score = (Math.log10((int)car.getEventCount() + 2) +
+                5 * Math.exp(-(year - Integer.parseInt(car.getYear()))));
     }
 
     public Car getCar(){

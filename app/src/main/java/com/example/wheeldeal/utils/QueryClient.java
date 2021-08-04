@@ -113,6 +113,8 @@ public class QueryClient {
         ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
         if (!isAll){
             query.whereEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
+        } else {
+            query.whereNotEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
         }
         setCarQuery(query, callback);
     }
@@ -121,6 +123,7 @@ public class QueryClient {
         Log.i(TAG, "fetching all cars with address");
         ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
         query.whereEqualTo(Car.KEY_ADDRESS, address);
+        query.whereNotEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
         setCarQuery(query, callback);
     }
 
@@ -130,6 +133,7 @@ public class QueryClient {
         query.include(Car.KEY_OWNER);
         query.setLimit(20);
         query.addDescendingOrder("passengers");
+        query.whereNotEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
         query.findInBackground(callback);
     }
 
@@ -139,6 +143,7 @@ public class QueryClient {
         query.include(Car.KEY_OWNER);
         query.setLimit(20);
         query.addAscendingOrder("rate");
+        query.whereNotEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
         query.findInBackground(callback);
     }
 
@@ -165,6 +170,7 @@ public class QueryClient {
         ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
         query.include(Car.KEY_OWNER);
         query.whereWithinMiles("addressGeoPoint", point, maxDistance);
+        query.whereNotEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
         query.findInBackground(callback);
     }
 
@@ -184,6 +190,7 @@ public class QueryClient {
         if (!model.isEmpty()){
             query.whereEqualTo(Car.KEY_MODEL, model);
         }
+        query.whereNotEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
         query.findInBackground(callback);
     }
 
@@ -243,6 +250,9 @@ public class QueryClient {
     public void deleteAssociatedEvents(Car car, List<Event> allEvents){
         for (Event event : allEvents){
             event.deleteInBackground();
+            if (car.getOwner().getObjectId() != ParseUser.getCurrentUser().getObjectId()){
+                car.setEventCount((int)car.getEventCount() - 1);
+            }
         }
     }
 
