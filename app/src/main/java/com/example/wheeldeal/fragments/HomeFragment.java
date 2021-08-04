@@ -271,10 +271,12 @@ public class HomeFragment extends Fragment {
     }
 
     public void fetchCarByFilter(String search, String model, String make){
-        if (search.isEmpty()){
+        if (search.isEmpty()) {
             currentPoint = null;
-        } else {
-//            currentPoint = geocoderClient.getAddressFromString(search);
+        }
+        if (currentPoint != null){
+            Log.i(TAG, "currentPoint lat: " + currentPoint.getLatitude() + " " + currentPoint.getLongitude());
+            Log.i(TAG, "search: " + search);
         }
         Log.i(TAG, "geopoint: " + currentPoint);
         queryClient.fetchCarsByFilter(new FindCallback<Car>() {
@@ -364,7 +366,7 @@ public class HomeFragment extends Fragment {
                 }
                 Intent intent = new Intent(getContext(), CarMapActivity.class);
                 intent.putExtra("ParcelableCars", Parcels.wrap(parcelableCars));
-                if (inSearch && rvAllCars.getVisibility() == View.VISIBLE){
+                if (inSearch && currentPoint != null){
                     intent.putExtra("locationFlag", true);
                     intent.putExtra("ParseGeoPoint", currentPoint);
                 } else {
@@ -430,7 +432,7 @@ public class HomeFragment extends Fragment {
                     } else {
                         spinner.setVisibility(View.GONE);
                     }
-//                    fetchCarByFilter(query, filterModel, filterMake);
+                    fetchCarByFilter(query, filterModel, filterMake);
                 }
                 break;
         }
