@@ -245,6 +245,9 @@ public class QueryClient {
         int rentType = 0;
         if (userIsCustomer){
             rentType = 1;
+//            ParseUser current = ParseUser.getCurrentUser();
+//            current.get("carsBooked")
+//            current.put("carsBooked", )
         }
         event.setRentType(rentType);
         event.saveInBackground(callback);
@@ -269,6 +272,7 @@ public class QueryClient {
     }
 
     public void fetchUserDetails(ParseUser user, GetCallback callback){
+        Log.i(TAG, "carsbooked for user: " + user.get("carsBooked"));
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         // Specify the object id
         query.getInBackground(user.getObjectId(), callback);
@@ -280,7 +284,7 @@ public class QueryClient {
         // Set core properties
         user.setUsername(username);
         user.setPassword(password);
-        user.put("avgScore", 0);
+        user.put("avgScore", 0.0);
         user.put("carsBooked", 0);
         // Try to sign user up
         user.signUpInBackground(callback);
