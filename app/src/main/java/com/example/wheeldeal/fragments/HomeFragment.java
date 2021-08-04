@@ -39,8 +39,10 @@ import com.example.wheeldeal.models.ParseApplication;
 import com.example.wheeldeal.utils.GeocoderClient;
 import com.example.wheeldeal.utils.QueryClient;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
@@ -163,10 +165,10 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    public ArrayList<Car> sortFeed(List<Car> cars){
+    public ArrayList<Car> sortFeed(List<Car> cars, double avgScore){
         ArrayList<CarFeedScorePair> scores = new ArrayList<>();
         for (Car car : cars){
-            scores.add(new CarFeedScorePair(car));
+            scores.add(new CarFeedScorePair(car, avgScore));
         }
         Collections.sort(scores, new Comparator<CarFeedScorePair>() {
             @Override
@@ -175,6 +177,7 @@ public class HomeFragment extends Fragment {
             }
         });
         ArrayList<Car> sortedCars = new ArrayList<>();
+        Log.i(TAG, "myScore: " + avgScore);
         for (CarFeedScorePair score : scores){
             Log.i(TAG, "car: " + score.getCar().getModel() + " score: " + score.getScore());
             sortedCars.add(score.getCar());
@@ -190,21 +193,27 @@ public class HomeFragment extends Fragment {
                     Log.e(TAG, "Could not get user's cars");
                     Log.i(TAG, "error message: " + e.getCause().getMessage());
                 } else {
-                    ArrayList<Car> sortedCars = sortFeed(cars);
-                    adapter.clear();
-                    adapter.addAll(sortedCars);
-                    allCarsDefault.clear();
-                    allCarsDefault.addAll(sortedCars);
-                    isLoaded = true;
-                    if (isLoaded){
-                        loadedMap.setVisible(true);
-                    } else {
-                        loadedMap.setVisible(false);
-                    }
-                    pb.setVisibility(ProgressBar.INVISIBLE);
-                    spinner.setVisibility(View.VISIBLE);
-                    firstLoad = true;
-                    spinner.setSelection(0, true);
+                    queryClient.fetchUserDetails(ParseUser.getCurrentUser(), new GetCallback<ParseUser>() {
+                        @Override
+                        public void done(ParseUser user, ParseException e) {
+                            Log.i(TAG, "score from background: " + user.get("avgScore"));
+                            ArrayList<Car> sortedCars = sortFeed(cars, user.getDouble("avgScore"));
+                            adapter.clear();
+                            adapter.addAll(sortedCars);
+                            allCarsDefault.clear();
+                            allCarsDefault.addAll(sortedCars);
+                            isLoaded = true;
+                            if (isLoaded){
+                                loadedMap.setVisible(true);
+                            } else {
+                                loadedMap.setVisible(false);
+                            }
+                            pb.setVisibility(ProgressBar.INVISIBLE);
+                            spinner.setVisibility(View.VISIBLE);
+                            firstLoad = true;
+                            spinner.setSelection(0, true);
+                        }
+                    });
                 }
             }
         }, true, false);
