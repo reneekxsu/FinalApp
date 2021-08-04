@@ -23,6 +23,7 @@ public class Car extends ParseObject {
     public static final String KEY_ADDRESS = "address";
     public static final String KEY_ADDRESSGEOPOINT = "addressGeoPoint";
     public static final String KEY_EVENTCOUNT = "eventCount";
+    public static final String KEY_SCORE = "score";
 
     // description getter and setter
     public String getDescription(){
@@ -139,6 +140,15 @@ public class Car extends ParseObject {
 
     public void setEventCount(Number events){
         put(KEY_EVENTCOUNT,events);
+    }
+
+    // score getter and setter
+    public Number getScore(){
+        return getNumber(KEY_SCORE);
+    }
+
+    public void setScore(Number score){
+        put(KEY_SCORE, score);
     }
 
     @Override

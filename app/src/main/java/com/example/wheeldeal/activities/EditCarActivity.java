@@ -351,7 +351,7 @@ public class EditCarActivity extends AppCompatActivity {
             public void consumeAddress(ParseGeoPoint geoPoint) {
                 ParseGeoPoint gp = geoPoint;
                 queryClient.saveCarFields(car, description, ParseUser.getCurrentUser(), image,
-                        rate, model, name, make, year, passengers, sizeType, address, gp, null);
+                        rate, model, name, make, year, passengers, sizeType, address, gp, null, false);
                 Toast.makeText(EditCarActivity.this, "Edits to car were saved", Toast.LENGTH_SHORT).show();
             }
         });

@@ -207,7 +207,7 @@ public class HomeFragment extends Fragment {
                     spinner.setSelection(0, true);
                 }
             }
-        }, true);
+        }, true, false);
 
 
         queryClient.fetchCarsBySeats(new FindCallback<Car>() {

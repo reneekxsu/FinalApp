@@ -261,7 +261,7 @@ public class AddOwnCarActivity extends AppCompatActivity {
                                     ivPreview.setImageResource(0);
                                 }
                             }
-                        });
+                        }, true);
             }
         });
     }

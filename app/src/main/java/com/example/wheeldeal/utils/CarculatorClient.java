@@ -32,44 +32,34 @@ public class CarculatorClient {
         this.make = make;
         this.year = year;
         this.passengers = passengers;
+        initLuxury();
     }
     public int calculatePricing() {
         int price;
         double score, prediction;
-        int flagLux = 0;
-        for (CarScore cs : scores){
-            x.add(cs.getScore());
-            y.add(Double.parseDouble(cs.getCar().getRate().toString()));
+        for (Car car : allCars){
+            Log.i(TAG, "score from car: " + car.getScore());
+            Log.i(TAG, "rate from car: " + car.getRate());
+            x.add((double)car.getScore());
+            y.add(Double.parseDouble(car.getRate().toString()));
         }
         LinearRegression lr = new LinearRegression(x,y);
         Log.i(TAG, "intercept: " + lr.intercept());
         Log.i(TAG, "slope: " + lr.slope());
-        for (String s : UltLuxury){
-            if (make.equals(s)){
-                flagLux = 2;
-                break;
-            }
-        }
-        if (flagLux == 0){
-            for (String s : Luxury){
-                if (make.equals(s)){
-                    flagLux = 1;
-                    break;
-                }
-            }
-        }
+        int flagLux = getLux(make);
         thisCar = new CarScore(Integer.parseInt(year),
                 Integer.parseInt(passengers), flagLux);
         score = thisCar.getScore();
+        Log.i(TAG, "this car's score: " + score);
         prediction = lr.intercept() + lr.slope() * score;
         price = scoreToPrice((0.6 * score + 0.4 * prediction));
         return price;
     }
 
     public int calculateDays(){
-        for (CarScore cs : scores){
-            scoreX.add(cs.getScore());
-            daysY.add(Double.parseDouble(cs.getCar().getEventCount().toString()));
+        for (Car car : allCars){
+            scoreX.add((double)car.getScore());
+            daysY.add(Double.parseDouble(car.getEventCount().toString()));
         }
         LinearRegression lr = new LinearRegression(scoreX,daysY);
         Log.i(TAG, "intercept: " + lr.intercept());
@@ -85,26 +75,31 @@ public class CarculatorClient {
     public void updateCategories(){
         for (Car car : allCars){
             Log.i(TAG, "car: " + car.getModel());
-            int flagLux = 0;
-            for (String s : UltLuxury){
-                if (car.getMake().equals(s)){
-                    flagLux = 2;
-                    break;
-                }
-            }
-            if (flagLux == 0){
-                for (String s : Luxury){
-                    if (car.getMake().equals(s)){
-                        flagLux = 1;
-                        break;
-                    }
-                }
-            }
+            int flagLux = getLux(car.getMake());
             CarScore thisCar = new CarScore(Integer.parseInt(car.getYear()),
                     Integer.parseInt(car.getPassengers()), flagLux, car);
 
             scores.add(thisCar);
         }
+    }
+
+    public int getLux(String make){
+        int flagLux = 0;
+        for (String s : UltLuxury){
+            if (make.equals(s)){
+                flagLux = 2;
+                break;
+            }
+        }
+        if (flagLux == 0){
+            for (String s : Luxury){
+                if (make.equals(s)){
+                    flagLux = 1;
+                    break;
+                }
+            }
+        }
+        return flagLux;
     }
 
     public void initLuxury(){

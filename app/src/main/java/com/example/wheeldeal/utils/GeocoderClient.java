@@ -23,7 +23,7 @@ public class GeocoderClient {
         this.activity = activity;
     }
     public void lookupAddress(String address, GeocoderResponseHandler handler){
-        Log.i(TAG, "getAddressFromString called");
+        Log.i(TAG, "lookupAddress called");
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -32,12 +32,6 @@ public class GeocoderClient {
                 ParseGeoPoint gp = null;
                 try {
                     ArrayList<Address> addresses = (ArrayList<Address>) g.getFromLocationName(address, 50);
-                    for(Address add : addresses){
-                        double longitude = add.getLongitude();
-                        double latitude = add.getLatitude();
-                        Log.i(TAG, "Latitude: " + latitude);
-                        Log.i(TAG, "Longitude: " + longitude);
-                    }
                     if (addresses.size() != 0){
                         lat = addresses.get(0).getLatitude();
                         lng = addresses.get(0).getLongitude();

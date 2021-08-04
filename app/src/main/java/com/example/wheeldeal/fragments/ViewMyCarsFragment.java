@@ -118,7 +118,7 @@ public class ViewMyCarsFragment extends Fragment {
                     pb.setVisibility(ProgressBar.INVISIBLE);
                 }
             }
-        }, false);
+        }, false, false);
 
         // Now we call setRefreshing(false) to signal refresh has finished
         if (swipeContainer.isRefreshing()){

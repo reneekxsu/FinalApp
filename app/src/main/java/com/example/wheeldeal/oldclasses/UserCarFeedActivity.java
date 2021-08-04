@@ -95,10 +95,9 @@ public class UserCarFeedActivity extends AppCompatActivity {
                     adapter.clear();
                     adapter.addAll(cars);
                     pb.setVisibility(ProgressBar.INVISIBLE);
-//                    fabAddCar.show();
                 }
             }
-        }, false);
+        }, false, false);
 
         // Now we call setRefreshing(false) to signal refresh has finished
         if (swipeContainer.isRefreshing()){

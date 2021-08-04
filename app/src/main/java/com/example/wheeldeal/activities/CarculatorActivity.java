@@ -166,8 +166,6 @@ public class CarculatorActivity extends AppCompatActivity {
         carculatorClient = new CarculatorClient(acMake.getText().toString(), etCarYear.getText().toString(),
                 etCarPassengers.getText().toString());
 
-        carculatorClient.initLuxury();
-
         queryClient = new QueryClient();
         queryClient.fetchCars(new FindCallback<Car>() {
             @Override
@@ -179,7 +177,7 @@ public class CarculatorActivity extends AppCompatActivity {
                 carculatorClient.updateCategories();
                 btnCalculate.setEnabled(true);
             }
-        }, true);
+        }, true, true);
 
         btnCalculate.setOnClickListener(new View.OnClickListener() {
             @Override

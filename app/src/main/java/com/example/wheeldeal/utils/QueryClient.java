@@ -3,6 +3,7 @@ package com.example.wheeldeal.utils;
 import android.util.Log;
 
 import com.example.wheeldeal.models.Car;
+import com.example.wheeldeal.models.CarScore;
 import com.example.wheeldeal.models.Event;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
@@ -108,12 +109,12 @@ public class QueryClient {
     }
 
 
-    public void fetchCars(FindCallback<Car> callback, boolean isAll){
+    public void fetchCars(FindCallback<Car> callback, boolean isAllNonOwner, boolean isAll){
         Log.i(TAG, "fetching all cars");
         ParseQuery<Car> query = ParseQuery.getQuery(Car.class);
-        if (!isAll){
+        if (!isAllNonOwner){
             query.whereEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
-        } else {
+        } else if (!isAll){
             query.whereNotEqualTo(Car.KEY_OWNER, ParseUser.getCurrentUser());
         }
         setCarQuery(query, callback);
@@ -196,16 +197,16 @@ public class QueryClient {
 
     public void saveCar(String description, ParseUser currentUser, File photoFile, String rate,
                         String model, String name, String make, String year, String passengers,
-                        String size, String address, ParseGeoPoint gp, SaveCallback callback) {
+                        String size, String address, ParseGeoPoint gp, SaveCallback callback, boolean newCar) {
         Log.i(TAG, "saving car");
         Car car = new Car();
         saveCarFields(car, description, currentUser, new ParseFile(photoFile), rate, model, name, make, year,
-                passengers, size, address, gp, callback);
+                passengers, size, address, gp, callback, newCar);
     }
 
     public void saveCarFields(Car car, String description, ParseUser currentUser, ParseFile image, String rate,
                               String model, String name, String make, String year, String passengers,
-                              String size, String address, ParseGeoPoint gp, SaveCallback callback){
+                              String size, String address, ParseGeoPoint gp, SaveCallback callback, boolean newCar){
         car.setDescription(description);
         car.setOwner(currentUser);
         car.setImage(image);
@@ -218,7 +219,14 @@ public class QueryClient {
         car.setSizeType(size);
         car.setAddress(address);
         car.setAddressGeoPoint(gp);
-        car.setEventCount(0);
+        if (newCar){
+            car.setEventCount(0);
+        }
+        CarculatorClient carculatorClient = new CarculatorClient(make, year, passengers);
+        int flagLux = carculatorClient.getLux(make);
+        Log.i(TAG, "flagLux of car: " + "make " + make + " " + flagLux);
+        CarScore carScore = new CarScore(Integer.parseInt(year), Integer.parseInt(passengers), flagLux);
+        car.setScore(carScore.getScore());
         if (callback == null){
             car.saveInBackground();
         } else {
@@ -272,6 +280,8 @@ public class QueryClient {
         // Set core properties
         user.setUsername(username);
         user.setPassword(password);
+        user.put("avgScore", 0);
+        user.put("carsBooked", 0);
         // Try to sign user up
         user.signUpInBackground(callback);
     }
