@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
     boolean firstLoad;
     boolean isLoaded;
     boolean inSearch;
-    ParseGeoPoint p;
+    ParseGeoPoint currentPoint;
     Spinner spinner;
     int savedSelection;
     String submittedQuery;
@@ -244,34 +244,39 @@ public class HomeFragment extends Fragment {
     
     public void fetchCarByQuery(String query){
         // see if location matches
-        p = geocoderClient.getAddressFromString(query);
-        Log.i(TAG, "geopoint: " + p);
-        if (p != null){
-            rvAllCars.setVisibility(View.VISIBLE);
-            queryClient.fetchCarByProximity(new FindCallback<Car>() {
-                @Override
-                public void done(List<Car> cars, ParseException e) {
-                    if (cars.size() > 0){
-                        adapter.clear();
-                        adapter.addAll(cars);
-                    } else {
-                        rvAllCars.setVisibility(View.GONE);
-                    }
+        geocoderClient.getAddressFromString(query, new GeocoderClient.GeocoderResponseHandler() {
+            @Override
+            public void consumeAddress(ParseGeoPoint geoPoint) {
+                currentPoint = geoPoint;
+                Log.i(TAG, "geopoint: " + currentPoint);
+                if (currentPoint != null){
+                    rvAllCars.setVisibility(View.VISIBLE);
+                    queryClient.fetchCarByProximity(new FindCallback<Car>() {
+                        @Override
+                        public void done(List<Car> cars, ParseException e) {
+                            if (cars.size() > 0){
+                                adapter.clear();
+                                adapter.addAll(cars);
+                            } else {
+                                rvAllCars.setVisibility(View.GONE);
+                            }
+                        }
+                    }, currentPoint, 100);
+                } else {
+                    Log.i(TAG, "no location found");
+                    rvAllCars.setVisibility(View.GONE);
                 }
-            }, p, 100);
-        } else {
-            Log.i(TAG, "no location found");
-            rvAllCars.setVisibility(View.GONE);
-        }
+            }
+        });
     }
 
     public void fetchCarByFilter(String search, String model, String make){
         if (search.isEmpty()){
-            p = null;
+            currentPoint = null;
         } else {
-            p = geocoderClient.getAddressFromString(search);
+//            currentPoint = geocoderClient.getAddressFromString(search);
         }
-        Log.i(TAG, "geopoint: " + p);
+        Log.i(TAG, "geopoint: " + currentPoint);
         queryClient.fetchCarsByFilter(new FindCallback<Car>() {
             @Override
             public void done(List<Car> cars, ParseException e) {
@@ -283,7 +288,7 @@ public class HomeFragment extends Fragment {
                     rvAllCars.setVisibility(View.GONE);
                 }
             }
-        }, p, 100, model, make);
+        }, currentPoint, 100, model, make);
     }
 
     @Override
@@ -307,13 +312,15 @@ public class HomeFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                isSearchComplete = true;
-                submittedQuery = query;
-                // perform query here
-                fetchCarByQuery(query);
                 // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
                 // see https://code.google.com/p/android/issues/detail?id=24599
                 searchView.clearFocus();
+                isSearchComplete = true;
+                submittedQuery = query;
+                Log.i(TAG, "text submitted");
+                // perform query here
+                fetchCarByQuery(query);
+                Log.i(TAG, "returning");
                 return true;
             }
 
@@ -359,7 +366,7 @@ public class HomeFragment extends Fragment {
                 intent.putExtra("ParcelableCars", Parcels.wrap(parcelableCars));
                 if (inSearch && rvAllCars.getVisibility() == View.VISIBLE){
                     intent.putExtra("locationFlag", true);
-                    intent.putExtra("ParseGeoPoint", p);
+                    intent.putExtra("ParseGeoPoint", currentPoint);
                 } else {
                     intent.putExtra("locationFlag", false);
                 }
@@ -423,7 +430,7 @@ public class HomeFragment extends Fragment {
                     } else {
                         spinner.setVisibility(View.GONE);
                     }
-                    fetchCarByFilter(query, filterModel, filterMake);
+//                    fetchCarByFilter(query, filterModel, filterMake);
                 }
                 break;
         }

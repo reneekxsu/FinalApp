@@ -239,26 +239,31 @@ public class AddOwnCarActivity extends AppCompatActivity {
 
     private void saveCar(String description, ParseUser currentUser, File photoFile, String rate, String model,
                          String name, String make, String year, String passengers, String size, String address) {
-        ParseGeoPoint gp = geocoderClient.getAddressFromString(address);
-        queryClient.saveCar(description, currentUser, photoFile, rate, model, name, make, year,
-                passengers, size, address, gp, new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e != null){
-                            Log.e(TAG, "Could not save", e);
-                            Toast.makeText(AddOwnCarActivity.this, "Could not save", Toast.LENGTH_SHORT).show();
-                            return;
-                        } else {
-                            Log.i(TAG, "Car was saved to backend");
-                            Toast.makeText(AddOwnCarActivity.this, "Car was saved", Toast.LENGTH_SHORT).show();
-                            etDescription.setText("");
-                            acModel.setText("");
-                            etPrice.setText("");
-                            // set to empty image
-                            ivPreview.setImageResource(0);
-                        }
-                    }
-                });
+        geocoderClient.getAddressFromString(address, new GeocoderClient.GeocoderResponseHandler() {
+            @Override
+            public void consumeAddress(ParseGeoPoint geoPoint) {
+                ParseGeoPoint gp = geoPoint;
+                queryClient.saveCar(description, currentUser, photoFile, rate, model, name, make, year,
+                        passengers, size, address, gp, new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e != null){
+                                    Log.e(TAG, "Could not save", e);
+                                    Toast.makeText(AddOwnCarActivity.this, "Could not save", Toast.LENGTH_SHORT).show();
+                                    return;
+                                } else {
+                                    Log.i(TAG, "Car was saved to backend");
+                                    Toast.makeText(AddOwnCarActivity.this, "Car was saved", Toast.LENGTH_SHORT).show();
+                                    etDescription.setText("");
+                                    acModel.setText("");
+                                    etPrice.setText("");
+                                    // set to empty image
+                                    ivPreview.setImageResource(0);
+                                }
+                            }
+                        });
+            }
+        });
     }
 
     private void launchCamera() {

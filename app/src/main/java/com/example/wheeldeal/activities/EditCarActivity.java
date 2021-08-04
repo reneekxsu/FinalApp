@@ -349,10 +349,15 @@ public class EditCarActivity extends AppCompatActivity {
         if (photoFile != null){
             image = new ParseFile(photoFile);
         }
-        ParseGeoPoint gp = geocoderClient.getAddressFromString(address);
-        queryClient.saveCarFields(car, description, ParseUser.getCurrentUser(), image,
-                rate, model, name, make, year, passengers, sizeType, address, gp, null);
-        Toast.makeText(EditCarActivity.this, "Edits to car were saved", Toast.LENGTH_SHORT).show();
+        geocoderClient.getAddressFromString(address, new GeocoderClient.GeocoderResponseHandler() {
+            @Override
+            public void consumeAddress(ParseGeoPoint geoPoint) {
+                ParseGeoPoint gp = geoPoint;
+                queryClient.saveCarFields(car, description, ParseUser.getCurrentUser(), image,
+                        rate, model, name, make, year, passengers, sizeType, address, gp, null);
+                Toast.makeText(EditCarActivity.this, "Edits to car were saved", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void launchCamera() {

@@ -11,12 +11,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class GeocoderClient {
+    public interface GeocoderResponseHandler{
+        void consumeAddress(ParseGeoPoint geoPoint);
+    }
     public static final String TAG = "GeocoderClient";
     Context context;
     public GeocoderClient(Context context){
         this.context = context;
     }
-    public ParseGeoPoint getAddressFromString(String address){
+    public void getAddressFromString(String address, GeocoderResponseHandler handler){
+        Log.i(TAG, "getAddressFromString called");
         Geocoder g = new Geocoder(context);
         double lat, lng;
         ParseGeoPoint gp = null;
@@ -28,17 +32,15 @@ public class GeocoderClient {
                 Log.i(TAG, "Latitude: " + latitude);
                 Log.i(TAG, "Longitude: " + longitude);
             }
-            if (addresses.size() == 0){
-                return null;
+            if (addresses.size() != 0){
+                lat = addresses.get(0).getLatitude();
+                lng = addresses.get(0).getLongitude();
+                gp = new ParseGeoPoint(lat, lng);
             }
-            lat = addresses.get(0).getLatitude();
-            lng = addresses.get(0).getLongitude();
-            gp = new ParseGeoPoint(lat, lng);
         } catch (IOException ie){
-            Log.e(TAG, "geocoder failed");
-            ie.printStackTrace();
+            Log.e(TAG, "geocoder failed", ie);
         }
-        return gp;
+        handler.consumeAddress(gp);
     }
 
 }
