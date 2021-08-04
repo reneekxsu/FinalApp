@@ -1,6 +1,5 @@
 package com.example.wheeldeal.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -57,7 +56,6 @@ public class EditCarActivity extends AppCompatActivity {
     ImageView ivEditPreview;
     TextView tvEditClose;
     Car car;
-    Context context;
     TextInputLayout tilPrice, tilCarMake;
     HashMap<String, String> hmModelMake;
     HashMap<String, ArrayList> hmMakeModels;
@@ -83,9 +81,8 @@ public class EditCarActivity extends AppCompatActivity {
         Resources res = getResources();
         makes = res.getStringArray(R.array.makes_array);
 
-        context = this;
-        geocoderClient = new GeocoderClient(context);
-        cameraClient = new CameraClient(context);
+        geocoderClient = new GeocoderClient(this);
+        cameraClient = new CameraClient(this);
         bs = new BinarySearchClient();
 
         hmModelMake = ((ParseApplication) getApplication()).getHashMapModelMake();
@@ -349,7 +346,7 @@ public class EditCarActivity extends AppCompatActivity {
         if (photoFile != null){
             image = new ParseFile(photoFile);
         }
-        geocoderClient.getAddressFromString(address, new GeocoderClient.GeocoderResponseHandler() {
+        geocoderClient.lookupAddress(address, new GeocoderClient.GeocoderResponseHandler() {
             @Override
             public void consumeAddress(ParseGeoPoint geoPoint) {
                 ParseGeoPoint gp = geoPoint;

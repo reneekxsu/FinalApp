@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment {
         savedSelection = 0;
 
         queryClient = new QueryClient();
-        geocoderClient = new GeocoderClient(view.getContext());
+        geocoderClient = new GeocoderClient(getActivity());
 
         pb = view.findViewById(R.id.pbLoading);
         pb.setVisibility(ProgressBar.VISIBLE);
@@ -244,7 +244,7 @@ public class HomeFragment extends Fragment {
     
     public void fetchCarByQuery(String query){
         // see if location matches
-        geocoderClient.getAddressFromString(query, new GeocoderClient.GeocoderResponseHandler() {
+        geocoderClient.lookupAddress(query, new GeocoderClient.GeocoderResponseHandler() {
             @Override
             public void consumeAddress(ParseGeoPoint geoPoint) {
                 currentPoint = geoPoint;

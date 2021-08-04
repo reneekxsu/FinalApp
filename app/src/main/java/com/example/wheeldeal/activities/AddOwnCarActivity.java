@@ -239,7 +239,7 @@ public class AddOwnCarActivity extends AppCompatActivity {
 
     private void saveCar(String description, ParseUser currentUser, File photoFile, String rate, String model,
                          String name, String make, String year, String passengers, String size, String address) {
-        geocoderClient.getAddressFromString(address, new GeocoderClient.GeocoderResponseHandler() {
+        geocoderClient.lookupAddress(address, new GeocoderClient.GeocoderResponseHandler() {
             @Override
             public void consumeAddress(ParseGeoPoint geoPoint) {
                 ParseGeoPoint gp = geoPoint;
