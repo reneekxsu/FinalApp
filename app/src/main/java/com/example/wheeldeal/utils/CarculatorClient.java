@@ -13,7 +13,6 @@ public class CarculatorClient {
     ArrayList<Car> allCars;
     ArrayList<String> UltLuxury;
     ArrayList<String> Luxury;
-    ArrayList<CarScore> scores;
     ArrayList<Double> x;
     ArrayList<Double> y;
     ArrayList<Double> scoreX;
@@ -24,7 +23,6 @@ public class CarculatorClient {
         allCars = new ArrayList<>();
         UltLuxury = new ArrayList<>();
         Luxury = new ArrayList<>();
-        scores = new ArrayList<>();
         x = new ArrayList<>();
         y = new ArrayList<>();
         scoreX = new ArrayList<>();
@@ -70,17 +68,6 @@ public class CarculatorClient {
             prediction = (Math.abs(prediction) + 1) * 0.7;
         }
         return (int)Math.ceil(prediction * 5);
-    }
-
-    public void updateCategories(){
-        for (Car car : allCars){
-            Log.i(TAG, "car: " + car.getModel());
-            int flagLux = getLux(car.getMake());
-            CarScore thisCar = new CarScore(Integer.parseInt(car.getYear()),
-                    Integer.parseInt(car.getPassengers()), flagLux, car);
-
-            scores.add(thisCar);
-        }
     }
 
     public int getLux(String make){

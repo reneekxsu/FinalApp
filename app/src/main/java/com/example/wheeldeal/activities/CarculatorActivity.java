@@ -174,7 +174,6 @@ public class CarculatorActivity extends AppCompatActivity {
                 if (carFlag){
                     carculatorClient.removeFromAllCars(car);
                 }
-                carculatorClient.updateCategories();
                 btnCalculate.setEnabled(true);
             }
         }, true, true);
