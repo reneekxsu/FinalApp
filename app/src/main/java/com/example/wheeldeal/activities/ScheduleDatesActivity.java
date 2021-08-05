@@ -1,5 +1,6 @@
 package com.example.wheeldeal.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 
+import com.example.wheeldeal.MainActivity;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.DateRangeHolder;
@@ -125,28 +127,6 @@ public class ScheduleDatesActivity extends AppCompatActivity {
         return constraintsBuilderRange;
     }
 
-    public int isDateBefore(int year1, int month1, int day1, int year2, int month2, int day2){
-        if (year1 == year2){
-            if (month1 == month2){
-                if (day1 == day2){
-                    return 0;
-                } else if (day1 < day2){
-                    return -1;
-                } else {
-                    return 1;
-                }
-            } else if (month1 < month2){
-                return -1;
-            } else {
-                return 1;
-            }
-        } else if (year1 < year2){
-            return -1;
-        } else {
-            return 1;
-        }
-    }
-
     private void saveEvent(Date start, Date end){
         ParseUser current = ParseUser.getCurrentUser();
         if (userIsCustomer()){
@@ -171,7 +151,6 @@ public class ScheduleDatesActivity extends AppCompatActivity {
             });
         }
 
-
         queryClient.saveEvent(start, end, car, userIsCustomer(), new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -182,6 +161,9 @@ public class ScheduleDatesActivity extends AppCompatActivity {
                 } else {
                     Log.i(TAG, "Event was saved to backend");
                     Toast.makeText(ScheduleDatesActivity.this, "Event was saved", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(ScheduleDatesActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
                 }
             }
         });
