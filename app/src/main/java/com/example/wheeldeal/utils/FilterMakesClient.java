@@ -1,17 +1,15 @@
-package com.example.wheeldeal.models;
+package com.example.wheeldeal.utils;
 
-import android.app.Application;
 import android.util.Log;
 import android.view.View;
 
-import com.example.wheeldeal.BuildConfig;
 import com.example.wheeldeal.activities.CarDetailsActivity;
 import com.example.wheeldeal.fragments.HomeFragment;
 import com.example.wheeldeal.fragments.ViewMyCarsFragment;
+import com.example.wheeldeal.models.CarModelList;
+import com.example.wheeldeal.models.ParseApplication;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
@@ -20,49 +18,21 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-public class ParseApplication extends Application {
-
-    public static final String APPLICATION_ID = BuildConfig.APPLICATION_ID;
-    public static final String CLIENT_KEY = BuildConfig.CLIENT_KEY;
-    public static final String TAG = "ParseApplication";
+public class FilterMakesClient {
+    public static final String TAG = "FilterMakesClient";
+    int skip;
     public static ArrayList<String> models;
     public static HashMap<String, String> hmModelToMake;
     public static HashMap<String, ArrayList> hmMakeToModels;
     List<CarModelList> allCars;
-    int skip = 0;
-    public static boolean isDataReady;
-
-    // Initializes Parse SDK as soon as the application is created
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        isDataReady = false;
-
-        // Register your parse models
-        ParseObject.registerSubclass(Car.class);
-        ParseObject.registerSubclass(Event.class);
-        ParseObject.registerSubclass(CarModelList.class);
-
-        Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId(APPLICATION_ID)
-                .clientKey(CLIENT_KEY)
-                .server("https://parseapi.back4app.com")
-                .build()
-        );
-
-        // Creating an empty HashMap
-        hmModelToMake = new HashMap<String, String>();
-        hmMakeToModels = new HashMap<String, ArrayList>();
-
+    public FilterMakesClient(){
+        skip = 0;
         models = new ArrayList<>();
         allCars = new ArrayList<>();
         ParseQuery<CarModelList> query = ParseQuery.getQuery(CarModelList.class);
         query.setLimit(1000);
         query.findInBackground(getAllObjects());
-
     }
-
     private FindCallback<CarModelList> getAllObjects() {
         return new FindCallback<CarModelList>(){
             @Override
@@ -105,7 +75,7 @@ public class ParseApplication extends Application {
         Log.i(TAG, "hm model to make size: " + hmModelToMake.size());
         Log.i(TAG, "hm make to models size: " + hmMakeToModels.size());
         Log.i(TAG, "finished filtering");
-        isDataReady = true;
+        ParseApplication.isDataReady = true;
         if (ViewMyCarsFragment.fabAddCar != null){
             ViewMyCarsFragment.fabAddCar.show();
         }
@@ -116,17 +86,4 @@ public class ParseApplication extends Application {
             HomeFragment.filters.setVisible(true);
         }
     }
-
-    public ArrayList<String> getModels(){
-        return models;
-    }
-
-    public HashMap<String, String> getHashMapModelMake(){
-        return hmModelToMake;
-    }
-    
-    public HashMap<String, ArrayList> getHashMapMakeModel(){
-        return hmMakeToModels;
-    }
-
 }

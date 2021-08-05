@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
-import com.example.wheeldeal.MainActivity;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.DateRangeHolder;
@@ -23,7 +22,6 @@ import com.example.wheeldeal.models.Event;
 import com.example.wheeldeal.models.ParcelableCar;
 import com.example.wheeldeal.models.ParseApplication;
 import com.example.wheeldeal.utils.QueryClient;
-import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -42,7 +40,7 @@ public class CarDetailsActivity extends AppCompatActivity {
     ImageView ivDetailCar;
     Context context;
     public static ImageButton ibtnEdit;
-    ImageButton ibtnEvent, ibtnDelete;
+    ImageButton ibtnEvent;
     QueryClient queryClient;
     ArrayList<DateRangeHolder> rangeHolder;
     ArrayList<Event> allEvents;
@@ -63,7 +61,6 @@ public class CarDetailsActivity extends AppCompatActivity {
         ivDetailCar = findViewById(R.id.ivDetailCar);
         ibtnEdit = findViewById(R.id.ibtnEdit);
         ibtnEvent = findViewById(R.id.ibtnEvent);
-        ibtnDelete = findViewById(R.id.ibtnDelete);
         context = this;
         queryClient = new QueryClient();
         rangeHolder = new ArrayList<>();
@@ -123,15 +120,6 @@ public class CarDetailsActivity extends AppCompatActivity {
             }
         });
 
-        ibtnDelete.setVisibility(View.GONE);
-        ibtnDelete.setBackgroundDrawable(null);
-        ibtnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteAssociatedEvents(car);
-            }
-        });
-
     }
 
     boolean userIsAuthor(Car car){
@@ -149,20 +137,8 @@ public class CarDetailsActivity extends AppCompatActivity {
                 }
                 allEvents.addAll(events);
                 ibtnEvent.setVisibility(View.VISIBLE);
-                ibtnDelete.setVisibility(View.VISIBLE);
             }
         }, car);
-    }
-    private void deleteAssociatedEvents(Car car){
-        queryClient.deleteAssociatedEvents(car, allEvents);
-        queryClient.deleteCar(car, new DeleteCallback() {
-            @Override
-            public void done(ParseException e) {
-                Intent i = new Intent(context, MainActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

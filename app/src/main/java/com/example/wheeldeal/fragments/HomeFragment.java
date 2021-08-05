@@ -375,7 +375,7 @@ public class HomeFragment extends Fragment {
                 }
                 Intent intent = new Intent(getContext(), CarMapActivity.class);
                 intent.putExtra("ParcelableCars", Parcels.wrap(parcelableCars));
-                if (inSearch && currentPoint != null){
+                if (inSearch && (currentPoint != null && rvAllCars.getVisibility() == View.VISIBLE)){
                     intent.putExtra("locationFlag", true);
                     intent.putExtra("ParseGeoPoint", currentPoint);
                 } else {
