@@ -173,8 +173,6 @@ public class AddOwnCarActivity extends AppCompatActivity {
                 i.putExtra("model", acModel.getText().toString());
                 i.putExtra("year", etYear.getText().toString());
                 i.putExtra("passengers", etPassengers.getText().toString());
-                i.putExtra("sizetype", etSizeType.getText().toString());
-                i.putExtra("address", etAddress.getText().toString());
                 i.putExtra("carFlag", false);
                 startActivity(i);
                 overridePendingTransition(R.anim.slide_in_up, R.anim.no_change);

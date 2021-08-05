@@ -315,8 +315,6 @@ public class EditCarActivity extends AppCompatActivity {
                 i.putExtra("model", acModel.getText().toString());
                 i.putExtra("year", etEditYear.getText().toString());
                 i.putExtra("passengers", etEditPassengers.getText().toString());
-                i.putExtra("sizetype", etEditSizeType.getText().toString());
-                i.putExtra("address", etEditAddress.getText().toString());
                 ParcelableCar c = new ParcelableCar(car);
                 i.putExtra(ParcelableCar.class.getSimpleName(), Parcels.wrap(c));
                 i.putExtra("carFlag", true);

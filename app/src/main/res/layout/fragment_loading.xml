@@ -17,7 +17,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="29dp"
-            android:layout_marginTop="187dp"
+            android:layout_marginTop="150dp"
             android:text="Welcome, "
             android:textSize="35dp"
             android:textStyle="bold"></TextView>
@@ -38,8 +38,44 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/tvYourName"
-            android:layout_marginTop="-50dp"
+            android:layout_marginTop="-170dp"
             app:srcCompat="@drawable/ed_logo_drawable_animation" />
+
+        <TextView
+            android:id="@+id/tvCarculatorPrompt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvYourName"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="325dp"
+            android:text="Not sure how much to charge?"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvCarculatorPrompt2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCarculatorPrompt1"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="6dp"
+            android:text="We can give you an estimate"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvToCarculator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCarculatorPrompt1"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="121dp"
+            android:layout_toEndOf="@+id/tvCarculatorPrompt2"
+            android:text=" here!"
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </FrameLayout>

@@ -37,10 +37,10 @@ public class CarculatorActivity extends AppCompatActivity {
 
     public static final String TAG = "CarculatorActivity";
     QueryClient queryClient;
-    String myMake, myModel, myYear, myPassengers, mySizeType, myAddress;
-    TextInputEditText etCarModel, etCarYear,etCarPassengers, etCarSizeType, etCarAddress;
+    String myMake, myModel, myYear, myPassengers;
+    TextInputEditText etCarYear,etCarPassengers;
     TextInputLayout tilCarMake;
-    TextView tvCalculatedPrice;
+    TextView tvCalculatedPrice, tvClose;
     Button btnCalculate;
     Car car = null;
     CarculatorClient carculatorClient;
@@ -71,8 +71,6 @@ public class CarculatorActivity extends AppCompatActivity {
         myModel = getIntent().getStringExtra("model");
         myYear = getIntent().getStringExtra("year");
         myPassengers = getIntent().getStringExtra("passengers");
-        mySizeType = getIntent().getStringExtra("sizetype");
-        myAddress = getIntent().getStringExtra("address");
 
         hmModelMake = ((ParseApplication) getApplication()).getHashMapModelMake();
 
@@ -147,18 +145,22 @@ public class CarculatorActivity extends AppCompatActivity {
 
         etCarYear = findViewById(R.id.etCarculatorYear);
         etCarPassengers = findViewById(R.id.etCarculatorPassengers);
-        etCarSizeType = findViewById(R.id.etCarculatorSizeType);
-        etCarAddress = findViewById(R.id.etCarculatorAddress);
         btnCalculate = findViewById(R.id.btnCalculate);
         tvCalculatedPrice = findViewById(R.id.tvCalculatedPrice);
         tilCarMake = findViewById(R.id.tilCarMake);
+        tvClose = findViewById(R.id.tvCarculatorClose);
+
+        tvClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         acMake.setText(myMake);
         acModel.setText(myModel);
         etCarYear.setText(myYear);
         etCarPassengers.setText(myPassengers);
-        etCarSizeType.setText(mySizeType);
-        etCarAddress.setText(myAddress);
         tvCalculatedPrice.setVisibility(View.GONE);
 
         btnCalculate.setEnabled(false);
