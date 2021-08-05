@@ -163,7 +163,6 @@ public class AddOwnCarActivity extends AppCompatActivity {
         tilCarMake = findViewById(R.id.tilCarMake);
         tilCarModel = findViewById(R.id.tilCarModel);
         tilCarYear = findViewById(R.id.tilCarYear);
-        tilCarPrice = findViewById(R.id.tilPrice);
         tilPassengers = findViewById(R.id.tilPassengers);
         tilSize = findViewById(R.id.tilSizeType);
         tilDescription = findViewById(R.id.tilDescription);
@@ -302,6 +301,12 @@ public class AddOwnCarActivity extends AppCompatActivity {
                                     etDescription.setText("");
                                     acModel.setText("");
                                     etPrice.setText("");
+                                    acMake.setText("");
+                                    etYear.setText("");
+                                    etPassengers.setText("");
+                                    etSizeType.setText("");
+                                    etDescription.setText("");
+                                    etAddress.setText("");
                                     // set to empty image
                                     ivPreview.setImageResource(0);
                                 }

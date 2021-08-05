@@ -57,8 +57,8 @@ public class EditCarActivity extends AppCompatActivity {
     ImageView ivEditPreview;
     TextView tvEditClose;
     Car car;
-    TextInputLayout tilPrice, tilCarMake, tilCarModel, tilCarYear, tilCarPrice,
-                    tilPassengers, tilSize, tilDescription, tilAddress;;
+    TextInputLayout tilPrice, tilCarMake, tilCarModel, tilCarYear, tilPassengers, tilSize,
+            tilDescription, tilAddress;;
     HashMap<String, String> hmModelMake;
     HashMap<String, ArrayList> hmMakeModels;
     FormClient formClient = new FormClient();
@@ -173,7 +173,6 @@ public class EditCarActivity extends AppCompatActivity {
         tilCarMake = findViewById(R.id.tilCarMake);
         tilCarModel = findViewById(R.id.tilCarModel);
         tilCarYear = findViewById(R.id.tilCarYear);
-        tilCarPrice = findViewById(R.id.tilPrice);
         tilPassengers = findViewById(R.id.tilPassengers);
         tilSize = findViewById(R.id.tilSizeType);
         tilDescription = findViewById(R.id.tilDescription);
