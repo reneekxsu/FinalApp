@@ -7,12 +7,6 @@
         android:title="Filter"
         app:showAsAction="always"
         android:orderInCategory="2"/>
-<!--    <item-->
-<!--        android:id="@+id/spinner"-->
-<!--        android:title="ActionBar Spinner"-->
-<!--        app:actionViewClass="android.widget.Spinner"-->
-<!--        android:background="#ff00"-->
-<!--        app:showAsAction="always" />-->
     <item
         android:id="@+id/action_map"
         android:icon="@android:drawable/ic_dialog_map"

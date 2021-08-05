@@ -89,23 +89,23 @@ public class AccountDetailsFragment extends Fragment {
 
         queryClient.fetchUserDetails(currentUser, new GetCallback<ParseUser>(){
             @Override
-            public void done(ParseUser object, ParseException e) {
+            public void done(ParseUser user, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Could not get user");
                 } else {
-                    email = currentUser.getEmail();
-                    Log.i(TAG, "user id: " + currentUser.getObjectId());
-                    Log.i(TAG, "user email: " + currentUser.getEmail());
-                    username = currentUser.getUsername();
-                    address = currentUser.getString("address");
+                    email = user.getEmail();
+                    Log.i(TAG, "user id: " + user.getObjectId());
+                    Log.i(TAG, "user email: " + user.getEmail());
+                    username = user.getUsername();
+                    address = user.getString("address");
                     etName.setText(username);
                     etEmail.setText(email);
                     etAddress.setText(address);
                     if (getActivity() != null) {
                         loadImage();
                     }
-                    int carCount = (int)currentUser.getNumber("carOwnedCount");
-                    int rentCount = (int)currentUser.getNumber("carsBooked");
+                    int carCount = (int)user.getNumber("carOwnedCount");
+                    int rentCount = (int)user.getNumber("carsBooked");
                     if (carCount == 1){
                         tvCarsLabel.setText("Car Owned");
                     }
