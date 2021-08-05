@@ -33,6 +33,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -261,12 +262,15 @@ public class CarMapActivity extends AppCompatActivity {
             if (flag){
                 latLng = new LatLng(gp.getLatitude(), gp.getLongitude());
             } else {
-                latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+                latLng = new LatLng(mCurrentLocation.getLatitude(),
+                        mCurrentLocation.getLongitude());
             }
-            LatLng latLngCurrent = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+            LatLng latLngCurrent = new LatLng(mCurrentLocation.getLatitude(),
+                    mCurrentLocation.getLongitude());
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
             map.moveCamera(cameraUpdate);
-            MarkerOptions options = new MarkerOptions().position(latLngCurrent).title("You are here");
+            MarkerOptions options = new MarkerOptions().position(latLngCurrent)
+                    .title("You are here");
             map.addMarker(options);
             for (Car car : allCars){
                 Log.i(TAG, "car in allCars: " + car.getMake());
@@ -277,7 +281,10 @@ public class CarMapActivity extends AppCompatActivity {
                 LatLng carLatLng = new LatLng(lat, lng);
                 MarkerCarCountHolder lookup = markerLookup.get(carLatLng);
                 if (lookup == null){
-                    MarkerOptions markerOption = new MarkerOptions().position(carLatLng).title("1 car found").snippet(car.getAddress());
+                    MarkerOptions markerOption = new MarkerOptions().position(carLatLng)
+                            .title("1 car found").snippet(car.getAddress())
+                            .icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                     Marker marker = map.addMarker(markerOption);
                     markerLookup.put(carLatLng, new MarkerCarCountHolder(marker, 1));
                 } else {
