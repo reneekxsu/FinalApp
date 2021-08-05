@@ -50,7 +50,7 @@ public class EditCarActivity extends AppCompatActivity {
 
     public static final String TAG = "EditCarActivity";
 
-    EditText etEditName, etEditYear,etEditPassengers, etEditSizeType,
+    EditText etEditYear,etEditPassengers, etEditSizeType,
             etEditAddress, etEditDescription, etEditRate;
     Button btnEditSave, btnEditCamera;
     ImageView ivEditPreview;
@@ -95,8 +95,6 @@ public class EditCarActivity extends AppCompatActivity {
         ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.select_dialog_singlechoice,
                 allModels);
-
-        etEditName = findViewById(R.id.etCarName);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, makes);
         //Find TextView control
@@ -173,7 +171,6 @@ public class EditCarActivity extends AppCompatActivity {
 
         car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();
 
-        etEditName.setText(car.getName());
         acMake.setText(car.getMake());
         acModel.setText(car.getModel());
         etEditYear.setText(car.getYear());
@@ -183,13 +180,6 @@ public class EditCarActivity extends AppCompatActivity {
         etEditDescription.setText(car.getDescription());
         etEditAddress.setText(car.getAddress());
 
-        etEditName.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                etEditName.setText("");
-                return true;
-            }
-        });
         acMake.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -267,7 +257,6 @@ public class EditCarActivity extends AppCompatActivity {
         btnEditSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = etEditName.getText().toString();
                 String make = acMake.getText().toString();
                 String model = acModel.getText().toString();
                 String year = etEditYear.getText().toString();
@@ -301,7 +290,7 @@ public class EditCarActivity extends AppCompatActivity {
                         Toast.makeText(EditCarActivity.this, "No image", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    editCar(name, make, model, year, price, passengerCount, sizeType, description,
+                    editCar(make, model, year, price, passengerCount, sizeType, description,
                             address, photoFile);
                 }
             }
@@ -339,7 +328,7 @@ public class EditCarActivity extends AppCompatActivity {
 
     }
 
-    private void editCar(String name, String make, String model, String year, String rate,
+    private void editCar(String make, String model, String year, String rate,
                          String passengers, String sizeType, String description, String address,
                          File photoFile) {
         Log.i(TAG, "Car was saved to backend");
@@ -351,7 +340,7 @@ public class EditCarActivity extends AppCompatActivity {
             public void consumeAddress(ParseGeoPoint geoPoint) {
                 ParseGeoPoint gp = geoPoint;
                 queryClient.saveCarFields(car, description, ParseUser.getCurrentUser(), image,
-                        rate, model, name, make, year, passengers, sizeType, address, gp, null, false);
+                        rate, model, make, year, passengers, sizeType, address, gp, null, false);
                 Toast.makeText(EditCarActivity.this, "Edits to car were saved", Toast.LENGTH_SHORT).show();
             }
         });

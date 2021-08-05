@@ -15,7 +15,6 @@ public class Car extends ParseObject {
     public static final String KEY_IMAGE = "image";
     public static final String KEY_RATE = "rate";
     public static final String KEY_MODEL = "model";
-    public static final String KEY_NAME = "name";
     public static final String KEY_MAKE = "make";
     public static final String KEY_YEAR = "year";
     public static final String KEY_PASSENGERS = "passengers";
@@ -68,15 +67,6 @@ public class Car extends ParseObject {
 
     public void setModel(String model) {
         put(KEY_MODEL, model);
-    }
-
-    // name getter and setter
-    public String getName() {
-        return getString(KEY_NAME);
-    }
-
-    public void setName(String name) {
-        put(KEY_NAME, name);
     }
 
     // make getter and setter

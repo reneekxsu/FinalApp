@@ -33,6 +33,7 @@ import com.example.wheeldeal.utils.GeocoderClient;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
@@ -46,12 +47,12 @@ public class AddOwnCarActivity extends AppCompatActivity {
 
     public static final String TAG = "RegisterCarActivity";
 
-    private TextInputEditText etName, etYear, etPrice, etPassengers, etSizeType,
+    private TextInputEditText etYear, etPrice, etPassengers, etSizeType,
             etDescription, etAddress;
     private Button btnCamera, btnRegister;
     private ImageView ivPreview;
     private TextView tvClose;
-    String name, make, model, year, price, passengerCount, sizeType, description, address;
+    String make, model, year, price, passengerCount, sizeType, description, address;
     private TextInputLayout tilPrice, tilCarMake;
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
@@ -87,7 +88,6 @@ public class AddOwnCarActivity extends AppCompatActivity {
                 android.R.layout.select_dialog_singlechoice,
                 allModels);
 
-        etName = findViewById(R.id.etCarName);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, makes);
         //Find TextView control
         acMake = (AppCompatAutoCompleteTextView) findViewById(R.id.etCarMake);
@@ -192,7 +192,6 @@ public class AddOwnCarActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                name = etName.getText().toString();
                 make = acMake.getText().toString();
                 model = acModel.getText().toString();
                 year = etYear.getText().toString();
@@ -211,7 +210,7 @@ public class AddOwnCarActivity extends AppCompatActivity {
                     }
                 }
 
-                if (formClient.isEntryEmpty(name, make, model, year, price, passengerCount, sizeType, description, address)){
+                if (formClient.isEntryEmpty(make, model, year, price, passengerCount, sizeType, description, address)){
                     Toast.makeText(AddOwnCarActivity.this, "All fields must be filled", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
@@ -220,7 +219,7 @@ public class AddOwnCarActivity extends AppCompatActivity {
                         Toast.makeText(AddOwnCarActivity.this, "No image", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    saveCar(description, currentUser, photoFile, price, model, name, make, year, passengerCount,
+                    saveCar(description, currentUser, photoFile, price, model, make, year, passengerCount,
                             sizeType, address);
                 }
             }
@@ -238,12 +237,12 @@ public class AddOwnCarActivity extends AppCompatActivity {
     }
 
     private void saveCar(String description, ParseUser currentUser, File photoFile, String rate, String model,
-                         String name, String make, String year, String passengers, String size, String address) {
+                         String make, String year, String passengers, String size, String address) {
         geocoderClient.lookupAddress(address, new GeocoderClient.GeocoderResponseHandler() {
             @Override
             public void consumeAddress(ParseGeoPoint geoPoint) {
                 ParseGeoPoint gp = geoPoint;
-                queryClient.saveCar(description, currentUser, photoFile, rate, model, name, make, year,
+                queryClient.saveCar(description, currentUser, photoFile, rate, model, make, year,
                         passengers, size, address, gp, new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
@@ -262,6 +261,15 @@ public class AddOwnCarActivity extends AppCompatActivity {
                                 }
                             }
                         }, true);
+                ParseUser current = ParseUser.getCurrentUser();
+                queryClient.fetchUserDetails(current, new GetCallback<ParseUser>() {
+                    @Override
+                    public void done(ParseUser user, ParseException e) {
+                        int numCars = (int)user.get("carOwnedCount");
+                        user.put("carOwnedCount", numCars + 1);
+                        user.saveInBackground();
+                    }
+                });
             }
         });
     }

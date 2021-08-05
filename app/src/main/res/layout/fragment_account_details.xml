@@ -93,24 +93,23 @@
                     android:padding="5dp">
 
                     <TextView
-                        android:id="@+id/cars_label"
+                        android:id="@+id/cars_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
                         android:includeFontPadding="false"
-                        android:text="5"
-                        android:textSize="20sp"></TextView>
+                        android:textSize="20sp"
+                        tools:text="5"></TextView>
 
                     <TextView
-                        android:id="@+id/cars_number"
+                        android:id="@+id/cars_owned"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/cars_label"
+                        android:layout_below="@+id/cars_number"
                         android:layout_centerInParent="true"
-                        android:layout_centerHorizontal="true"
                         android:includeFontPadding="false"
-                        android:text="Cars"
+                        android:text="Cars Owned"
                         android:textSize="14sp"></TextView>
 
                 </RelativeLayout>
@@ -132,7 +131,7 @@
                     android:padding="5dp">
 
                     <TextView
-                        android:id="@+id/booking_label"
+                        android:id="@+id/bookings_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -142,10 +141,10 @@
                         android:textSize="20sp"></TextView>
 
                     <TextView
-                        android:id="@+id/booking_description"
+                        android:id="@+id/bookings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/booking_label"
+                        android:layout_below="@+id/bookings_number"
                         android:layout_centerInParent="true"
                         android:layout_centerHorizontal="true"
                         android:includeFontPadding="false"
@@ -171,21 +170,21 @@
                     android:padding="5dp">
 
                     <TextView
-                        android:id="@+id/rental_label"
+                        android:id="@+id/rental_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="false"
                         android:layout_marginTop="10dp"
                         android:includeFontPadding="false"
-                        android:text="12"
-                        android:textSize="20sp"></TextView>
+                        android:textSize="20sp"
+                        tools:text="12"></TextView>
 
                     <TextView
-                        android:id="@+id/rental_description"
+                        android:id="@+id/rentals"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/rental_label"
+                        android:layout_below="@+id/rental_number"
                         android:layout_centerInParent="true"
                         android:layout_centerHorizontal="true"
                         android:includeFontPadding="false"

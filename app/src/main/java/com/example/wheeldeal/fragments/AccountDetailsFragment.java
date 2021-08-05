@@ -32,7 +32,7 @@ public class AccountDetailsFragment extends Fragment {
     ParseUser currentUser;
     String email, username, address;
     TextInputEditText etName, etEmail, etAddress;
-    TextView tvName;
+    TextView tvName, tvCarsNumber, tvRentalNumber, tvCarsLabel, tvRentalLabel;
     Button btnUpdate, btnAddProfileImage, btnSaveProfileImage;
     ParseFile image;
     ImageView ivProfileImage;
@@ -62,8 +62,10 @@ public class AccountDetailsFragment extends Fragment {
         btnSaveProfileImage = view.findViewById(R.id.btnSaveProfileImage);
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
         linlayUserStats = view.findViewById(R.id.linlayUserStats);
-
-        linlayUserStats.setVisibility(View.GONE);
+        tvCarsNumber = view.findViewById(R.id.cars_number);
+        tvRentalNumber = view.findViewById(R.id.rental_number);
+        tvCarsLabel = view.findViewById(R.id.cars_owned);
+        tvRentalLabel = view.findViewById(R.id.rentals);
 
         fetchUserDetails();
         btnUpdate.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +104,16 @@ public class AccountDetailsFragment extends Fragment {
                     if (getActivity() != null) {
                         loadImage();
                     }
+                    int carCount = (int)currentUser.getNumber("carOwnedCount");
+                    int rentCount = (int)currentUser.getNumber("carsBooked");
+                    if (carCount == 1){
+                        tvCarsLabel.setText("Car Owned");
+                    }
+                    if (rentCount == 1){
+                        tvRentalLabel.setText("Rental");
+                    }
+                    tvCarsNumber.setText(Integer.toString(carCount));
+                    tvRentalNumber.setText(Integer.toString(rentCount));
                 }
             }
         });

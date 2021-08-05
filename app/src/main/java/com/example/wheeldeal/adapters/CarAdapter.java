@@ -60,13 +60,11 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
     }
 
     class Viewholder extends RecyclerView.ViewHolder{
-        private TextView tvCarName;
         private TextView tvCarRate;
         private ImageView ivCarImage;
         private TextView tvCarMakeModelYear, tvNumSeats, tvAddress;
         public Viewholder(@NonNull @NotNull View itemView) {
             super(itemView);
-            tvCarName = itemView.findViewById(R.id.tvCarListingName);
             tvCarRate = itemView.findViewById(R.id.tvCarRate);
             ivCarImage = itemView.findViewById(R.id.ivCarImage);
             tvCarMakeModelYear = itemView.findViewById(R.id.tvMakeModelYear);
@@ -106,13 +104,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.Viewholder> {
                         .into(ivCarImage);
             } else {
                 ivCarImage.setVisibility(View.GONE);
-            }
-            String name = car.getName();
-            if (name != null && !name.equals("")){
-                tvCarName.setVisibility(View.VISIBLE);
-                tvCarName.setText(car.getName());
-            } else {
-                tvCarName.setVisibility(View.GONE);
             }
             tvCarMakeModelYear.setText(car.getMake() + " " + car.getModel() + " " + car.getYear());
             tvNumSeats.setText("Seats " + car.getPassengers() + " passengers");

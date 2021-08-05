@@ -26,17 +26,6 @@
             android:foreground="?android:attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/tvCarListingName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="0dp"
-                android:layout_toEndOf="@+id/ivCarImage"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                tools:text="Amazing car" />
-
-            <TextView
                 android:id="@+id/tvCarRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,13 +51,13 @@
                 android:id="@+id/tvMakeModelYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvCarListingName"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/ivCarImage"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                tools:text="Make Model Year"
-                android:transitionName="makemodelyear"/>
+                android:transitionName="makemodelyear"
+                tools:text="Make Model Year" />
 
             <TextView
                 android:id="@+id/tvNumSeats"

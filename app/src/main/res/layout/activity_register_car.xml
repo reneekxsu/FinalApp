@@ -33,20 +33,6 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                app:errorEnabled="true"
-                android:hint="Name">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCarName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="0dp"
-                    tools:text="This listing is..."></com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:hint="Make"
                 android:layout_marginBottom="10dp"
                 app:errorEnabled="true"

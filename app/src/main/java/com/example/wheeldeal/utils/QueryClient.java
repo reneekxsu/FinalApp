@@ -5,7 +5,6 @@ import android.util.Log;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.CarScore;
 import com.example.wheeldeal.models.Event;
-import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
@@ -196,23 +195,22 @@ public class QueryClient {
     }
 
     public void saveCar(String description, ParseUser currentUser, File photoFile, String rate,
-                        String model, String name, String make, String year, String passengers,
+                        String model, String make, String year, String passengers,
                         String size, String address, ParseGeoPoint gp, SaveCallback callback, boolean newCar) {
         Log.i(TAG, "saving car");
         Car car = new Car();
-        saveCarFields(car, description, currentUser, new ParseFile(photoFile), rate, model, name, make, year,
+        saveCarFields(car, description, currentUser, new ParseFile(photoFile), rate, model, make, year,
                 passengers, size, address, gp, callback, newCar);
     }
 
     public void saveCarFields(Car car, String description, ParseUser currentUser, ParseFile image, String rate,
-                              String model, String name, String make, String year, String passengers,
+                              String model, String make, String year, String passengers,
                               String size, String address, ParseGeoPoint gp, SaveCallback callback, boolean newCar){
         car.setDescription(description);
         car.setOwner(currentUser);
         car.setImage(image);
         car.setRate(Integer.parseInt(rate));
         car.setModel(model);
-        car.setName(name);
         car.setMake(make);
         car.setYear(year);
         car.setPassengers(passengers);
@@ -245,9 +243,6 @@ public class QueryClient {
         int rentType = 0;
         if (userIsCustomer){
             rentType = 1;
-//            ParseUser current = ParseUser.getCurrentUser();
-//            current.get("carsBooked")
-//            current.put("carsBooked", )
         }
         event.setRentType(rentType);
         event.saveInBackground(callback);
@@ -255,20 +250,6 @@ public class QueryClient {
             car.setEventCount((int)car.getEventCount() + 1);
         }
         car.saveInBackground();
-    }
-
-
-    public void deleteAssociatedEvents(Car car, List<Event> allEvents){
-        for (Event event : allEvents){
-            event.deleteInBackground();
-            if (car.getOwner().getObjectId() != ParseUser.getCurrentUser().getObjectId()){
-                car.setEventCount((int)car.getEventCount() - 1);
-            }
-        }
-    }
-
-    public void deleteCar(Car car, DeleteCallback callback){
-        car.deleteInBackground(callback);
     }
 
     public void fetchUserDetails(ParseUser user, GetCallback callback){
@@ -286,6 +267,7 @@ public class QueryClient {
         user.setPassword(password);
         user.put("avgScore", 0.0);
         user.put("carsBooked", 0);
+        user.put("CarOwnedCount", 0);
         // Try to sign user up
         user.signUpInBackground(callback);
     }
