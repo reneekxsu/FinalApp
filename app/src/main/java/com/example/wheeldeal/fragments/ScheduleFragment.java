@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -27,9 +26,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
-import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 public class ScheduleFragment extends Fragment {
 
@@ -99,15 +95,7 @@ public class ScheduleFragment extends Fragment {
         allEvents = new ArrayList<>();
         adapter = new EventAdapter(view.getContext(), allEvents);
         rvEvents.setAdapter(adapter);
-        AlphaInAnimationAdapter alphaInAnimationAdapter = new AlphaInAnimationAdapter(adapter);
-        alphaInAnimationAdapter.setDuration(1000);
-        alphaInAnimationAdapter.setInterpolator(new OvershootInterpolator());
-        alphaInAnimationAdapter.setFirstOnly(true);
-        ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(alphaInAnimationAdapter);
-        scaleInAnimationAdapter.setFirstOnly(false);
-        rvEvents.setAdapter(scaleInAnimationAdapter);
         rvEvents.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
         Log.i(TAG, "querying all events");
         pb.setVisibility(View.GONE);
         if (mPage == 0){

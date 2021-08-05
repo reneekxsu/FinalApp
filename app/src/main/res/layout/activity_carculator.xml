@@ -46,31 +46,35 @@
                     style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox">
                 </androidx.appcompat.widget.AppCompatAutoCompleteTextView>
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCarModel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="Model"
                 app:errorEnabled="true">
+
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/etCarculatorModel"
+                    style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/etCarculatorModel"
                     android:drawablePadding="0dp"
-                    tools:text="Toyota"
-                    style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox">
-                </androidx.appcompat.widget.AppCompatAutoCompleteTextView>
+                    tools:text="Toyota"></androidx.appcompat.widget.AppCompatAutoCompleteTextView>
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/etCarculatorModel"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:drawablePadding="0dp"-->
-<!--                    tools:text="Camry">-->
+                <!--                <com.google.android.material.textfield.TextInputEditText-->
+                <!--                    android:id="@+id/etCarculatorModel"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:drawablePadding="0dp"-->
+                <!--                    tools:text="Camry">-->
 
-<!--                </com.google.android.material.textfield.TextInputEditText>-->
+                <!--                </com.google.android.material.textfield.TextInputEditText>-->
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCarYear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -86,7 +90,9 @@
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPassengers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"

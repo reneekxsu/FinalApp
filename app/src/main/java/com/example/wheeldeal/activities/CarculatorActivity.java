@@ -39,7 +39,7 @@ public class CarculatorActivity extends AppCompatActivity {
     QueryClient queryClient;
     String myMake, myModel, myYear, myPassengers;
     TextInputEditText etCarYear,etCarPassengers;
-    TextInputLayout tilCarMake;
+    TextInputLayout tilCarMake, tilCarModel, tilCarYear, tilPassengers;
     TextView tvCalculatedPrice, tvClose;
     Button btnCalculate;
     Car car = null;
@@ -148,6 +148,9 @@ public class CarculatorActivity extends AppCompatActivity {
         btnCalculate = findViewById(R.id.btnCalculate);
         tvCalculatedPrice = findViewById(R.id.tvCalculatedPrice);
         tilCarMake = findViewById(R.id.tilCarMake);
+        tilCarModel = findViewById(R.id.tilCarModel);
+        tilCarYear = findViewById(R.id.tilCarYear);
+        tilPassengers = findViewById(R.id.tilPassengers);
         tvClose = findViewById(R.id.tvCarculatorClose);
 
         tvClose.setOnClickListener(new View.OnClickListener() {
@@ -184,13 +187,29 @@ public class CarculatorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String make = acMake.getText().toString();
+                boolean isError = false;
                 if (myEnteredMake[0] == null){
                     // text was inputted rather than selected from autocomplete, must search array
                     int res = bs.binarySearch(makes, make);
                     if (res == -1){
                         tilCarMake.setError("Please select valid car make");
-                        return;
+                        isError = true;
                     }
+                }
+                if (acModel.getText().toString().isEmpty()){
+                    tilCarModel.setError("Please select valid car model");
+                    isError = true;
+                }
+                if (etCarYear.getText().toString().isEmpty()){
+                    tilCarYear.setError("Please choose valid year");
+                    isError = true;
+                }
+                if (etCarPassengers.getText().toString().isEmpty()){
+                    tilPassengers.setError("Please specify number of passengers");
+                    isError = true;
+                }
+                if (isError){
+                    return;
                 }
                 carculatorClient.updateMake(acMake.getText().toString());
                 carculatorClient.updateYear(etCarYear.getText().toString());
