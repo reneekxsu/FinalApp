@@ -97,7 +97,8 @@ public class ViewMyCarsFragment extends Fragment {
             public void onClick(View v) {
                 Log.i("FeedActivity", "clicked post button");
                 Intent i = new Intent(view.getContext(), AddOwnCarActivity.class);
-                startActivityForResult(i, 20);
+                startActivity(i);
+                getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.no_change);
             }
         });
         // query cars

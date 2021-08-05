@@ -274,9 +274,7 @@ public class AddOwnCarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "Close button clicked");
-                Intent i = new Intent();
-                setResult(20, i);
-                finish();
+                onBackPressed();
             }
         });
     }
@@ -361,5 +359,11 @@ public class AddOwnCarActivity extends AppCompatActivity {
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(0, R.anim.slide_out_down);
     }
 }
