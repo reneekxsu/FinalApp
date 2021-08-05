@@ -25,7 +25,6 @@ import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
-import com.example.wheeldeal.MainActivity;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.BitmapScaler;
 import com.example.wheeldeal.models.Car;
@@ -330,7 +329,6 @@ public class EditCarActivity extends AppCompatActivity {
                     if (isError){
                         return;
                     }
-                    ParseUser currentUser = ParseUser.getCurrentUser();
                     if ((image == null) && (photoFile == null || ivEditPreview.getDrawable() == null)){
                         Toast.makeText(EditCarActivity.this, "No image", Toast.LENGTH_SHORT).show();
                         return;
@@ -345,10 +343,7 @@ public class EditCarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "Close button clicked");
-                Intent i = new Intent(EditCarActivity.this, MainActivity.class);
-                startActivity(i);
-                overridePendingTransition(0, R.anim.slide_out_down);
-                finish();
+                onBackPressed();
             }
         });
 

@@ -53,6 +53,7 @@ public class LoadingFragment extends Fragment {
                 intent.putExtra("passengers", "");
                 intent.putExtra("carFlag", false);
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.no_change);
             }
         });
     }

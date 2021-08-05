@@ -383,6 +383,7 @@ public class HomeFragment extends Fragment {
                     intent.putExtra("locationFlag", false);
                 }
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
                 break;
             case R.id.action_filter:
                 openDialog();
