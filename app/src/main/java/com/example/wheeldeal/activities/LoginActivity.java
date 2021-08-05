@@ -52,10 +52,20 @@ public class LoginActivity extends AppCompatActivity {
         // Set activity instance
         instance = this;
 
+        Intent intent = getIntent();
+        boolean fromSignup = false;
+        if (intent.getExtras() != null){
+            fromSignup = intent.getExtras().getBoolean("flag");
+        }
+
         // Check if user is already logged in
         if (ParseUser.getCurrentUser()!=null){
             // Since user is already logged in, set fromLogin to false, and go to MainActivity
-            goMainActivity(false);
+            if (!fromSignup){
+                goMainActivity(false);
+            } else {
+                goMainActivity(true);
+            }
         }
 
         // Initialize layout/view variables
@@ -153,6 +163,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
         // Go to signup activity
         startActivity(i);
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
         // Finish is not called such that user can go back to login if sign up not complete
     }
 

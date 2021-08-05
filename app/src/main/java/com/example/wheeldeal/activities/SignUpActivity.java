@@ -103,6 +103,7 @@ public class SignUpActivity extends AppCompatActivity {
     private void goLoginActivity() {
         // We launch the LoginActivity
         Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
+        i.putExtra("flag", true);
         startActivity(i);
         // If signup is complete, allows back button not to lead to LoginActivity, so we finish
         // LoginActivity
@@ -118,5 +119,12 @@ public class SignUpActivity extends AppCompatActivity {
         }
         // Allows back button not to lead us back to SignUpActivity
         finish();
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
 }

@@ -267,7 +267,7 @@ public class QueryClient {
         user.setPassword(password);
         user.put("avgScore", 0.0);
         user.put("carsBooked", 0);
-        user.put("CarOwnedCount", 0);
+        user.put("carOwnedCount", 0);
         // Try to sign user up
         user.signUpInBackground(callback);
     }
