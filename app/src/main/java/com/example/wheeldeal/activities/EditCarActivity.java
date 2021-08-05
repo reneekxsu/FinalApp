@@ -33,6 +33,7 @@ import com.example.wheeldeal.models.ParcelableCar;
 import com.example.wheeldeal.models.ParseApplication;
 import com.example.wheeldeal.utils.BinarySearchClient;
 import com.example.wheeldeal.utils.CameraClient;
+import com.example.wheeldeal.utils.FormClient;
 import com.example.wheeldeal.utils.GeocoderClient;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.textfield.TextInputLayout;
@@ -56,9 +57,11 @@ public class EditCarActivity extends AppCompatActivity {
     ImageView ivEditPreview;
     TextView tvEditClose;
     Car car;
-    TextInputLayout tilPrice, tilCarMake;
+    TextInputLayout tilPrice, tilCarMake, tilCarModel, tilCarYear, tilCarPrice,
+                    tilPassengers, tilSize, tilDescription, tilAddress;;
     HashMap<String, String> hmModelMake;
     HashMap<String, ArrayList> hmMakeModels;
+    FormClient formClient = new FormClient();
 
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
@@ -168,6 +171,13 @@ public class EditCarActivity extends AppCompatActivity {
         tvEditClose = findViewById(R.id.tvClose);
         tilPrice = findViewById(R.id.tilPrice);
         tilCarMake = findViewById(R.id.tilCarMake);
+        tilCarModel = findViewById(R.id.tilCarModel);
+        tilCarYear = findViewById(R.id.tilCarYear);
+        tilCarPrice = findViewById(R.id.tilPrice);
+        tilPassengers = findViewById(R.id.tilPassengers);
+        tilSize = findViewById(R.id.tilSizeType);
+        tilDescription = findViewById(R.id.tilDescription);
+        tilAddress = findViewById(R.id.tilAddress);
 
         car = ((ParcelableCar) Parcels.unwrap(getIntent().getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();
 
@@ -266,25 +276,61 @@ public class EditCarActivity extends AppCompatActivity {
                 String description = etEditDescription.getText().toString();
                 String address = etEditAddress.getText().toString();
 
+                boolean isError = false;
+
                 if (myMake[0] == null){
                     // text was inputted rather than selected from autocomplete, must search array
                     int res = bs.binarySearch(makes, make);
                     if (res == -1){
                         tilCarMake.setError("Please select valid car make");
-                        return;
+                        isError = true;
                     }
                 }
 
+                if (model.isEmpty()){
+                    tilCarModel.setError("Please select valid car model");
+                    isError = true;
+                }
+
+                if(year.isEmpty()){
+                    tilCarYear.setError("Please enter a valid year");
+                    isError = true;
+                }
+
+                if (price.isEmpty()){
+                    tilPrice.setError("Please enter a valid price");
+                    isError = true;
+                }
+
+                if (passengerCount.isEmpty()){
+                    tilPassengers.setError("Please indicate number of passengers");
+                    isError = true;
+                }
+
+                if (sizeType.isEmpty()){
+                    tilSize.setError("Please specify a size");
+                    isError = true;
+                }
 
                 if (description.isEmpty()){
-                    Toast.makeText(EditCarActivity.this, "Description cannot be empty", Toast.LENGTH_SHORT).show();
+                    tilDescription.setError("Please write a description");
+                    isError = true;
+                }
+
+                if (address.isEmpty()){
+                    tilAddress.setError("Please specify an address");
+                    isError = true;
+                }
+
+
+                if (formClient.isEntryEmpty(make, model, year, price, passengerCount, sizeType, description, address)){
+                    Toast.makeText(EditCarActivity.this, "All fields must be filled", Toast.LENGTH_SHORT).show();
                     return;
-                } else if (price.isEmpty()){
-                    Toast.makeText(EditCarActivity.this, "Rate cannot be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (model.isEmpty()){
-                    Toast.makeText(EditCarActivity.this, "Model name cannot be empty", Toast.LENGTH_SHORT).show();
+
                 } else {
+                    if (isError){
+                        return;
+                    }
                     ParseUser currentUser = ParseUser.getCurrentUser();
                     if ((image == null) && (photoFile == null || ivEditPreview.getDrawable() == null)){
                         Toast.makeText(EditCarActivity.this, "No image", Toast.LENGTH_SHORT).show();
