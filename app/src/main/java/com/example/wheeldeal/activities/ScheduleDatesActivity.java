@@ -149,25 +149,29 @@ public class ScheduleDatesActivity extends AppCompatActivity {
 
     private void saveEvent(Date start, Date end){
         ParseUser current = ParseUser.getCurrentUser();
-        queryClient.fetchUserDetails(current, new GetCallback<ParseUser>() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                int numBooked = (int)user.get("carsBooked");
-                double avgScore;
-                if ((int)user.get("avgScore") == 0){
-                    avgScore = (double) 0;
-                } else {
-                    avgScore = (double)user.get("avgScore");
+        if (userIsCustomer()){
+            queryClient.fetchUserDetails(current, new GetCallback<ParseUser>() {
+                @Override
+                public void done(ParseUser user, ParseException e) {
+                    int numBooked = (int)user.get("carsBooked");
+                    double avgScore;
+                    if ((double)user.get("avgScore") == 0){
+                        avgScore = (double) 0;
+                    } else {
+                        avgScore = (double)user.get("avgScore");
+                    }
+                    double sum = avgScore * numBooked;
+                    Log.i(TAG, "carsbooked for user: " + numBooked);
+                    user.put("carsBooked", numBooked + 1);
+                    double newScore = (double)car.getScore();
+                    double newAvgScore = (sum + newScore) / (numBooked + 1);
+                    user.put("avgScore", newAvgScore);
+                    user.saveInBackground();
                 }
-                double sum = avgScore * numBooked;
-                Log.i(TAG, "carsbooked for user: " + numBooked);
-                user.put("carsBooked", numBooked + 1);
-                double newScore = (double)car.getScore();
-                double newAvgScore = (sum + newScore) / (numBooked + 1);
-                user.put("avgScore", newAvgScore);
-                user.saveInBackground();
-            }
-        });
+            });
+        }
+
+
         queryClient.saveEvent(start, end, car, userIsCustomer(), new SaveCallback() {
             @Override
             public void done(ParseException e) {

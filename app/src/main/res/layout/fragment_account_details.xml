@@ -131,45 +131,6 @@
                     android:padding="5dp">
 
                     <TextView
-                        android:id="@+id/bookings_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
-                        android:includeFontPadding="false"
-                        android:text="20"
-                        android:textSize="20sp"></TextView>
-
-                    <TextView
-                        android:id="@+id/bookings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/bookings_number"
-                        android:layout_centerInParent="true"
-                        android:layout_centerHorizontal="true"
-                        android:includeFontPadding="false"
-                        android:text="Bookings"
-                        android:textSize="14sp"></TextView>
-
-                </RelativeLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="70dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="#44AC2C"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="10dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="5dp">
-
-                    <TextView
                         android:id="@+id/rental_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
