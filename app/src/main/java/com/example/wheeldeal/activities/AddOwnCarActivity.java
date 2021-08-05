@@ -53,7 +53,8 @@ public class AddOwnCarActivity extends AppCompatActivity {
     private ImageView ivPreview;
     private TextView tvClose;
     String make, model, year, price, passengerCount, sizeType, description, address;
-    private TextInputLayout tilPrice, tilCarMake;
+    private TextInputLayout tilPrice, tilCarMake, tilCarModel, tilCarYear, tilCarPrice,
+            tilPassengers, tilSize, tilDescription, tilAddress;
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     public String photoFileName = "photo.jpg";
@@ -160,6 +161,13 @@ public class AddOwnCarActivity extends AppCompatActivity {
         tvClose = findViewById(R.id.tvClose);
         tilPrice = findViewById(R.id.tilPrice);
         tilCarMake = findViewById(R.id.tilCarMake);
+        tilCarModel = findViewById(R.id.tilCarModel);
+        tilCarYear = findViewById(R.id.tilCarYear);
+        tilCarPrice = findViewById(R.id.tilPrice);
+        tilPassengers = findViewById(R.id.tilPassengers);
+        tilSize = findViewById(R.id.tilSizeType);
+        tilDescription = findViewById(R.id.tilDescription);
+        tilAddress = findViewById(R.id.tilAddress);
 
         geocoderClient = new GeocoderClient(this);
         cameraClient = new CameraClient(this);
@@ -199,19 +207,59 @@ public class AddOwnCarActivity extends AppCompatActivity {
                 description = etDescription.getText().toString();
                 address = etAddress.getText().toString();
 
+                boolean isError = false;
+
                 if (myMake[0] == null){
                     // text was inputted rather than selected from autocomplete, must search array
                     int res = bs.binarySearch(makes, make);
                     if (res == -1){
                         tilCarMake.setError("Please select valid car make");
-                        return;
+                        isError = true;
                     }
+                }
+
+                if (model.isEmpty()){
+                    tilCarModel.setError("Please select valid car model");
+                    isError = true;
+                }
+
+                if(year.isEmpty()){
+                    tilCarYear.setError("Please enter a valid year");
+                    isError = true;
+                }
+
+                if (price.isEmpty()){
+                    tilPrice.setError("Please enter a valid price");
+                    isError = true;
+                }
+
+                if (passengerCount.isEmpty()){
+                    tilPassengers.setError("Please indicate number of passengers");
+                    isError = true;
+                }
+
+                if (sizeType.isEmpty()){
+                    tilSize.setError("Please specify a size");
+                    isError = true;
+                }
+
+                if (description.isEmpty()){
+                    tilDescription.setError("Please write a description");
+                    isError = true;
+                }
+
+                if (address.isEmpty()){
+                    tilAddress.setError("Please specify an address");
+                    isError = true;
                 }
 
                 if (formClient.isEntryEmpty(make, model, year, price, passengerCount, sizeType, description, address)){
                     Toast.makeText(AddOwnCarActivity.this, "All fields must be filled", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
+                    if (isError){
+                        return;
+                    }
                     ParseUser currentUser = ParseUser.getCurrentUser();
                     if (photoFile == null || ivPreview.getDrawable() == null){
                         Toast.makeText(AddOwnCarActivity.this, "No image", Toast.LENGTH_SHORT).show();
