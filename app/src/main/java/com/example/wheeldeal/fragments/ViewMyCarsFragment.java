@@ -90,7 +90,7 @@ public class ViewMyCarsFragment extends Fragment {
 
         fabAddCar = view.findViewById(R.id.fabAddCar);
         if (!((ParseApplication)getActivity().getApplication()).isDataReady){
-            fabAddCar.hide();
+            fabAddCar.setVisibility(View.INVISIBLE);
         }
         fabAddCar.setOnClickListener(new View.OnClickListener() {
             @Override

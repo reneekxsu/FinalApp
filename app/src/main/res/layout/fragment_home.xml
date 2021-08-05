@@ -58,10 +58,12 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center">
+
         <ProgressBar
+            android:id="@+id/pbLoading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/pbLoading" />
+            android:indeterminateTint="@color/colorPrimary"/>
     </LinearLayout>
 
 
