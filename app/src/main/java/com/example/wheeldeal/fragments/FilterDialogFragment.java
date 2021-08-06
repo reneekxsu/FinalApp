@@ -162,7 +162,6 @@ public class FilterDialogFragment extends DialogFragment{
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, height);
-            dialog.getWindow().setWindowAnimations(R.style.Slide);
         }
     }
 
