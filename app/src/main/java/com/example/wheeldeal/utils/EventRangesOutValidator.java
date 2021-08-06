@@ -1,11 +1,9 @@
-package com.example.wheeldeal.activities;
+package com.example.wheeldeal.utils;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.example.wheeldeal.models.DateRangeHolder;
-import com.example.wheeldeal.utils.DateClient;
 import com.google.android.material.datepicker.CalendarConstraints;
 
 import java.util.ArrayList;
@@ -19,7 +17,7 @@ public class EventRangesOutValidator implements CalendarConstraints.DateValidato
     public static final String TAG = "EventRangesOutValidator";
     DateClient dateClient;
 
-    EventRangesOutValidator(int year, int month, int dayOfWeek, ArrayList<DateRangeHolder> rangeHolders) {
+    public EventRangesOutValidator(int year, int month, int dayOfWeek, ArrayList<DateRangeHolder> rangeHolders) {
         mYear = year;
         mMonth = month;
         mDayOfWeek = dayOfWeek;
@@ -27,7 +25,7 @@ public class EventRangesOutValidator implements CalendarConstraints.DateValidato
         dateClient = new DateClient();
     }
 
-    EventRangesOutValidator(Parcel parcel) {
+    public EventRangesOutValidator(Parcel parcel) {
         mYear = parcel.readInt();
         mMonth = parcel.readInt();
         mDayOfWeek = parcel.readInt();
@@ -54,9 +52,6 @@ public class EventRangesOutValidator implements CalendarConstraints.DateValidato
             // check if start is in between eventStart and eventEnd
             if (isDateBefore(eventStartYear, eventStartMonth, eventStartDate, startYear, startMonth, startDate) <= 0
                     && isDateBefore(startYear, startMonth, startDate, eventEndYear, eventEndMonth, eventEndDate) <= 0){
-                Log.i(TAG, "eventStart: " + dateClient.formatDate(eventStartYear, eventStartMonth, eventStartDate));
-                Log.i(TAG, "eventEnd: " + dateClient.formatDate(eventEndYear, eventEndMonth, eventEndDate));
-                Log.i(TAG, "start: " + dateClient.formatDate(startYear, startMonth, startDate));
                 return false;
             }
         }

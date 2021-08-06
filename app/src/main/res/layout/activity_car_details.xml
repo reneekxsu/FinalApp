@@ -25,6 +25,7 @@
             android:layout_marginStart="29dp"
             android:layout_marginTop="30dp"
             android:text="Honda Odyssey 2007"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:transitionName="makemodelyear" />
 

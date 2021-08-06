@@ -18,6 +18,7 @@ import com.example.wheeldeal.models.DateRangeHolder;
 import com.example.wheeldeal.models.Event;
 import com.example.wheeldeal.models.ParcelableCar;
 import com.example.wheeldeal.utils.DateClient;
+import com.example.wheeldeal.utils.EventRangesOutValidator;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.CompositeDateValidator;
