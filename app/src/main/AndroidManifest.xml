@@ -29,7 +29,7 @@
         android:theme="@style/Theme.WheelDeal">
         <activity android:name=".activities.CarculatorActivity"></activity>
         <activity android:name=".oldclasses.GoogleMapsActivity" />
-        <activity android:name=".activities.ScheduleDatesActivity" />
+        <activity android:name=".oldclasses.ScheduleDatesActivity" />
         <activity android:name=".oldclasses.EventDetailsActivity" />
         <activity android:name=".oldclasses.ScheduleTimesActivity" />
         <activity android:name=".activities.SameAddressCarsActivity" />

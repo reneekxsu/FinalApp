@@ -1,4 +1,4 @@
-package com.example.wheeldeal.activities;
+package com.example.wheeldeal.oldclasses;
 
 import android.content.Intent;
 import android.os.Bundle;
