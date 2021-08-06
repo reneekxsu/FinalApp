@@ -51,7 +51,8 @@ public class CarDetailsActivity extends AppCompatActivity {
     public static final String TAG = "UserCarDetailsActivity";
 
     Car car;
-    TextView tvCarDetailName, tvDetailRate, tvDetailDescription, tvPredictedDetails;
+    TextView tvCarDetailName, tvDetailRate, tvDetailDescription, tvPredictedDetails, tvDetailSize,
+            tvDetailPassengers, tvDetailAddress;
     ImageView ivDetailCar;
     Context context;
     public static ImageButton ibtnEdit;
@@ -79,6 +80,9 @@ public class CarDetailsActivity extends AppCompatActivity {
         ibtnEdit = findViewById(R.id.ibtnEdit);
         ibtnEvent = findViewById(R.id.ibtnEvent);
         tvPredictedDetails = findViewById(R.id.tvPredictedDetails);
+        tvDetailSize = findViewById(R.id.tvDetailSize);
+        tvDetailPassengers = findViewById(R.id.tvDetailPassengers);
+        tvDetailAddress = findViewById(R.id.tvDetailAddress);
         context = this;
         queryClient = new QueryClient();
         rangeHolder = new ArrayList<>();
@@ -98,6 +102,9 @@ public class CarDetailsActivity extends AppCompatActivity {
         }
         tvDetailRate.setText("$" + car.getRate() + "/day");
         tvDetailDescription.setText(car.getDescription());
+        tvDetailSize.setText("Size: " + car.getSizeType());
+        tvDetailAddress.setText("Car address: " + car.getAddress());
+        tvDetailPassengers.setText("Seats " + car.getPassengers() + " passengers");
 
         if (userIsAuthor(car)){
             CarculatorClient carculatorClient = new CarculatorClient(car.getMake(), car.getYear(), car.getPassengers());

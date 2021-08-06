@@ -39,6 +39,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/lato"
+            android:textSize="17sp"
             android:textStyle="bold"
             android:transitionName="rate"
             tools:text="Rate" />
@@ -47,7 +48,7 @@
             android:id="@+id/tvDetailDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvPredictedDetails"
+            android:layout_below="@+id/tvDetailAddress"
             android:layout_alignParentStart="true"
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
@@ -102,8 +103,45 @@
             android:layout_marginTop="0dp"
             android:layout_marginEnd="5dp"
             android:layout_toStartOf="@+id/ibtnEvent"
+            android:fontFamily="sans-serif"
             android:textStyle="italic"
             tools:text="Your predicted monthly bookings is 5 days, and your predicted monthly earnings for this car is $500." />
+
+        <TextView
+            android:id="@+id/tvDetailSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvPredictedDetails"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/oxygen"
+            tools:text="Size: Minivan" />
+
+        <TextView
+            android:id="@+id/tvDetailPassengers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvDetailSize"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="29dp"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/oxygen"
+            tools:text="Seats 7 passengers" />
+
+        <TextView
+            android:id="@+id/tvDetailAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvDetailPassengers"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/oxygen"
+            tools:text="Car Address: 4030 Manzana Lane" />
 
     </RelativeLayout>
 </RelativeLayout>
