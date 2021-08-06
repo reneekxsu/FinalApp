@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Overview:
@@ -240,6 +241,10 @@ public class QueryClient {
         event.setRenter(ParseUser.getCurrentUser());
         event.setCar(car);
         event.setPrice(car.getRate().toString());
+        long diff = end.getTime() - start.getTime();
+        Log.i(TAG, "Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1);
+        int days = (int)TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+        event.setNumDays(days);
         int rentType = 0;
         if (userIsCustomer){
             rentType = 1;

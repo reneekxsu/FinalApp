@@ -6,74 +6,85 @@
     android:layout_height="wrap_content"
     tools:context="com.example.wheeldeal.activities.EventDetailsActivity">
 
-    <TextView
-        android:id="@+id/tvEventDetailStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="20dp"
-        tools:text="1/14/2021 1:00pm" />
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/tvEventDetailEnd"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_toEndOf="@+id/tvEventDetailStart"
-        tools:text=" to 1/16/2021 2:00pm" />
+        android:layout_marginTop="?attr/actionBarSize">
 
-    <TextView
-        android:id="@+id/tvEventDetailCarName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventDetailStart"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="20dp"
-        tools:text="Tesla Model S" />
+        <TextView
+            android:id="@+id/tvEventDetailStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="20dp"
+            tools:text="1/14/2021 1:00pm" />
 
-    <TextView
-        android:id="@+id/tvEventDetailRenter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventDetailCarName"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="20dp"
-        tools:text="Renter: renees" />
+        <TextView
+            android:id="@+id/tvEventDetailEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_toEndOf="@+id/tvEventDetailStart"
+            tools:text=" to 1/16/2021 2:00pm" />
 
-    <TextView
-        android:id="@+id/tvEventDetailCarOwner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventDetailRenter"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="20dp"
-        tools:text="Owner: mackey" />
+        <TextView
+            android:id="@+id/tvEventDetailCarName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEventDetailStart"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="20dp"
+            tools:text="Tesla Model S" />
 
-    <TextView
-        android:id="@+id/tvGetDirections"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvEventPrice"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Get Directions!"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvEventDetailRenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEventDetailCarName"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="20dp"
+            tools:text="Renter: renees" />
 
-    <TextView
-        android:id="@+id/tvEventPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventDetailCarOwner"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="20dp"
-        tools:text="$120/day" />
+        <TextView
+            android:id="@+id/tvEventDetailCarOwner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEventDetailRenter"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="20dp"
+            tools:text="Owner: mackey" />
+
+        <TextView
+            android:id="@+id/tvGetDirections"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvEventPrice"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Get Directions!"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvEventPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEventDetailCarOwner"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="20dp"
+            tools:text="$120/day" />
+    </RelativeLayout>
 </RelativeLayout>

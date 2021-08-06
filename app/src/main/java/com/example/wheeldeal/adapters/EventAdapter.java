@@ -62,6 +62,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
         private TextView tvRenter;
         private TextView tvCarOwner;
         private TextView tvAddress;
+        private TextView tvPrice;
         public Viewholder(@NonNull @NotNull View itemView) {
             super(itemView);
             tvStart = itemView.findViewById(R.id.tvStart);
@@ -72,6 +73,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
             tvRenter = itemView.findViewById(R.id.tvRenter);
             tvCarOwner = itemView.findViewById(R.id.tvCarOwner);
             tvAddress = itemView.findViewById(R.id.tvPickUpAddress);
+            tvPrice = itemView.findViewById(R.id.tvTotalPrice);
             // onclicklistener
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -94,6 +96,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
             tvEventCarMake.setText(event.getCar().getMake());
             tvEventCarModel.setText(" " + event.getCar().getModel());
             tvEventCarYear.setText(" " + event.getCar().getYear());
+            tvPrice.setText("$" + Integer.toString((int)event.getNumDays() * (int)Integer.parseInt(event.getPrice())));
+
             if (event.getRentType() == (Integer) 1){
                 // user is renter, not owner
                 tvRenter.setVisibility(View.VISIBLE);

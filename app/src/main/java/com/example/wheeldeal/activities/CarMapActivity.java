@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -120,7 +119,7 @@ public class CarMapActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "Error - Map Fragment was null!!");
         }
 
     }
@@ -164,12 +163,10 @@ public class CarMapActivity extends AppCompatActivity {
                     }
                 }
             });
-            Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
-
             CarMapActivityPermissionsDispatcher.getMyLocationWithPermissionCheck(this);
             CarMapActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
         } else {
-            Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
+            Log.i(TAG, "Error - Map was null!!");
         }
     }
 
@@ -257,7 +254,6 @@ public class CarMapActivity extends AppCompatActivity {
 
     private void displayLocation() {
         if (mCurrentLocation != null) {
-            Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
             LatLng latLng;
             if (flag){
                 latLng = new LatLng(gp.getLatitude(), gp.getLongitude());
@@ -297,7 +293,7 @@ public class CarMapActivity extends AppCompatActivity {
                 }
             }
         } else {
-            Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
+            Log.i(TAG, "Current location was null, enable GPS on emulator!");
         }
     }
 
@@ -336,7 +332,6 @@ public class CarMapActivity extends AppCompatActivity {
             String msg = "Updated Location: " +
                     Double.toString(location.getLatitude()) + "," +
                     Double.toString(location.getLongitude());
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
             Log.i(TAG, msg);
             displayLocation();
         }

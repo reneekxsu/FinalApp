@@ -15,6 +15,7 @@ public class Event extends ParseObject {
     public static final String KEY_CAR = "car"; // Pointer to Car
     public static final String KEY_RENTTYPE = "rentType"; // Number
     public static final String KEY_PRICE = "price";
+    public static final String KEY_DAYS = "numDays";
 
     // start date getter and setter
     public Date getStart(){
@@ -68,5 +69,13 @@ public class Event extends ParseObject {
 
     public void setPrice(String price){
         put(KEY_PRICE, price);
+    }
+
+    public Number getNumDays(){
+        return getNumber(KEY_DAYS);
+    }
+
+    public void setNumDays(Number days){
+        put(KEY_DAYS, days);
     }
 }

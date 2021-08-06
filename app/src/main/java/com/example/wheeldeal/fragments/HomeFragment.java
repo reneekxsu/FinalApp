@@ -320,7 +320,7 @@ public class HomeFragment extends Fragment {
         Log.i(TAG, "onCreateOptions");
         MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setQueryHint("Find near location...");
+        searchView.setQueryHint("Where are you going?");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
