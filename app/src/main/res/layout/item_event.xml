@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -47,23 +47,14 @@
                 tools:text=" to 1/16/2021" />
 
             <TextView
-                android:id="@+id/tvEventCarModel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvStart"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/tvEventCarMake"
-                tools:text=" Model S" />
-
-            <TextView
                 android:id="@+id/tvRenter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvEventCarModel"
+                android:layout_below="@id/tvEventCarMakeModelYear"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 tools:text="Renter: renees" />
 
             <TextView
@@ -72,53 +63,43 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvRenter"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 tools:text="Owner: mackey" />
 
             <TextView
                 android:id="@+id/tvPickUpAddress"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvCarOwner"
+                android:layout_below="@+id/tvEnd"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="0dp"
                 android:layout_marginRight="0dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toStartOf="@+id/tvTotalPrice"
                 tools:text="Pick Up Address: 4030 Manzana Lane" />
 
             <TextView
-                android:id="@+id/tvEventCarMake"
+                android:id="@+id/tvEventCarMakeModelYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvStart"
-                android:layout_marginStart="20dp"
+                android:layout_below="@+id/tvPickUpAddress"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
-                tools:text="Tesla" />
-
-            <TextView
-                android:id="@+id/tvEventCarYear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvStart"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/tvEventCarModel"
-                tools:text=" 2020" />
+                tools:text="Tesla Model X 2020" />
 
             <TextView
                 android:id="@+id/tvPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvEventCarModel"
+                android:layout_below="@+id/tvPickUpAddress"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="213dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="11dp"
                 android:gravity="right"
-                android:text="Price" />
+                android:text="Total Price" />
 
             <TextView
                 android:id="@+id/tvTotalPrice"
@@ -135,6 +116,18 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="$568" />
+
+            <ImageButton
+                android:id="@+id/ibtnDirections"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="9dp"
+                android:layout_toEndOf="@+id/tvEnd"
+                app:srcCompat="@drawable/outline_directions_24"
+                app:tint="@color/colorPrimary" />
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 

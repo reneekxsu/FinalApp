@@ -1,24 +1,25 @@
 package com.example.wheeldeal.adapters;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wheeldeal.R;
-import com.example.wheeldeal.activities.EventDetailsActivity;
 import com.example.wheeldeal.models.Event;
-import com.example.wheeldeal.models.ParcelableEvent;
 import com.example.wheeldeal.utils.DateClient;
 
 import org.jetbrains.annotations.NotNull;
-import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -56,47 +57,38 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
     class Viewholder extends RecyclerView.ViewHolder{
         private TextView tvStart;
         private TextView tvEnd;
-        private TextView tvEventCarModel;
         private TextView tvEventCarMake;
-        private TextView tvEventCarYear;
         private TextView tvRenter;
         private TextView tvCarOwner;
         private TextView tvAddress;
         private TextView tvPrice;
+        private ImageButton ibtnDirections;
         public Viewholder(@NonNull @NotNull View itemView) {
             super(itemView);
             tvStart = itemView.findViewById(R.id.tvStart);
             tvEnd = itemView.findViewById(R.id.tvEnd);
-            tvEventCarModel = itemView.findViewById(R.id.tvEventCarModel);
-            tvEventCarMake = itemView.findViewById(R.id.tvEventCarMake);
-            tvEventCarYear = itemView.findViewById(R.id.tvEventCarYear);
+            tvEventCarMake = itemView.findViewById(R.id.tvEventCarMakeModelYear);
             tvRenter = itemView.findViewById(R.id.tvRenter);
             tvCarOwner = itemView.findViewById(R.id.tvCarOwner);
             tvAddress = itemView.findViewById(R.id.tvPickUpAddress);
             tvPrice = itemView.findViewById(R.id.tvTotalPrice);
-            // onclicklistener
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION){
-                        Event event = events.get(position);
-                        ParcelableEvent e = new ParcelableEvent(event);
-                        Intent i = new Intent(context, EventDetailsActivity.class);
-                        i.putExtra(ParcelableEvent.class.getSimpleName(), Parcels.wrap(e));
-                        context.startActivity(i);
-                    }
-                }
-            });
+            ibtnDirections = itemView.findViewById(R.id.ibtnDirections);
         }
 
         public void bind(Event event) {
             tvStart.setText(dateClient.formatDate(event.getStart()));
             tvEnd.setText(" to " + dateClient.formatDate(event.getEnd()));
-            tvEventCarMake.setText(event.getCar().getMake());
-            tvEventCarModel.setText(" " + event.getCar().getModel());
-            tvEventCarYear.setText(" " + event.getCar().getYear());
+            tvEventCarMake.setText(event.getCar().getMake() + " " + event.getCar().getModel()
+                    + " " + event.getCar().getYear());
             tvPrice.setText("$" + Integer.toString((int)event.getNumDays() * (int)Integer.parseInt(event.getPrice())));
+            ibtnDirections.setBackground(null);
+            ibtnDirections.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "Displaying Route", Toast.LENGTH_SHORT).show();
+                    displayTrack(event.getCar().getAddress());
+                }
+            });
 
             if (event.getRentType() == (Integer) 1){
                 // user is renter, not owner
@@ -127,6 +119,21 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.Viewholder> 
     public void addAll(List<Event> list){
         events.addAll(list);
         notifyDataSetChanged();
+    }
+
+    private void displayTrack(String sDestination) {
+        try {
+            Uri uri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" + sDestination);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage("com.google.android.apps.maps");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e){
+            Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.maps");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
     }
 
 }
