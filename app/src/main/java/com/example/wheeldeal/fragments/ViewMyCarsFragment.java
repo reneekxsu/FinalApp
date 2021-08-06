@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +45,7 @@ public class ViewMyCarsFragment extends Fragment {
     public static FloatingActionButton fabAddCar;
     private QueryClient queryClient;
     public static final String TAG = "ViewMyCarsFragment";
+    private TextView emptyView;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -56,6 +58,8 @@ public class ViewMyCarsFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         queryClient = new QueryClient();
+
+        emptyView = (TextView) view.findViewById(R.id.empty_view);
 
         pb = view.findViewById(R.id.pbUserLoading);
         pb.setVisibility(ProgressBar.VISIBLE);
@@ -117,6 +121,15 @@ public class ViewMyCarsFragment extends Fragment {
                     adapter.clear();
                     adapter.addAll(cars);
                     pb.setVisibility(ProgressBar.INVISIBLE);
+                    if (adapter.getItemCount() == 0){
+                        Log.i(TAG, "no cars found");
+                        rvCars.setVisibility(View.GONE);
+                        emptyView.setVisibility(View.VISIBLE);
+                    } else {
+                        Log.i(TAG, "cars found");
+                        rvCars.setVisibility(View.VISIBLE);
+                        emptyView.setVisibility(View.GONE);
+                    }
                 }
             }
         }, false, false);
