@@ -24,6 +24,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="29dp"
             android:layout_marginTop="30dp"
+            android:fontFamily="@font/tienne"
             android:text="Honda Odyssey 2007"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -37,6 +38,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/lato"
             android:textStyle="bold"
             android:transitionName="rate"
             tools:text="Rate" />
@@ -49,6 +51,8 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/oxygen"
             tools:text="Description" />
 
         <ImageView

@@ -30,6 +30,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/poppins"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="1/14/2021" />
@@ -42,6 +43,7 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/tvStart"
+                android:fontFamily="@font/poppins"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text=" to 1/16/2021" />
@@ -55,6 +57,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:fontFamily="@font/oxygen"
                 tools:text="Renter: renees" />
 
             <TextView
@@ -66,6 +69,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:fontFamily="@font/oxygen"
                 tools:text="Owner: mackey" />
 
             <TextView
@@ -75,9 +79,10 @@
                 android:layout_below="@+id/tvEnd"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="7dp"
                 android:layout_marginEnd="0dp"
                 android:layout_marginRight="0dp"
+                android:fontFamily="@font/oxygen"
                 tools:text="Pick Up Address: 4030 Manzana Lane" />
 
             <TextView
@@ -87,6 +92,7 @@
                 android:layout_below="@+id/tvPickUpAddress"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/oxygen"
                 tools:text="Tesla Model X 2020" />
 
             <TextView
@@ -98,6 +104,7 @@
                 android:layout_marginStart="213dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="11dp"
+                android:fontFamily="@font/noto_sans"
                 android:gravity="right"
                 android:text="Total Price" />
 
@@ -111,6 +118,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="11dp"
                 android:layout_marginBottom="5dp"
+                android:fontFamily="@font/lato"
                 android:gravity="right"
                 android:textColor="#256826"
                 android:textSize="16sp"

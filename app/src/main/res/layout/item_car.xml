@@ -33,8 +33,9 @@
                 android:layout_marginStart="11dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/ivCarImage"
-                tools:text="$20/day"
-                android:transitionName="rate"/>
+                android:fontFamily="@font/oxygen"
+                android:transitionName="rate"
+                tools:text="$20/day" />
 
             <ImageView
                 android:id="@+id/ivCarImage"
@@ -54,6 +55,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/ivCarImage"
+                android:fontFamily="@font/tienne"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:transitionName="makemodelyear"
@@ -67,6 +69,7 @@
                 android:layout_marginStart="11dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/ivCarImage"
+                android:fontFamily="@font/oxygen"
                 tools:text="Seats 5 passengers" />
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
