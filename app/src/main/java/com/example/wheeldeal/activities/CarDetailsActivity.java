@@ -255,7 +255,7 @@ public class CarDetailsActivity extends AppCompatActivity {
                 public void done(ParseUser user, ParseException e) {
                     int numBooked = (int)user.get("carsBooked");
                     double avgScore;
-                    if ((double)user.get("avgScore") == 0){
+                    if (user.get("avgScore").equals(0)){
                         avgScore = (double) 0;
                     } else {
                         avgScore = (double)user.get("avgScore");

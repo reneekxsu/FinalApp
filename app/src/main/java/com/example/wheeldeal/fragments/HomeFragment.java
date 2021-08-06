@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -204,9 +203,13 @@ public class HomeFragment extends Fragment {
                             allCarsDefault.addAll(sortedCars);
                             isLoaded = true;
                             if (isLoaded){
-                                loadedMap.setVisible(true);
+                                if (loadedMap != null){
+                                    loadedMap.setVisible(true);
+                                }
                             } else {
-                                loadedMap.setVisible(false);
+                                if (loadedMap != null){
+                                    loadedMap.setVisible(false);
+                                }
                             }
                             pb.setVisibility(ProgressBar.INVISIBLE);
                             spinner.setVisibility(View.VISIBLE);
@@ -404,19 +407,16 @@ public class HomeFragment extends Fragment {
         if (position == 0){
             if (!firstLoad){
                 Log.i(TAG, "default selected");
-                Toast.makeText(getContext(), "Default order", Toast.LENGTH_SHORT).show();
                 adapter.clear();
                 adapter.addAll(allCarsDefault);
                 savedSelection = 0;
             }
         } else if (position == 1){
-            Toast.makeText(getContext(), "Sort by price: low to high", Toast.LENGTH_SHORT).show();
             adapter.clear();
             adapter.addAll(allCarsSortedPrice);
             firstLoad = false;
             savedSelection = 1;
         } else {
-            Toast.makeText(getContext(), "Sort by number of passengers", Toast.LENGTH_SHORT).show();
             adapter.clear();
             adapter.addAll(allCarsSortedPassengers);
             firstLoad = false;
