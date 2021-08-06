@@ -6,6 +6,8 @@ import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.CarScore;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class CarculatorClient {
@@ -55,9 +57,17 @@ public class CarculatorClient {
     }
 
     public int calculateDays(){
+        Log.i(TAG, "allCarsSize: " + allCars.size());
+        DateClient dateClient = new DateClient();
+        Date currentDate = Calendar.getInstance().getTime();
         for (Car car : allCars){
             scoreX.add((double)car.getScore());
-            daysY.add(Double.parseDouble(car.getEventCount().toString()));
+            Log.i(TAG, "carCreatedAt: " + car.getCreatedAt());
+            int daysElapsed = dateClient.getDuration(car.getCreatedAt(), currentDate);
+            Log.i(TAG, "daysElapsed: " + daysElapsed);
+            double monthsElapsed = Math.ceil(daysElapsed / 30 + 1);
+            Log.i(TAG, "monthsElapsed: " + monthsElapsed);
+            daysY.add(Double.parseDouble(car.getEventCount().toString()) / monthsElapsed);
         }
         LinearRegression lr = new LinearRegression(scoreX,daysY);
         Log.i(TAG, "intercept: " + lr.intercept());
@@ -67,7 +77,10 @@ public class CarculatorClient {
         if (prediction <= 0){
             prediction = (Math.abs(prediction) + 1) * 0.7;
         }
-        return (int)Math.ceil(prediction * 5);
+        if (prediction * 2 > 30){
+            return (int)Math.ceil(prediction);
+        }
+        return (int)Math.ceil(prediction);
     }
 
     public int getLux(String make){

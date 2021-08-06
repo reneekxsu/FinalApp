@@ -7,6 +7,7 @@ import com.example.wheeldeal.models.DateRangeHolder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class DateClient {
     public static final String TAG = "DateClient";
@@ -116,6 +117,13 @@ public class DateClient {
         c.setTime(date);
         int year = c.get(Calendar.YEAR);
         return year;
+    }
+
+    public int getDuration(Date start, Date end){
+        long diff = end.getTime() - start.getTime();
+        Log.i(TAG, "Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1);
+        int days = (int)TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+        return days;
     }
 
 }

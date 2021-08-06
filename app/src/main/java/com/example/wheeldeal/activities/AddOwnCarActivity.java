@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 
 import com.example.wheeldeal.R;
@@ -167,6 +168,10 @@ public class AddOwnCarActivity extends AppCompatActivity {
         tilSize = findViewById(R.id.tilSizeType);
         tilDescription = findViewById(R.id.tilDescription);
         tilAddress = findViewById(R.id.tilAddress);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Add a new car");
 
         geocoderClient = new GeocoderClient(this);
         cameraClient = new CameraClient(this);

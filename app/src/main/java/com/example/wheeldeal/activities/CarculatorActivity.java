@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
@@ -40,7 +41,7 @@ public class CarculatorActivity extends AppCompatActivity {
     String myMake, myModel, myYear, myPassengers;
     TextInputEditText etCarYear,etCarPassengers;
     TextInputLayout tilCarMake, tilCarModel, tilCarYear, tilPassengers;
-    TextView tvCalculatedPrice, tvClose;
+    TextView tvCalculatedPrice, tvClose, tvDaysPredicted, tvMonthlyEarnings;
     Button btnCalculate;
     Car car = null;
     CarculatorClient carculatorClient;
@@ -66,6 +67,10 @@ public class CarculatorActivity extends AppCompatActivity {
         if (carFlag){
             car = ((ParcelableCar) Parcels.unwrap(intent.getParcelableExtra(ParcelableCar.class.getSimpleName()))).getCar();
         }
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Car Calculator");
 
         myMake = getIntent().getStringExtra("make");
         myModel = getIntent().getStringExtra("model");
@@ -147,6 +152,8 @@ public class CarculatorActivity extends AppCompatActivity {
         etCarPassengers = findViewById(R.id.etCarculatorPassengers);
         btnCalculate = findViewById(R.id.btnCalculate);
         tvCalculatedPrice = findViewById(R.id.tvCalculatedPrice);
+        tvDaysPredicted = findViewById(R.id.tvDaysPredicted);
+        tvMonthlyEarnings = findViewById(R.id.tvMonthlyEarnings);
         tilCarMake = findViewById(R.id.tilCarMake);
         tilCarModel = findViewById(R.id.tilCarModel);
         tilCarYear = findViewById(R.id.tilCarYear);
@@ -224,7 +231,13 @@ public class CarculatorActivity extends AppCompatActivity {
         int days = carculatorClient.calculateDays();
         int totalEarnings = price * days;
         tvCalculatedPrice.setVisibility(View.VISIBLE);
-        tvCalculatedPrice.setText("Your recommended price is $" + price + "/day. Your expected earnings are $" + totalEarnings + ".");
+        tvCalculatedPrice.setText("Your recommended price is $" + price + ".");
+        String numDays = " days";
+        if (days == 1){
+            numDays = " day";
+        }
+        tvDaysPredicted.setText("We estimated that your car will be booked " + days + numDays + " per month.");
+        tvMonthlyEarnings.setText("Therefore, your expected monthly earnings are $" + totalEarnings + ".");
     }
 
     @Override

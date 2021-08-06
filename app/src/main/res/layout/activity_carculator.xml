@@ -1,138 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <LinearLayout
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_marginTop="?attr/actionBarSize">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tvCarculatorClose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
-                android:text="CLOSE"
-                android:textStyle="bold" />
-        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvCarculatorClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="CLOSE"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Make"
-                android:layout_marginBottom="10dp"
-                app:errorEnabled="true"
-                android:id="@+id/tilCarMake">
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilCarMake"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/etCarculatorMake"
-                    android:drawablePadding="0dp"
-                    tools:text="Toyota"
-                    style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox">
-                </androidx.appcompat.widget.AppCompatAutoCompleteTextView>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginBottom="10dp"
+                    android:hint="Make"
+                    app:errorEnabled="true">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilCarModel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:hint="Model"
-                app:errorEnabled="true">
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/etCarculatorMake"
+                        style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="0dp"
+                        tools:text="Toyota"></androidx.appcompat.widget.AppCompatAutoCompleteTextView>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                    android:id="@+id/etCarculatorModel"
-                    style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilCarModel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="0dp"
-                    tools:text="Toyota"></androidx.appcompat.widget.AppCompatAutoCompleteTextView>
+                    android:layout_marginBottom="10dp"
+                    android:hint="Model"
+                    app:errorEnabled="true">
 
-                <!--                <com.google.android.material.textfield.TextInputEditText-->
-                <!--                    android:id="@+id/etCarculatorModel"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:drawablePadding="0dp"-->
-                <!--                    tools:text="Camry">-->
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/etCarculatorModel"
+                        style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="0dp"
+                        tools:text="Toyota"></androidx.appcompat.widget.AppCompatAutoCompleteTextView>
 
-                <!--                </com.google.android.material.textfield.TextInputEditText>-->
-            </com.google.android.material.textfield.TextInputLayout>
+                    <!--                <com.google.android.material.textfield.TextInputEditText-->
+                    <!--                    android:id="@+id/etCarculatorModel"-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:drawablePadding="0dp"-->
+                    <!--                    tools:text="Camry">-->
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilCarYear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:hint="Year"
-                app:errorEnabled="true">
+                    <!--                </com.google.android.material.textfield.TextInputEditText>-->
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCarculatorYear"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilCarYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="0dp"
-                    tools:text="2005">
+                    android:layout_marginBottom="10dp"
+                    android:hint="Year"
+                    app:errorEnabled="true">
 
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCarculatorYear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="0dp"
+                        tools:text="2005">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilPassengers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:hint="Number of Passengers"
-                app:errorEnabled="true">
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCarculatorPassengers"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPassengers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="0dp"
-                    tools:text="5">
+                    android:layout_marginBottom="10dp"
+                    android:hint="Number of Passengers"
+                    app:errorEnabled="true">
 
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCarculatorPassengers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="0dp"
+                        tools:text="5">
 
-            <Button
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btnCalculate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#44AC2C"
+                    android:text="Calculate"></Button>
+
+            </LinearLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Calculate"
-                android:id="@+id/btnCalculate"
-                android:backgroundTint="#44AC2C">
-            </Button>
+                android:layout_height="match_parent">
 
+                <TextView
+                    android:id="@+id/tvCalculatedPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="false"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="Your recommended price is $60/day"></TextView>
+
+                <TextView
+                    android:id="@+id/tvDaysPredicted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvCalculatedPrice"
+                    android:layout_centerHorizontal="false"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="20dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="We estimate that your car will be booked 13 days per month" />
+
+                <TextView
+                    android:id="@+id/tvMonthlyEarnings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvDaysPredicted"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="false"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="0dp"
+                    android:textAlignment="textStart"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="Your expected monthly earnings are $4000" />
+            </RelativeLayout>
         </LinearLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tvCalculatedPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                tools:text="Your recommended price is $60/day"></TextView>
-        </RelativeLayout>
-    </LinearLayout>
-
-</ScrollView>
+    </ScrollView>
+</RelativeLayout>
