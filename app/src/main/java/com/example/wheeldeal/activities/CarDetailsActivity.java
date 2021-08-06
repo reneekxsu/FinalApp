@@ -24,6 +24,7 @@ import com.example.wheeldeal.models.DateRangeHolder;
 import com.example.wheeldeal.models.Event;
 import com.example.wheeldeal.models.ParcelableCar;
 import com.example.wheeldeal.models.ParseApplication;
+import com.example.wheeldeal.utils.CarculatorClient;
 import com.example.wheeldeal.utils.DateClient;
 import com.example.wheeldeal.utils.EventRangesOutValidator;
 import com.example.wheeldeal.utils.QueryClient;
@@ -50,7 +51,7 @@ public class CarDetailsActivity extends AppCompatActivity {
     public static final String TAG = "UserCarDetailsActivity";
 
     Car car;
-    TextView tvCarDetailName, tvDetailRate, tvDetailDescription;
+    TextView tvCarDetailName, tvDetailRate, tvDetailDescription, tvPredictedDetails;
     ImageView ivDetailCar;
     Context context;
     public static ImageButton ibtnEdit;
@@ -77,6 +78,7 @@ public class CarDetailsActivity extends AppCompatActivity {
         ivDetailCar = findViewById(R.id.ivDetailCar);
         ibtnEdit = findViewById(R.id.ibtnEdit);
         ibtnEvent = findViewById(R.id.ibtnEvent);
+        tvPredictedDetails = findViewById(R.id.tvPredictedDetails);
         context = this;
         queryClient = new QueryClient();
         rangeHolder = new ArrayList<>();
@@ -97,6 +99,24 @@ public class CarDetailsActivity extends AppCompatActivity {
         tvDetailRate.setText("$" + car.getRate() + "/day");
         tvDetailDescription.setText(car.getDescription());
 
+        if (userIsAuthor(car)){
+            CarculatorClient carculatorClient = new CarculatorClient(car.getMake(), car.getYear(), car.getPassengers());
+            queryClient.fetchCars(new FindCallback<Car>() {
+                @Override
+                public void done(List<Car> cars, ParseException e) {
+                    carculatorClient.updateAllCars(cars);
+                    carculatorClient.removeFromAllCars(car);
+                    int price = carculatorClient.calculatePricing();
+                    int days = carculatorClient.calculateDays();
+                    tvPredictedDetails.setText("Your predicted monthly bookings is " +
+                            days + " days, and your predicted monthly earnings for this car is " +
+                            "$"  + days * (int)car.getRate() + ".");
+                }
+            }, true, true);
+        } else {
+            tvPredictedDetails.setVisibility(View.GONE);
+        }
+
         ibtnEdit.setVisibility(View.GONE);
 
         if (!userIsAuthor(car)){
@@ -105,7 +125,11 @@ public class CarDetailsActivity extends AppCompatActivity {
             if (!((ParseApplication) getApplication()).isDataReady){
                 ibtnEdit.setVisibility(View.GONE);
             } else {
-                ibtnEdit.setVisibility(View.VISIBLE);
+                if (userIsAuthor(car)){
+                    ibtnEdit.setVisibility(View.VISIBLE);
+                } else {
+                    ibtnEdit.setVisibility(View.GONE);
+                }
             }
             ibtnEdit.setBackgroundDrawable(null);
             ibtnEdit.setOnClickListener(new View.OnClickListener() {
