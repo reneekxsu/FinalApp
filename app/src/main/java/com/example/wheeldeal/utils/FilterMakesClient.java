@@ -7,7 +7,7 @@ import com.example.wheeldeal.activities.CarDetailsActivity;
 import com.example.wheeldeal.fragments.HomeFragment;
 import com.example.wheeldeal.fragments.ViewMyCarsFragment;
 import com.example.wheeldeal.models.CarModelList;
-import com.example.wheeldeal.models.ParseApplication;
+import com.example.wheeldeal.ParseApplication;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;

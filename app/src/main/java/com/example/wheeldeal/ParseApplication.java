@@ -1,13 +1,15 @@
-package com.example.wheeldeal.models;
+package com.example.wheeldeal;
 
 import android.app.Application;
 import android.util.Log;
 import android.view.View;
 
-import com.example.wheeldeal.BuildConfig;
 import com.example.wheeldeal.activities.CarDetailsActivity;
 import com.example.wheeldeal.fragments.HomeFragment;
 import com.example.wheeldeal.fragments.ViewMyCarsFragment;
+import com.example.wheeldeal.models.Car;
+import com.example.wheeldeal.models.CarModelList;
+import com.example.wheeldeal.models.Event;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;

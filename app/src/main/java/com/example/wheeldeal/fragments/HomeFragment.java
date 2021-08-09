@@ -34,7 +34,7 @@ import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.CarFeedScorePair;
 import com.example.wheeldeal.models.DateRangeHolder;
 import com.example.wheeldeal.models.ParcelableCar;
-import com.example.wheeldeal.models.ParseApplication;
+import com.example.wheeldeal.ParseApplication;
 import com.example.wheeldeal.utils.GeocoderClient;
 import com.example.wheeldeal.utils.QueryClient;
 import com.parse.FindCallback;

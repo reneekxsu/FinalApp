@@ -21,7 +21,7 @@ import com.example.wheeldeal.R;
 import com.example.wheeldeal.activities.AddOwnCarActivity;
 import com.example.wheeldeal.adapters.CarAdapter;
 import com.example.wheeldeal.models.Car;
-import com.example.wheeldeal.models.ParseApplication;
+import com.example.wheeldeal.ParseApplication;
 import com.example.wheeldeal.utils.QueryClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;

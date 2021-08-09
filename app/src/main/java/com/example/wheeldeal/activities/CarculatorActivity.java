@@ -19,7 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.ParcelableCar;
-import com.example.wheeldeal.models.ParseApplication;
+import com.example.wheeldeal.ParseApplication;
 import com.example.wheeldeal.utils.BinarySearchClient;
 import com.example.wheeldeal.utils.CarculatorClient;
 import com.example.wheeldeal.utils.QueryClient;

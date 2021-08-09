@@ -23,7 +23,7 @@ import com.example.wheeldeal.models.Car;
 import com.example.wheeldeal.models.DateRangeHolder;
 import com.example.wheeldeal.models.Event;
 import com.example.wheeldeal.models.ParcelableCar;
-import com.example.wheeldeal.models.ParseApplication;
+import com.example.wheeldeal.ParseApplication;
 import com.example.wheeldeal.utils.CarculatorClient;
 import com.example.wheeldeal.utils.DateClient;
 import com.example.wheeldeal.utils.EventRangesOutValidator;
@@ -183,7 +183,7 @@ public class CarDetailsActivity extends AppCompatActivity {
                 Log.i(TAG, "end date is: " + end.toString());
                 if (dateClient.isValidDateWindow(start, end)){
                     Log.i(TAG, "valid time window");
-                    if (dateClient.EventConflictExists(start, end, rangeHolder)){
+                    if (dateClient.doesEventConflictExist(start, end, rangeHolder)){
                         Log.i(TAG, "event conflicts exist");
                         Toast.makeText(CarDetailsActivity.this, "Event conflicts with another", Toast.LENGTH_SHORT).show();
                     } else {

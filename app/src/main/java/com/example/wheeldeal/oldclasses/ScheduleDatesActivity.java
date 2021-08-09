@@ -102,7 +102,7 @@ public class ScheduleDatesActivity extends AppCompatActivity {
                 Log.i(TAG, "end date is: " + end.toString());
                 if (dateClient.isValidDateWindow(start, end)){
                     Log.i(TAG, "valid time window");
-                    if (dateClient.EventConflictExists(start, end, rangeHolders)){
+                    if (dateClient.doesEventConflictExist(start, end, rangeHolders)){
                         Log.i(TAG, "event conflicts exist");
                         Toast.makeText(ScheduleDatesActivity.this, "Event conflicts with another", Toast.LENGTH_SHORT).show();
                     } else {

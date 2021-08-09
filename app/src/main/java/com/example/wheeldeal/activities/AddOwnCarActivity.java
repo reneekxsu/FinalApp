@@ -26,7 +26,7 @@ import androidx.core.content.FileProvider;
 
 import com.example.wheeldeal.R;
 import com.example.wheeldeal.models.BitmapScaler;
-import com.example.wheeldeal.models.ParseApplication;
+import com.example.wheeldeal.ParseApplication;
 import com.example.wheeldeal.utils.BinarySearchClient;
 import com.example.wheeldeal.utils.CameraClient;
 import com.example.wheeldeal.utils.FormClient;

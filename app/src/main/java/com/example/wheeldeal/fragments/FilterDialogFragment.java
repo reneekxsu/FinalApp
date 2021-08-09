@@ -23,7 +23,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.wheeldeal.R;
-import com.example.wheeldeal.models.ParseApplication;
+import com.example.wheeldeal.ParseApplication;
 
 import org.jetbrains.annotations.NotNull;
 
