@@ -7,29 +7,30 @@ package com.example.wheeldeal.utils;
 public class BinarySearchClient {
     public BinarySearchClient(){};
 
-    // Returns index of x if it is present in arr[],
-    // else return -1
-    public int binarySearch(String[] arr, String x)
+    /**
+     * @brief Searches through an array of strings using binary search to see if a specified string
+     *        is in the array
+     * @param arr Array of strings, which must be alphabetically sorted
+     * @param match The string we want to check if it exists in the array
+     * @return Returns index of the searched string if it is present in the string array
+     *         If not found, returns -1
+     */
+    public int binarySearch(String[] arr, String match)
     {
-        int l = 0, r = arr.length - 1;
-        while (l <= r) {
-            int m = l + (r - l) / 2;
-
-            int res = x.compareTo(arr[m]);
-
-            // Check if x is present at mid
+        int leftBound = 0, rightBound = arr.length - 1;
+        while (leftBound <= rightBound) {
+            int mid = leftBound + (rightBound - leftBound) / 2;
+            int res = match.compareTo(arr[mid]);
+            // Check if match is present at mid
             if (res == 0)
-                return m;
-
-            // If x greater, ignore left half
+                return mid;
+            // If match greater, ignore left half
             if (res > 0)
-                l = m + 1;
-
-                // If x is smaller, ignore right half
+                leftBound = mid + 1;
+            // If match is smaller, ignore right half
             else
-                r = m - 1;
+                rightBound = mid - 1;
         }
-
         return -1;
     }
 
