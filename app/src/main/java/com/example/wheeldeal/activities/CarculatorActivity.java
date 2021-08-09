@@ -227,8 +227,8 @@ public class CarculatorActivity extends AppCompatActivity {
     }
 
     private void calculatePricing() {
-        int price = carculatorClient.calculatePricing();
-        int days = carculatorClient.calculateDays();
+        int price = carculatorClient.predictPricing();
+        int days = carculatorClient.predictDays();
         int totalEarnings = price * days;
         tvCalculatedPrice.setVisibility(View.VISIBLE);
         tvCalculatedPrice.setText("Your recommended price is $" + price + ".");

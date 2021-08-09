@@ -113,8 +113,8 @@ public class CarDetailsActivity extends AppCompatActivity {
                 public void done(List<Car> cars, ParseException e) {
                     carculatorClient.updateAllCars(cars);
                     carculatorClient.removeFromAllCars(car);
-                    int price = carculatorClient.calculatePricing();
-                    int days = carculatorClient.calculateDays();
+                    int price = carculatorClient.predictPricing();
+                    int days = carculatorClient.predictDays();
                     tvPredictedDetails.setText("Your predicted monthly bookings is " +
                             days + " days, and your predicted monthly earnings for this car is " +
                             "$"  + days * (int)car.getRate() + ".");

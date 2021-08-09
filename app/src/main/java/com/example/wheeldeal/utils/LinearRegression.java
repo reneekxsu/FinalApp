@@ -136,7 +136,7 @@ public class LinearRegression {
      *
      * @return a string representation of the simple linear regression model,
      *         including the best-fit line and the coefficient of determination
-     *         <em>R</em><sup>2</sup>
+     *         R^2
      */
     public String toString() {
         StringBuilder s = new StringBuilder();
