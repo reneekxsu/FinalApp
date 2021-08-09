@@ -11,9 +11,17 @@ import java.io.File;
  */
 public class CameraClient {
     Context context;
+
     public CameraClient(Context context){
         this.context = context;
     };
+
+    /**
+     * @brief Returns the File for a photo stored on disk given the fileName
+     * @param fileName Name of the file
+     * @param tag Activity/Fragment tag
+     * @return New File object for a photo stored on disk
+     */
     public File getPhotoFileUri(String fileName, String tag) {
         // Get safe storage directory for photos
         // Use `getExternalFilesDir` on Context to access package-specific directories.
