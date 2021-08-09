@@ -9,9 +9,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @brief Provides date-related methods that other classes can utilize.
+ */
 public class DateClient {
     public static final String TAG = "DateClient";
+
     public DateClient(){}
+
+    /**
+     * @brief Converts a date object into a more readable string format to show to the user
+     * @param date A date object to convert to a string
+     * @return String date formated as M/D/Y
+     */
     public String formatDate(Date date){
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -21,6 +31,7 @@ public class DateClient {
         int year = c.get(Calendar.YEAR);
         return "" + (month + 1) + "/" + (day) + "/" + year;
     }
+
     public String formatDate(int year, int month, int day){
         return (month + 1) + "/" + (day + 1) + "/" + year;
     }

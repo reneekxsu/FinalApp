@@ -6,6 +6,9 @@ import android.util.Log;
 
 import java.io.File;
 
+/**
+ * @brief Class that helps carry out some of the camera methods
+ */
 public class CameraClient {
     Context context;
     public CameraClient(Context context){

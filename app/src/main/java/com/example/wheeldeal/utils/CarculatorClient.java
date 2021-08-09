@@ -57,23 +57,16 @@ public class CarculatorClient {
     }
 
     public int calculateDays(){
-        Log.i(TAG, "allCarsSize: " + allCars.size());
         DateClient dateClient = new DateClient();
         Date currentDate = Calendar.getInstance().getTime();
         for (Car car : allCars){
             scoreX.add((double)car.getScore());
-            Log.i(TAG, "carCreatedAt: " + car.getCreatedAt());
             int daysElapsed = dateClient.getDuration(car.getCreatedAt(), currentDate);
-            Log.i(TAG, "daysElapsed: " + daysElapsed);
             double monthsElapsed = Math.ceil(daysElapsed / 30 + 1);
-            Log.i(TAG, "monthsElapsed: " + monthsElapsed);
             daysY.add(Double.parseDouble(car.getEventCount().toString()) / monthsElapsed);
         }
         LinearRegression lr = new LinearRegression(scoreX,daysY);
-        Log.i(TAG, "intercept: " + lr.intercept());
-        Log.i(TAG, "slope: " + lr.slope());
         double prediction = lr.intercept() + lr.slope() * thisCar.getScore();
-        Log.i(TAG, "predicted days: " + prediction);
         if (prediction <= 0){
             prediction = (Math.abs(prediction) + 1) * 0.7;
         }

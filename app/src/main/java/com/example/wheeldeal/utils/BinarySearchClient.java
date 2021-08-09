@@ -1,6 +1,9 @@
 package com.example.wheeldeal.utils;
 
-// Java program to implement Binary Search for strings
+/**
+ * @brief Java program to implement Binary Search for strings
+ * Citation: GeeksforGeeks
+ */
 public class BinarySearchClient {
     public BinarySearchClient(){};
 
